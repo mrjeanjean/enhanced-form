@@ -1,0 +1,9 @@
+{
+  "name": "enhanced-form-monorepo",
+  "private": true,
+  "scripts": {
+    "dev-core": "yarn --cwd enhanced-form-core/ run build --watch",
+    "dev-examples": "yarn --cwd enhanced-form-examples/ run dev"
+  },
+  "workspaces": ["enhanced-form-examples", "enhanced-form-core", "enhanced-form-admin"]
+}

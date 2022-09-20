@@ -1,0 +1,17 @@
+{
+  "name": "@moveo/enhanced-form-examples",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --watch",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@moveo/enhanced-form-core": "0.1.0"
+  },
+  "devDependencies": {
+    "vite": "^3.0.7"
+  }
+}
