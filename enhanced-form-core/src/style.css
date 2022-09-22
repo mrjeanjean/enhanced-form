@@ -16,7 +16,9 @@
 }
 
 /* TODO: HUGE WARNING FOR THIS: SHOULD BE DELETED */
-*:focus{
+*:focus,
+button:focus,
+a:focus{
   outline: none;
 }
 
@@ -62,7 +64,3 @@ button:hover {
   border-color: #646cff;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}

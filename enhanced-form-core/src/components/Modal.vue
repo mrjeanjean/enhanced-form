@@ -99,6 +99,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
 }
 
 .modal__overlay {
@@ -115,7 +116,7 @@ export default {
 }
 
 .modal__header {
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   background-color: var(--theme-color);
   font-weight: 600;
   color: #ffffff;

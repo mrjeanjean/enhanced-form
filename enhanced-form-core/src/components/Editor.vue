@@ -5,7 +5,7 @@
   <div v-for="(component, index) in components" :key="component.id" class="component">
     <component
         :is="component.type"
-        :value="component.value"
+        :content="component.content"
         :key="index"
         @onChange="onInputChange"
         :id="component.id"
@@ -18,13 +18,29 @@ import {mapActions, mapGetters} from "vuex";
 import InputField from "./Fields/InputField.vue";
 import InputMultiField from "./Fields/InputMultiField.vue";
 import TextEditorField from "./Fields/TextEditorField.vue";
+import TextInlineField from "./Fields/TextInlineField.vue";
+import TextImageBlock from "./Blocks/TextImageBlock.vue";
+
+const defaultValueMapping = {
+  TextImageBlock: () => {
+    return {
+      text: '',
+      image: {
+        url: '',
+        title: ''
+      }
+    }
+  }
+}
 
 export default {
   name: 'Editor',
   components: {
     InputField,
     InputMultiField,
-    TextEditorField
+    TextEditorField,
+    TextInlineField,
+    TextImageBlock
   },
   props: {
     onChange: Function
@@ -36,15 +52,17 @@ export default {
     ...mapActions(['add', 'edit']),
     addComponent: function () {
 
+      const type = 'TextImageBlock';
+
       this.add({
-        value: '',
-        type: 'TextEditorField'
+        content: defaultValueMapping[type](),
+        type: Math.random() > 0.5 ? 'TextImageBlock' : 'TextImageBlock'
       })
 
       this.onChange(JSON.stringify(this.components));
     },
-    onInputChange: function ({id, value}) {
-      this.edit({id, value});
+    onInputChange: function ({id, content}) {
+      this.edit({id, content});
     }
   },
   watch: {
@@ -57,7 +75,7 @@ export default {
 </script>
 
 <style lang="css">
-.component + .component{
+.component + .component {
   margin-top: 2rem;
 }
 </style>

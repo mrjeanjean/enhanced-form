@@ -7,6 +7,7 @@
         @input="e=>$emit('onChange', e.target.value)"
         ref="input"
         class="form-input"
+        :disabled="disabled"
     >
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
       required: false,
       type: String,
       default: ''
+    },
+    disabled: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   },
   methods: {

@@ -1,41 +1,43 @@
 <template>
-  <div v-if="editor" class="editor_menu">
-    <button @click.prevent="setLink" :class="{ 'is-active': editor.isActive('link') }">
-      <icon icon="link"/>
-    </button>
-    <button @click.prevent="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
-      <icon icon="link-slash"/>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleBold().run()"
-            :class="{ 'is-active': editor.isActive('bold') }">
-      <icon icon="bold"/>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleItalic().run()"
-            :class="{ 'is-active': editor.isActive('italic') }">
-      <icon icon="italic"/>
-    </button>
-    <button @click.prevent="editor.chain().focus().setParagraph().run()"
-            :class="{ 'is-active': editor.isActive('paragraph') }">
-      <icon icon="paragraph"/>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-      <span>h1</span>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-      <span>h2</span>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-      <span>h3</span>
-    </button>
-    <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
-            :class="{ 'is-active': editor.isActive('bulletList') }">
-      <icon icon="list-ul"/>
-    </button>
+  <div>
+    <div v-if="editor" class="editor-menu editor-menu--full">
+      <button @click.prevent="setLink" :class="{ 'is-active': editor.isActive('link') }">
+        <icon icon="link"/>
+      </button>
+      <button @click.prevent="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
+        <icon icon="link-slash"/>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleBold().run()"
+              :class="{ 'is-active': editor.isActive('bold') }">
+        <icon icon="bold"/>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleItalic().run()"
+              :class="{ 'is-active': editor.isActive('italic') }">
+        <icon icon="italic"/>
+      </button>
+      <button @click.prevent="editor.chain().focus().setParagraph().run()"
+              :class="{ 'is-active': editor.isActive('paragraph') }">
+        <icon icon="paragraph"/>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+        <span>h1</span>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+        <span>h2</span>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+        <span>h3</span>
+      </button>
+      <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
+              :class="{ 'is-active': editor.isActive('bulletList') }">
+        <icon icon="list-ul"/>
+      </button>
+    </div>
+    <editor-content :editor="editor" class="editor--full"/>
   </div>
-  <editor-content :editor="editor"/>
   <modal ref="linkModalRef" placeholder="http://....">
     <template v-slot:header>
       Type link url
@@ -51,14 +53,13 @@ import Modal from "../Modal.vue";
 import {Link} from "@tiptap/extension-link";
 
 export default {
-  name: 'TextField',
+  name: 'TextEditorField',
   components: {
     EditorContent,
     Icon,
     Modal
   },
   props: {
-    id: String,
     value: String
   },
   emits: ["onChange"],
@@ -75,13 +76,10 @@ export default {
         StarterKit,
         Link.configure({
           openOnClick: false,
-        }),
+        })
       ],
       onUpdate: ({editor}) => {
-        this.$emit('onChange', {
-          value: editor.getHTML(),
-          id: this.id
-        })
+        this.$emit('onChange', editor.getHTML())
       },
     });
 
@@ -115,11 +113,15 @@ export default {
 <style lang="css">
 :root {
   --theme-color: #6D36D0;
+  --active-color: #656565;
 }
 
 .ProseMirror {
   border: 2px solid var(--theme-color);
   padding: 1rem 1rem;
+}
+
+.editor--full .ProseMirror {
   min-height: 300px;
 }
 
@@ -154,7 +156,7 @@ export default {
   margin: 0;
 }
 
-.editor_menu button {
+.editor-menu button {
   border: 2px solid var(--theme-color);
   border-radius: 0;
   margin-bottom: -2px;
@@ -162,11 +164,21 @@ export default {
   color: var(--theme-color);
 }
 
-.editor_menu button + button {
+.editor-menu button:disabled {
+  color: #c8c8c8;
+  cursor: default;
+}
+
+.editor-menu button.is-active {
+  background-color: var(--theme-color);
+  color: #ffffff;
+}
+
+.editor-menu button + button {
   margin-left: -2px;
 }
 
-.editor_menu button > span {
+.editor-menu button > span {
   text-transform: uppercase;
   font-weight: 600;
 }

@@ -21,10 +21,10 @@ export const getStore = (initialData) => createStore({
                 component
             ]
         },
-        EDIT_COMPONENT(state, {id, value}){
+        EDIT_COMPONENT(state, {id, content}){
             state.components = state.components = [...state.components].map(component => {
                 if (component.id === id) {
-                    component.value = value;
+                    component.content = content;
                 }
 
                 return component;
