@@ -1,6 +1,7 @@
 <template>
   <p>
-    <button type="button" @click="addComponent">Add component</button>
+    <button type="button" @click="addComponent('TextImageBlock')">Add Text/Image block</button>
+    <button type="button" @click="addComponent('TextBlock')">Add Text block</button>
   </p>
   <div v-for="(component, index) in components" :key="component.id" class="component">
     <component
@@ -15,32 +16,15 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import InputField from "./Fields/InputField.vue";
-import InputMultiField from "./Fields/InputMultiField.vue";
-import TextEditorField from "./Fields/TextEditorField.vue";
-import TextInlineField from "./Fields/TextInlineField.vue";
 import TextImageBlock from "./Blocks/TextImageBlock.vue";
-
-const defaultValueMapping = {
-  TextImageBlock: () => {
-    return {
-      text: '',
-      image: {
-        url: '',
-        title: ''
-      }
-    }
-  }
-}
+import TextBlock from "./Blocks/TextBlock.vue";
+import {getDefaultBlockValue} from "../blocks";
 
 export default {
   name: 'Editor',
   components: {
-    InputField,
-    InputMultiField,
-    TextEditorField,
-    TextInlineField,
-    TextImageBlock
+    TextImageBlock,
+    TextBlock
   },
   props: {
     onChange: Function
@@ -50,13 +34,11 @@ export default {
   },
   methods: {
     ...mapActions(['add', 'edit']),
-    addComponent: function () {
-
-      const type = 'TextImageBlock';
+    addComponent: function (type) {
 
       this.add({
-        content: defaultValueMapping[type](),
-        type: Math.random() > 0.5 ? 'TextImageBlock' : 'TextImageBlock'
+        content: getDefaultBlockValue(type),
+        type: type
       })
 
       this.onChange(JSON.stringify(this.components));

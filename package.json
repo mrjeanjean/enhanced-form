@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev-core": "yarn --cwd enhanced-form-core/ run build --watch",
-    "dev-examples": "yarn --cwd enhanced-form-examples/ run dev"
+    "dev-examples": "yarn --cwd enhanced-form-examples/ run dev",
+    "dev-admin": "yarn --cwd enhanced-form-admin/ run dev"
   },
   "workspaces": ["enhanced-form-examples", "enhanced-form-core", "enhanced-form-admin"]
 }

@@ -8,7 +8,8 @@
       <icon icon="image"/>
     </div>
     <button type="button" @click="onBrowse" class="button-browse"></button>
-    <div class="image-info" v-if="!imageError">{{ image.url }}</div>
+    <div class="image-info" v-if="image.url !== ''">{{ image.url }}</div>
+
   </div>
 </template>
 
