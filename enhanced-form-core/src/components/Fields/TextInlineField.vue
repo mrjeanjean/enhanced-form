@@ -19,18 +19,18 @@
     </button>
   </bubble-menu>
   <editor-content :editor="editor" class="editor--inline"/>
-  <modal ref="linkModalRef" placeholder="http://....">
+  <PromptModal ref="linkModalRef" placeholder="http://....">
     <template v-slot:header>
       Type link url
     </template>
-  </modal>
+  </PromptModal>
 </template>
 
 <script>
 import {Editor, EditorContent, BubbleMenu} from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Icon from "../Icon.vue";
-import Modal from "../Modal.vue";
+import PromptModal from "../Modals/PromptModal.vue";
 import {Link} from "@tiptap/extension-link";
 
 export default {
@@ -38,7 +38,7 @@ export default {
   components: {
     EditorContent,
     Icon,
-    Modal,
+    PromptModal,
     BubbleMenu
   },
   props: {
@@ -78,7 +78,7 @@ export default {
     async setLink() {
       const previousUrl = this.editor.getAttributes('link').href
 
-      const value = await this.linkModal.showModal(previousUrl);
+      const value = await this.linkModal.show(previousUrl);
 
       if (!value) {
         return;

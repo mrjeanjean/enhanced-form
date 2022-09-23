@@ -1733,12 +1733,6 @@
     currentScopeId = instance && instance.type.__scopeId || null;
     return prev;
   }
-  function pushScopeId(id) {
-    currentScopeId = id;
-  }
-  function popScopeId() {
-    currentScopeId = null;
-  }
   function withCtx(fn2, ctx = currentRenderingInstance, isNonScopedSlot) {
     if (!ctx)
       return fn2;
@@ -33208,19 +33202,19 @@ img.ProseMirror-separator {
     }
     return target;
   };
-  var _sfc_main$7 = {
+  var _sfc_main$a = {
     name: "Icon",
     props: {
       icon: String
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("i", {
       class: normalizeClass(["fa-solid", `fa-${$props.icon}`])
     }, null, 2);
   }
-  var Icon = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-  var _sfc_main$6 = {
+  var Icon = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+  var _sfc_main$9 = {
     name: "InputField",
     props: {
       value: String,
@@ -33241,8 +33235,8 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _hoisted_1$5 = ["value", "placeholder", "disabled"];
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  var _hoisted_1$8 = ["value", "placeholder", "disabled"];
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("div", null, [
       createBaseVNode("input", {
         type: "text",
@@ -33252,18 +33246,11 @@ img.ProseMirror-separator {
         ref: "input",
         class: "form-input",
         disabled: $props.disabled
-      }, null, 40, _hoisted_1$5)
+      }, null, 40, _hoisted_1$8)
     ]);
   }
-  var InputField = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-6a8bdf63"]]);
-  var _sfc_main$5 = {
-    name: "Modal",
-    components: {
-      InputField
-    },
-    props: {
-      placeholder: String
-    },
+  var InputField = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-6a8bdf63"]]);
+  var ModalMixin = {
     data: function() {
       return {
         value: "",
@@ -33294,16 +33281,18 @@ img.ProseMirror-separator {
         this.value = "";
         this.visible = false;
       },
-      showModal(value = null) {
+      show(value = null) {
         this.value = value ? value : "";
         this.visible = true;
         this.$nextTick(() => {
-          this.$refs.input.focus();
+          this.onModalEnter();
         });
         return new Promise((resolve3, reject) => {
           this.resolvePromise = resolve3;
           this.rejectPromise = reject;
         });
+      },
+      onModalEnter() {
       },
       handleKeyInput(e) {
         if (!this.visible || this.resolvePromise === null) {
@@ -33318,24 +33307,43 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _withScopeId = (n) => (pushScopeId("data-v-762ab0d3"), n = n(), popScopeId(), n);
-  var _hoisted_1$4 = { class: "modal__wrapper" };
-  var _hoisted_2$3 = { class: "modal modal--prompt" };
-  var _hoisted_3$2 = {
-    key: 0,
-    class: "modal__header"
+  var _sfc_main$8 = {
+    name: "PromptModal",
+    components: {
+      InputField
+    },
+    mixins: [
+      ModalMixin
+    ],
+    props: {
+      placeholder: String
+    },
+    methods: {
+      onModalEnter() {
+        this.$refs.input.focus();
+      }
+    }
   };
-  var _hoisted_4$2 = { class: "modal__body" };
-  var _hoisted_5$2 = { class: "modal__footer" };
-  var _hoisted_6$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "modal__overlay" }, null, -1));
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  var _hoisted_1$7 = { class: "dialog__wrapper" };
+  var _hoisted_2$5 = { class: "dialog dialog--prompt" };
+  var _hoisted_3$5 = {
+    key: 0,
+    class: "dialog__header"
+  };
+  var _hoisted_4$4 = { class: "dialog__title" };
+  var _hoisted_5$3 = { class: "dialog__body" };
+  var _hoisted_6$2 = { class: "dialog__footer" };
+  var _hoisted_7$1 = /* @__PURE__ */ createBaseVNode("div", { class: "dialog__overlay" }, null, -1);
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_InputField = resolveComponent("InputField");
-    return withDirectives((openBlock(), createElementBlock("div", _hoisted_1$4, [
-      createBaseVNode("div", _hoisted_2$3, [
-        $options.hasHeaderSlot ? (openBlock(), createElementBlock("div", _hoisted_3$2, [
-          renderSlot(_ctx.$slots, "header", {}, void 0, true)
+    return withDirectives((openBlock(), createElementBlock("div", _hoisted_1$7, [
+      createBaseVNode("div", _hoisted_2$5, [
+        _ctx.hasHeaderSlot ? (openBlock(), createElementBlock("div", _hoisted_3$5, [
+          createBaseVNode("div", _hoisted_4$4, [
+            renderSlot(_ctx.$slots, "header")
+          ])
         ])) : createCommentVNode("", true),
-        createBaseVNode("div", _hoisted_4$2, [
+        createBaseVNode("div", _hoisted_5$3, [
           createVNode(_component_InputField, {
             value: _ctx.value,
             onOnChange: _cache[0] || (_cache[0] = (v) => this.value = v),
@@ -33343,23 +33351,23 @@ img.ProseMirror-separator {
             placeholder: $props.placeholder
           }, null, 8, ["value", "placeholder"])
         ]),
-        createBaseVNode("div", _hoisted_5$2, [
+        createBaseVNode("div", _hoisted_6$2, [
           createBaseVNode("button", {
             class: "button button--outline",
-            onClick: _cache[1] || (_cache[1] = withModifiers((...args) => $options.onCancel && $options.onCancel(...args), ["prevent"]))
+            onClick: _cache[1] || (_cache[1] = withModifiers((...args) => _ctx.onCancel && _ctx.onCancel(...args), ["prevent"]))
           }, "Cancel"),
           createBaseVNode("button", {
             class: "button",
-            onClick: _cache[2] || (_cache[2] = withModifiers((...args) => $options.onSelect && $options.onSelect(...args), ["prevent"]))
+            onClick: _cache[2] || (_cache[2] = withModifiers((...args) => _ctx.onSelect && _ctx.onSelect(...args), ["prevent"]))
           }, "Valid")
         ])
       ]),
-      _hoisted_6$1
+      _hoisted_7$1
     ], 512)), [
       [vShow, _ctx.visible]
     ]);
   }
-  var Modal = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-762ab0d3"]]);
+  var PromptModal = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
   function State(token) {
     this.j = {};
     this.jr = [];
@@ -34332,12 +34340,12 @@ img.ProseMirror-separator {
       return plugins;
     }
   });
-  var _sfc_main$4 = {
+  var _sfc_main$7 = {
     name: "TextEditorField",
     components: {
       EditorContent,
       Icon,
-      Modal
+      PromptModal
     },
     props: {
       value: String
@@ -34370,7 +34378,7 @@ img.ProseMirror-separator {
     methods: {
       async setLink() {
         const previousUrl = this.editor.getAttributes("link").href;
-        const value = await this.linkModal.showModal(previousUrl);
+        const value = await this.linkModal.show(previousUrl);
         if (!value) {
           return;
         }
@@ -34378,31 +34386,31 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _hoisted_1$3 = {
+  var _hoisted_1$6 = {
     key: 0,
     class: "editor-menu editor-menu--full"
   };
-  var _hoisted_2$2 = ["disabled"];
-  var _hoisted_3$1 = /* @__PURE__ */ createBaseVNode("span", null, "h1", -1);
-  var _hoisted_4$1 = [
-    _hoisted_3$1
+  var _hoisted_2$4 = ["disabled"];
+  var _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("span", null, "h1", -1);
+  var _hoisted_4$3 = [
+    _hoisted_3$4
   ];
-  var _hoisted_5$1 = /* @__PURE__ */ createBaseVNode("span", null, "h2", -1);
-  var _hoisted_6 = [
-    _hoisted_5$1
+  var _hoisted_5$2 = /* @__PURE__ */ createBaseVNode("span", null, "h2", -1);
+  var _hoisted_6$1 = [
+    _hoisted_5$2
   ];
   var _hoisted_7 = /* @__PURE__ */ createBaseVNode("span", null, "h3", -1);
   var _hoisted_8 = [
     _hoisted_7
   ];
   var _hoisted_9 = /* @__PURE__ */ createTextVNode(" Type link url ");
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_icon = resolveComponent("icon");
     const _component_editor_content = resolveComponent("editor-content");
-    const _component_modal = resolveComponent("modal");
+    const _component_PromptModal = resolveComponent("PromptModal");
     return openBlock(), createElementBlock(Fragment$1, null, [
       createBaseVNode("div", null, [
-        $data.editor ? (openBlock(), createElementBlock("div", _hoisted_1$3, [
+        $data.editor ? (openBlock(), createElementBlock("div", _hoisted_1$6, [
           createBaseVNode("button", {
             onClick: _cache[0] || (_cache[0] = withModifiers((...args) => $options.setLink && $options.setLink(...args), ["prevent"])),
             class: normalizeClass({ "is-active": $data.editor.isActive("link") })
@@ -34414,7 +34422,7 @@ img.ProseMirror-separator {
             disabled: !$data.editor.isActive("link")
           }, [
             createVNode(_component_icon, { icon: "link-slash" })
-          ], 8, _hoisted_2$2),
+          ], 8, _hoisted_2$4),
           createBaseVNode("button", {
             onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $data.editor.chain().focus().toggleBold().run(), ["prevent"])),
             class: normalizeClass({ "is-active": $data.editor.isActive("bold") })
@@ -34436,11 +34444,11 @@ img.ProseMirror-separator {
           createBaseVNode("button", {
             onClick: _cache[5] || (_cache[5] = withModifiers(($event) => $data.editor.chain().focus().toggleHeading({ level: 1 }).run(), ["prevent"])),
             class: normalizeClass({ "is-active": $data.editor.isActive("heading", { level: 1 }) })
-          }, _hoisted_4$1, 2),
+          }, _hoisted_4$3, 2),
           createBaseVNode("button", {
             onClick: _cache[6] || (_cache[6] = withModifiers(($event) => $data.editor.chain().focus().toggleHeading({ level: 2 }).run(), ["prevent"])),
             class: normalizeClass({ "is-active": $data.editor.isActive("heading", { level: 2 }) })
-          }, _hoisted_6, 2),
+          }, _hoisted_6$1, 2),
           createBaseVNode("button", {
             onClick: _cache[7] || (_cache[7] = withModifiers(($event) => $data.editor.chain().focus().toggleHeading({ level: 3 }).run(), ["prevent"])),
             class: normalizeClass({ "is-active": $data.editor.isActive("heading", { level: 3 }) })
@@ -34457,7 +34465,7 @@ img.ProseMirror-separator {
           class: "editor--full"
         }, null, 8, ["editor"])
       ]),
-      createVNode(_component_modal, {
+      createVNode(_component_PromptModal, {
         ref: "linkModalRef",
         placeholder: "http://...."
       }, {
@@ -34468,8 +34476,8 @@ img.ProseMirror-separator {
       }, 512)
     ], 64);
   }
-  var TextEditorField = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
-  var _sfc_main$3 = {
+  var TextEditorField = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+  var _sfc_main$6 = {
     name: "ImageField",
     components: {
       Icon
@@ -34490,27 +34498,27 @@ img.ProseMirror-separator {
     },
     emits: ["onChange"]
   };
-  var _hoisted_1$2 = { class: "image-field" };
-  var _hoisted_2$1 = { class: "image-container" };
-  var _hoisted_3 = ["src"];
-  var _hoisted_4 = { class: "image-placeholder" };
-  var _hoisted_5 = {
+  var _hoisted_1$5 = { class: "image-field" };
+  var _hoisted_2$3 = { class: "image-container" };
+  var _hoisted_3$3 = ["src"];
+  var _hoisted_4$2 = { class: "image-placeholder" };
+  var _hoisted_5$1 = {
     key: 0,
     class: "image-info"
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_icon = resolveComponent("icon");
-    return openBlock(), createElementBlock("div", _hoisted_1$2, [
-      withDirectives(createBaseVNode("div", _hoisted_2$1, [
+    return openBlock(), createElementBlock("div", _hoisted_1$5, [
+      withDirectives(createBaseVNode("div", _hoisted_2$3, [
         createBaseVNode("img", {
           src: $props.image.url,
           onError: _cache[0] || (_cache[0] = ($event) => this.imageError = true),
           onLoad: _cache[1] || (_cache[1] = ($event) => this.imageError = false)
-        }, null, 40, _hoisted_3)
+        }, null, 40, _hoisted_3$3)
       ], 512), [
         [vShow, !_ctx.imageError]
       ]),
-      withDirectives(createBaseVNode("div", _hoisted_4, [
+      withDirectives(createBaseVNode("div", _hoisted_4$2, [
         createVNode(_component_icon, { icon: "image" })
       ], 512), [
         [vShow, _ctx.imageError]
@@ -34520,10 +34528,10 @@ img.ProseMirror-separator {
         onClick: _cache[2] || (_cache[2] = (...args) => $props.onBrowse && $props.onBrowse(...args)),
         class: "button-browse"
       }),
-      $props.image.url !== "" ? (openBlock(), createElementBlock("div", _hoisted_5, toDisplayString($props.image.url), 1)) : createCommentVNode("", true)
+      $props.image.url !== "" ? (openBlock(), createElementBlock("div", _hoisted_5$1, toDisplayString($props.image.url), 1)) : createCommentVNode("", true)
     ]);
   }
-  var ImageField = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__scopeId", "data-v-657a09c5"]]);
+  var ImageField = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-c9f93341"]]);
   var InputMixin = {
     props: {
       content: null,
@@ -34541,7 +34549,7 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _sfc_main$2 = {
+  var _sfc_main$5 = {
     name: "TextImageBlock",
     components: {
       TextEditorField,
@@ -34559,11 +34567,11 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _hoisted_1$1 = { class: "text-image-container" };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  var _hoisted_1$4 = { class: "text-image-container" };
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_TextEditorField = resolveComponent("TextEditorField");
     const _component_ImageField = resolveComponent("ImageField");
-    return openBlock(), createElementBlock("div", _hoisted_1$1, [
+    return openBlock(), createElementBlock("div", _hoisted_1$4, [
       createVNode(_component_TextEditorField, {
         value: _ctx.content.text,
         onOnChange: _cache[0] || (_cache[0] = (data) => _ctx.onInput(data, "text"))
@@ -34575,8 +34583,8 @@ img.ProseMirror-separator {
       }, null, 8, ["image", "on-browse"])
     ]);
   }
-  var TextImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-9f3caaae"]]);
-  var _sfc_main$1 = {
+  var TextImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-a094b140"]]);
+  var _sfc_main$4 = {
     name: "TextBlock",
     components: {
       TextEditorField,
@@ -34585,18 +34593,26 @@ img.ProseMirror-separator {
     emits: ["onChange"],
     mixins: [InputMixin]
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_TextEditorField = resolveComponent("TextEditorField");
     return openBlock(), createBlock(_component_TextEditorField, {
       value: _ctx.content.text,
       onOnChange: _cache[0] || (_cache[0] = (data) => _ctx.onInput(data, "text"))
     }, null, 8, ["value"]);
   }
-  var TextBlock = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+  var TextBlock = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
   var defaultBlockValue = {
     TextImageBlock: () => {
       return {
         text: "",
+        image: {
+          url: "",
+          title: ""
+        }
+      };
+    },
+    ImageBlock: () => {
+      return {
         image: {
           url: "",
           title: ""
@@ -34619,17 +34635,175 @@ img.ProseMirror-separator {
     }
     return defaultBlockValue[type]();
   };
+  var _sfc_main$3 = {
+    name: "BlockSelectorModal",
+    mixins: [
+      ModalMixin
+    ],
+    props: {
+      placeholder: String
+    },
+    methods: {
+      handleBlockClick: function(type) {
+        this.value = type;
+        this.onSelect();
+      }
+    }
+  };
+  var _hoisted_1$3 = { class: "dialog__wrapper" };
+  var _hoisted_2$2 = { class: "dialog dialog--prompt" };
+  var _hoisted_3$2 = {
+    key: 0,
+    class: "dialog__header"
+  };
+  var _hoisted_4$1 = { class: "dialog__title" };
+  var _hoisted_5 = { class: "dialog__body" };
+  var _hoisted_6 = { class: "blocks-list" };
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    return withDirectives((openBlock(), createElementBlock("div", _hoisted_1$3, [
+      createBaseVNode("div", _hoisted_2$2, [
+        _ctx.hasHeaderSlot ? (openBlock(), createElementBlock("div", _hoisted_3$2, [
+          createBaseVNode("div", _hoisted_4$1, [
+            renderSlot(_ctx.$slots, "header", {}, void 0, true)
+          ]),
+          createBaseVNode("button", {
+            onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onCancel()),
+            class: "dialog__close-button"
+          }, "\xD7")
+        ])) : createCommentVNode("", true),
+        createBaseVNode("div", _hoisted_5, [
+          createBaseVNode("div", _hoisted_6, [
+            createBaseVNode("div", {
+              onClick: _cache[1] || (_cache[1] = ($event) => $options.handleBlockClick("TextImageBlock")),
+              class: "blocks-list__item"
+            }, "Text/Image"),
+            createBaseVNode("div", {
+              onClick: _cache[2] || (_cache[2] = ($event) => $options.handleBlockClick("TextBlock")),
+              class: "blocks-list__item"
+            }, "Text"),
+            createBaseVNode("div", {
+              onClick: _cache[3] || (_cache[3] = ($event) => $options.handleBlockClick("ImageBlock")),
+              class: "blocks-list__item"
+            }, "Image")
+          ])
+        ])
+      ]),
+      createBaseVNode("div", {
+        class: "dialog__overlay",
+        onClick: _cache[4] || (_cache[4] = ($event) => _ctx.onCancel())
+      })
+    ], 512)), [
+      [vShow, _ctx.visible]
+    ]);
+  }
+  var BlockSelectorModal = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__scopeId", "data-v-5f96a9af"]]);
+  var _sfc_main$2 = {
+    name: "ImageBlock",
+    components: {
+      ImageField
+    },
+    emits: ["onChange"],
+    mixins: [InputMixin],
+    methods: {
+      onBrowseHandler: function() {
+        let id = Math.round(Math.random() * 100 + 100);
+        this.onInput({
+          ...this.image,
+          url: `https://picsum.photos/id/${id}/1024/480`
+        }, "image");
+      }
+    }
+  };
+  var _hoisted_1$2 = { class: "image-container" };
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_ImageField = resolveComponent("ImageField");
+    return openBlock(), createElementBlock("div", _hoisted_1$2, [
+      createVNode(_component_ImageField, {
+        image: _ctx.content.image,
+        onOnChange: _cache[0] || (_cache[0] = (data) => _ctx.onInput(data, "image")),
+        "on-browse": $options.onBrowseHandler
+      }, null, 8, ["image", "on-browse"])
+    ]);
+  }
+  var ImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+  var _sfc_main$1 = {
+    name: "Block",
+    components: {
+      Icon
+    },
+    props: {
+      id: String,
+      isFirst: Boolean,
+      isLast: Boolean
+    },
+    methods: {
+      ...mapActions(["remove", "move"])
+    }
+  };
+  var _hoisted_1$1 = { class: "block" };
+  var _hoisted_2$1 = { class: "block__actions" };
+  var _hoisted_3$1 = ["disabled"];
+  var _hoisted_4 = ["disabled"];
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_Icon = resolveComponent("Icon");
+    return openBlock(), createElementBlock("div", _hoisted_1$1, [
+      renderSlot(_ctx.$slots, "default", {}, void 0, true),
+      createBaseVNode("ul", _hoisted_2$1, [
+        createBaseVNode("li", null, [
+          createBaseVNode("button", {
+            type: "button",
+            class: "button",
+            onClick: _cache[0] || (_cache[0] = ($event) => _ctx.move({ id: $props.id, direction: "up" })),
+            disabled: $props.isFirst
+          }, [
+            createVNode(_component_Icon, { icon: "angle-up" })
+          ], 8, _hoisted_3$1)
+        ]),
+        createBaseVNode("li", null, [
+          createBaseVNode("button", {
+            type: "button",
+            class: "button",
+            onClick: _cache[1] || (_cache[1] = ($event) => _ctx.move({ id: $props.id, direction: "down" })),
+            disabled: $props.isLast
+          }, [
+            createVNode(_component_Icon, { icon: "angle-down" })
+          ], 8, _hoisted_4)
+        ]),
+        createBaseVNode("li", null, [
+          createBaseVNode("button", {
+            type: "button",
+            class: "button",
+            onClick: _cache[2] || (_cache[2] = ($event) => _ctx.remove($props.id))
+          }, [
+            createVNode(_component_Icon, { icon: "trash" })
+          ])
+        ])
+      ])
+    ]);
+  }
+  var Block = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-cd4aa1b1"]]);
   var _sfc_main = {
     name: "Editor",
     components: {
+      Block,
       TextImageBlock,
-      TextBlock
+      TextBlock,
+      ImageBlock,
+      BlockSelectorModal
+    },
+    data: function() {
+      return {
+        blockSelectorModal: null
+      };
     },
     props: {
       onChange: Function
     },
     computed: {
       ...mapGetters(["components"])
+    },
+    mounted() {
+      this.blockSelectorModal = this.$refs.blockSelectorModalRef;
     },
     methods: {
       ...mapActions(["add", "edit"]),
@@ -34642,6 +34816,12 @@ img.ProseMirror-separator {
       },
       onInputChange: function({ id, content }) {
         this.edit({ id, content });
+      },
+      showBlockSelector: async function() {
+        const value = await this.blockSelectorModal.show();
+        if (value) {
+          this.addComponent(value);
+        }
       }
     },
     watch: {
@@ -34650,36 +34830,46 @@ img.ProseMirror-separator {
       }
     }
   };
-  var _hoisted_1 = { class: "menu-component" };
-  var _hoisted_2 = { class: "menu-component__inner" };
+  var _hoisted_1 = { class: "editor" };
+  var _hoisted_2 = /* @__PURE__ */ createTextVNode(" Select block ");
+  var _hoisted_3 = { class: "components-list" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    return openBlock(), createElementBlock(Fragment$1, null, [
-      createBaseVNode("div", _hoisted_1, [
-        createBaseVNode("div", _hoisted_2, [
-          createBaseVNode("button", {
-            type: "button",
-            onClick: _cache[0] || (_cache[0] = ($event) => $options.addComponent("TextImageBlock"))
-          }, "Text/Image"),
-          createBaseVNode("button", {
-            type: "button",
-            onClick: _cache[1] || (_cache[1] = ($event) => $options.addComponent("TextBlock"))
-          }, "Text")
-        ])
-      ]),
-      (openBlock(true), createElementBlock(Fragment$1, null, renderList(_ctx.components, (component, index) => {
-        return openBlock(), createElementBlock("div", {
-          key: component.id,
-          class: "component"
-        }, [
-          (openBlock(), createBlock(resolveDynamicComponent(component.type), {
-            content: component.content,
-            key: index,
-            onOnChange: $options.onInputChange,
-            id: component.id
-          }, null, 40, ["content", "onOnChange", "id"]))
-        ]);
-      }), 128))
-    ], 64);
+    const _component_BlockSelectorModal = resolveComponent("BlockSelectorModal");
+    const _component_Block = resolveComponent("Block");
+    return openBlock(), createElementBlock("div", _hoisted_1, [
+      createVNode(_component_BlockSelectorModal, { ref: "blockSelectorModalRef" }, {
+        header: withCtx(() => [
+          _hoisted_2
+        ]),
+        _: 1
+      }, 512),
+      createBaseVNode("button", {
+        type: "button",
+        onClick: _cache[0] || (_cache[0] = (...args) => $options.showBlockSelector && $options.showBlockSelector(...args)),
+        class: "button"
+      }, "Add block"),
+      createBaseVNode("div", _hoisted_3, [
+        (openBlock(true), createElementBlock(Fragment$1, null, renderList(_ctx.components, (component, index) => {
+          return openBlock(), createBlock(_component_Block, {
+            key: component.id,
+            class: "component",
+            id: component.id,
+            isFirst: index === 0,
+            isLast: index >= _ctx.components.length - 1
+          }, {
+            default: withCtx(() => [
+              (openBlock(), createBlock(resolveDynamicComponent(component.type), {
+                content: component.content,
+                key: index,
+                onOnChange: $options.onInputChange,
+                id: component.id
+              }, null, 40, ["content", "onOnChange", "id"]))
+            ]),
+            _: 2
+          }, 1032, ["id", "isFirst", "isLast"]);
+        }), 128))
+      ])
+    ]);
   }
   var Editor = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
   function uniqueId() {
@@ -34712,17 +34902,46 @@ img.ProseMirror-separator {
           id: uniqueId()
         };
         state.components = [
-          ...state.components,
-          component
+          component,
+          ...state.components
         ];
       },
       EDIT_COMPONENT(state, { id, content }) {
-        state.components = state.components = [...state.components].map((component) => {
+        state.components = [...state.components].map((component) => {
           if (component.id === id) {
             component.content = content;
           }
           return component;
         });
+      },
+      REMOVE_COMPONENT(state, id) {
+        state.components = [...state.components].filter((component) => {
+          return component.id !== id;
+        });
+      },
+      MOVE_UP_COMPONENT(state, id) {
+        const components = [...state.components];
+        const componentIndex = components.findIndex((component2) => {
+          return component2.id === id;
+        });
+        if (componentIndex === 0) {
+          return;
+        }
+        const component = components.splice(componentIndex, 1);
+        const nextIndex = componentIndex - 1;
+        state.components = [...components.slice(0, nextIndex), ...component, ...components.slice(nextIndex)];
+      },
+      MOVE_DOWN_COMPONENT(state, id) {
+        const components = [...state.components];
+        const componentIndex = components.findIndex((component2) => {
+          return component2.id === id;
+        });
+        if (componentIndex === components.length - 1) {
+          return;
+        }
+        const component = components.splice(componentIndex, 1);
+        const nextIndex = componentIndex + 1;
+        state.components = [...components.slice(0, nextIndex), ...component, ...components.slice(nextIndex)];
       }
     },
     actions: {
@@ -34731,6 +34950,17 @@ img.ProseMirror-separator {
       },
       "edit": ({ commit: commit2 }, payload) => {
         commit2("EDIT_COMPONENT", payload);
+      },
+      "remove": ({ commit: commit2 }, id) => {
+        commit2("REMOVE_COMPONENT", id);
+      },
+      "move": ({ commit: commit2 }, { id, direction }) => {
+        if (direction === "up") {
+          commit2("MOVE_UP_COMPONENT", id);
+        }
+        if (direction === "down") {
+          commit2("MOVE_DOWN_COMPONENT", id);
+        }
       }
     }
   });

@@ -38,18 +38,18 @@
     </div>
     <editor-content :editor="editor" class="editor--full"/>
   </div>
-  <modal ref="linkModalRef" placeholder="http://....">
+  <PromptModal ref="linkModalRef" placeholder="http://....">
     <template v-slot:header>
       Type link url
     </template>
-  </modal>
+  </PromptModal>
 </template>
 
 <script>
 import {Editor, EditorContent} from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Icon from "../Icon.vue";
-import Modal from "../Modal.vue";
+import PromptModal from "../Modals/PromptModal.vue";
 import {Link} from "@tiptap/extension-link";
 
 export default {
@@ -57,7 +57,7 @@ export default {
   components: {
     EditorContent,
     Icon,
-    Modal
+    PromptModal
   },
   props: {
     value: String
@@ -93,7 +93,7 @@ export default {
     async setLink() {
       const previousUrl = this.editor.getAttributes('link').href
 
-      const value = await this.linkModal.showModal(previousUrl);
+      const value = await this.linkModal.show(previousUrl);
 
       if (!value) {
         return;
@@ -119,6 +119,7 @@ export default {
 .ProseMirror {
   border: 2px solid var(--theme-color);
   padding: 1rem 1rem;
+  background-color: #fff;
 }
 
 .editor--full .ProseMirror {

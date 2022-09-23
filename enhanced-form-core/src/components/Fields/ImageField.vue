@@ -9,7 +9,6 @@
     </div>
     <button type="button" @click="onBrowse" class="button-browse"></button>
     <div class="image-info" v-if="image.url !== ''">{{ image.url }}</div>
-
   </div>
 </template>
 
@@ -44,6 +43,7 @@ export default {
 .image-field {
   position: relative;
   background-color: #f2f2f2;
+  min-height: 480px;
 }
 
 .button-browse {
@@ -83,7 +83,7 @@ export default {
   bottom: 0;
   right: 0;
   padding: 0.5rem;
-  background-color: var(--theme-color);
+  background-color: #acacac;
   color: #ffffff;
   font-size: 80%;
   font-style: italic;

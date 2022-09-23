@@ -8,6 +8,14 @@ const defaultBlockValue = {
             }
         }
     },
+    ImageBlock: () => {
+        return {
+            image: {
+                url: '',
+                title: ''
+            }
+        }
+    },
     TextBlock: () => {
         return {
             text: '',

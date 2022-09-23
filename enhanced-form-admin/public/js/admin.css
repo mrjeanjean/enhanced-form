@@ -8135,15 +8135,70 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+.dialog__wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.dialog__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: #a2a2a2;
+  opacity: 0.8;
+}
+.dialog {
+  background-color: #fff;
+  min-width: 25rem;
+}
+.dialog__header {
+  background-color: var(--theme-color);
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  position: relative;
+  display: flex;
+}
+.dialog__title {
+  flex: 1;
+  padding: 1.5rem 2rem;
+}
+.dialog__body {
+  padding: 2rem;
+}
+.dialog__body + .dialog__footer {
+  margin-top: -2rem;
+}
+.dialog__footer {
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
   font-size: 1em;
+  padding: 0.6em 1.2em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
+}
+button:disabled {
+  cursor: default;
+}
+.button {
+  padding: 1rem 2rem;
+  border: 2px solid var(--theme-color);
+  text-transform: uppercase;
+  background-color: var(--theme-color);
+  border-radius: 0;
+  color: #ffffff;
+  font-weight: 600;
+}
+.button--outline {
+  background-color: transparent;
+  color: var(--theme-color);
 }
 .form-input[data-v-6a8bdf63] {
   all: unset;
@@ -8154,56 +8209,6 @@ button {
   box-sizing: inherit;
   width: 100%;
 }
-.modal__wrapper[data-v-762ab0d3] {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-.modal__overlay[data-v-762ab0d3] {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-color: #a2a2a2;
-  opacity: 0.8;
-}
-.modal[data-v-762ab0d3] {
-  background-color: #fff;
-  min-width: 25rem;
-}
-.modal__header[data-v-762ab0d3] {
-  padding: 1.5rem 2rem;
-  background-color: var(--theme-color);
-  font-weight: 600;
-  color: #ffffff;
-  text-transform: uppercase;
-}
-.modal__body[data-v-762ab0d3] {
-  padding: 2rem;
-}
-.modal__body + .modal__footer[data-v-762ab0d3] {
-  margin-top: -2rem;
-}
-.modal__footer[data-v-762ab0d3] {
-  padding: 2rem;
-  display: flex;
-  justify-content: space-between;
-}
-.button[data-v-762ab0d3] {
-  padding: 1rem 2rem;
-  border: 2px solid var(--theme-color);
-  text-transform: uppercase;
-  background-color: var(--theme-color);
-  border-radius: 0;
-  color: #ffffff;
-  font-weight: 600;
-}
-.button--outline[data-v-762ab0d3] {
-  background-color: transparent;
-  color: var(--theme-color);
-}
 :root {
   --theme-color: #6D36D0;
   --active-color: #656565;
@@ -8211,6 +8216,7 @@ button {
 .ProseMirror {
   border: 2px solid var(--theme-color);
   padding: 1rem 1rem;
+  background-color: #fff;
 }
 .editor--full .ProseMirror {
   min-height: 300px;
@@ -8261,17 +8267,18 @@ button {
   text-transform: uppercase;
   font-weight: 600;
 }
-.image-field[data-v-657a09c5] {
+.image-field[data-v-c9f93341] {
   position: relative;
   background-color: #f2f2f2;
+  min-height: 480px;
 }
-.button-browse[data-v-657a09c5] {
+.button-browse[data-v-c9f93341] {
   position: absolute;
   inset: 0;
   border: none;
   background-color: transparent;
 }
-.image-container[data-v-657a09c5] {
+.image-container[data-v-c9f93341] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8279,12 +8286,12 @@ button {
   position: absolute;
   inset: 0;
 }
-.image-container img[data-v-657a09c5] {
+.image-container img[data-v-c9f93341] {
   height: 100%;
   width: 100%;
   object-fit: contain;
 }
-.image-placeholder[data-v-657a09c5] {
+.image-placeholder[data-v-c9f93341] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8293,43 +8300,93 @@ button {
   inset: 0;
   color: #acacac;
 }
-.image-info[data-v-657a09c5] {
+.image-info[data-v-c9f93341] {
   position: absolute;
   bottom: 0;
   right: 0;
   padding: 0.5rem;
-  background-color: var(--theme-color);
+  background-color: #acacac;
   color: #ffffff;
   font-size: 80%;
   font-style: italic;
   line-height: 1;
 }
-.text-image-container[data-v-9f3caaae] {
+.text-image-container[data-v-a094b140] {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
-.menu-component {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
+[data-v-a094b140] .image-field {
+  min-height: auto;
 }
-.menu-component button {
-  border-radius: 0;
-  background-color: var(--theme-color);
-  padding: 2rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-.menu-component button:hover {
-  outline: none;
-}
-.menu-component button + button {
+.dialog__close-button[data-v-5f96a9af] {
+  background-color: transparent;
+  border: none;
   border-left: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  width: 80px;
+  font-size: 30px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.blocks-list[data-v-5f96a9af] {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.blocks-list__item[data-v-5f96a9af] {
+  border: 2px solid var(--theme-color);
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-color);
+  cursor: pointer;
+}
+.dialog__overlay[data-v-5f96a9af] {
+  cursor: pointer;
+}
+.block[data-v-cd4aa1b1] {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  background-color: #fafafa;
+  gap: 2rem;
+}
+.block:hover .block__actions[data-v-cd4aa1b1] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.block__actions[data-v-cd4aa1b1] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: opacity 300ms;
+  pointer-events: none;
+}
+.block__actions[data-v-cd4aa1b1] > :last-child {
+  margin-top: auto;
+}
+.block__actions .button[data-v-cd4aa1b1] {
+  padding: 1rem;
+  width: 100%;
+}
+.block__actions .button[data-v-cd4aa1b1]:disabled {
+  background-color: #acacac;
+  border-color: #acacac;
+}
+.editor {
+  margin-bottom: 2rem;
+}
+.components-list {
+  margin-top: 2rem;
 }
 .component + .component {
   margin-top: 2rem;

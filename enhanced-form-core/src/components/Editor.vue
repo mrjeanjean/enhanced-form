@@ -1,18 +1,29 @@
 <template>
-  <div class="menu-component">
-    <div class="menu-component__inner">
-      <button type="button" @click="addComponent('TextImageBlock')">Text/Image</button>
-      <button type="button" @click="addComponent('TextBlock')">Text</button>
+  <div class="editor">
+    <BlockSelectorModal ref="blockSelectorModalRef">
+      <template v-slot:header>
+        Select block
+      </template>
+    </BlockSelectorModal>
+    <button type="button" @click="showBlockSelector" class="button">Add block</button>
+    <div class="components-list">
+      <Block
+          v-for="(component, index) in components"
+          :key="component.id"
+          class="component"
+          :id="component.id"
+          :isFirst="index === 0"
+          :isLast="index >= components.length - 1"
+      >
+        <component
+            :is="component.type"
+            :content="component.content"
+            :key="index"
+            @onChange="onInputChange"
+            :id="component.id"
+        />
+      </Block>
     </div>
-  </div>
-  <div v-for="(component, index) in components" :key="component.id" class="component">
-    <component
-        :is="component.type"
-        :content="component.content"
-        :key="index"
-        @onChange="onInputChange"
-        :id="component.id"
-    />
   </div>
 </template>
 
@@ -21,18 +32,32 @@ import {mapActions, mapGetters} from "vuex";
 import TextImageBlock from "./Blocks/TextImageBlock.vue";
 import TextBlock from "./Blocks/TextBlock.vue";
 import {getDefaultBlockValue} from "../blocks";
+import BlockSelectorModal from "./Modals/BlockSelectorModal.vue";
+import ImageBlock from "./Blocks/ImageBlock.vue";
+import Block from "./Blocks/Block.vue";
 
 export default {
   name: 'Editor',
   components: {
+    Block,
     TextImageBlock,
-    TextBlock
+    TextBlock,
+    ImageBlock,
+    BlockSelectorModal
+  },
+  data: function () {
+    return {
+      blockSelectorModal: null
+    }
   },
   props: {
     onChange: Function
   },
   computed: {
     ...mapGetters(['components'])
+  },
+  mounted() {
+    this.blockSelectorModal = this.$refs.blockSelectorModalRef;
   },
   methods: {
     ...mapActions(['add', 'edit']),
@@ -47,6 +72,13 @@ export default {
     },
     onInputChange: function ({id, content}) {
       this.edit({id, content});
+    },
+    showBlockSelector: async function () {
+      const value = await this.blockSelectorModal.show();
+
+      if (value) {
+        this.addComponent(value);
+      }
     }
   },
   watch: {
@@ -59,32 +91,13 @@ export default {
 </script>
 
 <style lang="css">
-.menu-component {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
+.editor{
+  margin-bottom: 2rem;
 }
 
-.menu-component button {
-  border-radius: 0;
-  background-color: var(--theme-color);
-  padding: 2rem;
-  color: #ffffff;
-  font-weight: 600;
+.components-list {
+  margin-top: 2rem;
 }
-
-.menu-component button:hover {
-  outline: none;
-}
-
-.menu-component button + button{
-  border-left: 2px solid #fff;
-}
-
 
 .component + .component {
   margin-top: 2rem;
