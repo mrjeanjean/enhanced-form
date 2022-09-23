@@ -1,0 +1,15 @@
+{
+  "name": "@moveo/enhanced-form-admin",
+  "version": "0.1.0",
+  "author": "Gaëtan <gaetan@moveo-webdesign.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node esbuild"
+  },
+  "dependencies": {
+    "@moveo/enhanced-form-core": "0.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.7"
+  }
+}

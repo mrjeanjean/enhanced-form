@@ -1,0 +1,16 @@
+{% block enhanced_form_row %}
+    <div class="col-md-12 col-xxl-12">
+        <div class="field-textarea form-group"><label for="{{ id }}" class="form-control-label required">Content</label>
+            <div class="form-widget">
+                <textarea
+                        id="{{ id }}"
+                        name="{{ full_name }}"
+                        data-enhanced-editor
+                        class="form-control"
+                >
+                    {{- value -}}
+                </textarea>
+            </div>
+        </div>
+    </div>
+{% endblock %}

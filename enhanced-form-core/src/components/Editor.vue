@@ -1,8 +1,10 @@
 <template>
-  <p>
-    <button type="button" @click="addComponent('TextImageBlock')">Add Text/Image block</button>
-    <button type="button" @click="addComponent('TextBlock')">Add Text block</button>
-  </p>
+  <div class="menu-component">
+    <div class="menu-component__inner">
+      <button type="button" @click="addComponent('TextImageBlock')">Text/Image</button>
+      <button type="button" @click="addComponent('TextBlock')">Text</button>
+    </div>
+  </div>
   <div v-for="(component, index) in components" :key="component.id" class="component">
     <component
         :is="component.type"
@@ -57,6 +59,33 @@ export default {
 </script>
 
 <style lang="css">
+.menu-component {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-component button {
+  border-radius: 0;
+  background-color: var(--theme-color);
+  padding: 2rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.menu-component button:hover {
+  outline: none;
+}
+
+.menu-component button + button{
+  border-left: 2px solid #fff;
+}
+
+
 .component + .component {
   margin-top: 2rem;
 }
