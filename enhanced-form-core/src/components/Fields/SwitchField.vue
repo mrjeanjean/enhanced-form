@@ -5,12 +5,9 @@
         @change="$emit('onChange', !value)"
         :checked="value"
         :id="`input-reverse__${id}`"
-    />
-    <label :for="`input-reverse__${id}`">
-      <span class="input-switch__label">{{ label }}</span>
-      <div class="input-switch__render">
-        <span></span>
-      </div>
+    >
+    <label :for="`input-reverse__${id}`" class="input-switch__render">
+      <span></span>
     </label>
   </div>
 </template>
@@ -25,10 +22,6 @@ export default {
       type: Boolean,
       required: true,
       default: false
-    },
-    label: {
-      type: String,
-      required: true
     }
   },
   emits: ['onChange'],
@@ -53,6 +46,7 @@ export default {
   padding: 2px;
   display: flex;
   background-color: var(--theme-color-gray-300);
+  cursor: pointer;
 }
 
 .input-switch__render span {
@@ -63,20 +57,11 @@ export default {
   transition: transform 200ms;
 }
 
-input[type="checkbox"] + label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.95rem;
-}
-
-input[type="checkbox"]:checked + label .input-switch__render {
+input[type="checkbox"]:checked + .input-switch__render {
   background-color: var(--theme-color);
 }
 
-input[type="checkbox"]:checked + label .input-switch__render span {
+input[type="checkbox"]:checked + .input-switch__render span {
   transform: translateX(calc(100% + 4px));
 }
 </style>

@@ -10,6 +10,7 @@
           <div @click="handleBlockClick('TextImageBlock')" class="dialog-blocks-list__item">Text/Image</div>
           <div @click="handleBlockClick('TextBlock')" class="dialog-blocks-list__item">Text</div>
           <div @click="handleBlockClick('ImageBlock')" class="dialog-blocks-list__item">Image</div>
+          <div @click="handleBlockClick('MultiImagesBlock')" class="dialog-blocks-list__item">Multi images</div>
         </div>
       </div>
     </div>

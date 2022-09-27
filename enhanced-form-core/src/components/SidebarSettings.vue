@@ -18,14 +18,16 @@ import {mapActions, mapGetters} from "vuex";
 import TextBlockSettings from "./Blocks/TextBlockSettings.vue";
 import ImageBlockSettings from "./Blocks/ImageBlockSettings.vue";
 import TextImageBlockSettings from "./Blocks/TextImageBlockSettings.vue";
+import MultiImagesBlockSettings from "./Blocks/MultiImagesBlockSettings.vue";
 import Icon from "./Icon.vue";
 
 export default {
-  name: "SidebarSettings",
+  name: "SidebarBlockSettings",
   components: {
     ImageBlockSettings,
     TextBlockSettings,
     TextImageBlockSettings,
+    MultiImagesBlockSettings,
     Icon
   },
   data: function(){
@@ -104,6 +106,11 @@ export default {
   right: -2rem;
   height: 2px;
   background-color: var(--theme-color-gray-200);
+}
 
+::v-deep .setting-form__row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

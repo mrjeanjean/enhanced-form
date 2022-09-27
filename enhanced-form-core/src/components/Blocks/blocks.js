@@ -6,7 +6,7 @@ const defaultBlockValue = {
                 url: '',
                 title: ''
             },
-            reverse: false
+            reverse: true
         }
     },
     ImageBlock: () => {
@@ -25,11 +25,30 @@ const defaultBlockValue = {
                 title: ''
             }
         }
+    },
+    MultiImagesBlock: () => {
+        return {
+            nbImages: 3,
+            images: [
+                {
+                    url: '',
+                    title: ''
+                },
+                {
+                    url: '',
+                    title: ''
+                },
+                {
+                    url: '',
+                    title: ''
+                }
+            ]
+        }
     }
 }
 
-export const getDefaultBlockValue = (type)=> {
-    if(!defaultBlockValue.hasOwnProperty(type)){
+export const getDefaultBlockValue = (type) => {
+    if (!defaultBlockValue.hasOwnProperty(type)) {
         throw new Error(`Type '${type}' don't have default value (file block.js)`)
     }
 

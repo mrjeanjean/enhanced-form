@@ -42,9 +42,10 @@
 import {mapActions, mapGetters} from "vuex";
 import TextImageBlock from "./Blocks/TextImageBlock.vue";
 import TextBlock from "./Blocks/TextBlock.vue";
-import {getDefaultBlockValue} from "../blocks";
+import {getDefaultBlockValue} from "./Blocks/blocks";
 import BlockSelectorModal from "./Modals/BlockSelectorModal.vue";
 import ImageBlock from "./Blocks/ImageBlock.vue";
+import MultiImagesBlock from "./Blocks/MultiImagesBlock.vue";
 import Block from "./Blocks/Block.vue";
 import SidebarSettings from "./SidebarSettings.vue";
 import Icon from "./Icon.vue";
@@ -56,6 +57,7 @@ export default {
     TextImageBlock,
     TextBlock,
     ImageBlock,
+    MultiImagesBlock,
     BlockSelectorModal,
     SidebarSettings,
     Icon
@@ -142,12 +144,12 @@ export default {
   justify-content: center;
   font-size: 1.25rem;
   padding: 0;
-  background-color: var(--theme-color-secondary);
+  background-color: var(--theme-color);
   color: #ffffff;
   z-index: 1;
 }
 
 .editor.sidebar-is-open .editor-sidebar__button{
-  background-color: var(--theme-color);
+  background-color: var(--theme-color-secondary);
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div class="block-settings__title">Text/Image settings</div>
-  <SwitchField :value="block.reverse" label="Switch columns" @onChange="handleCheckboxChange"/>
+  <div class="setting-form__row">
+    <div>Switch columns</div>
+    <SwitchField :value="block.content.reverse" @onChange="handleCheckboxChange"/>
+  </div>
 </template>
 
 <script>

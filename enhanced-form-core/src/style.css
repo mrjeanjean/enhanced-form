@@ -10,7 +10,7 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 
-    --sidebar-width: 20rem;
+    --sidebar-width: 25rem;
     --theme-color: #6D36D0;
     --theme-color-secondary: #656565;
     --theme-color-gray-300: #aeaeae;
@@ -74,7 +74,7 @@ button:disabled {
     font-weight: 600;
 }
 
-.button:not(disabled):not(.button--outline):hover{
+.button:not(disabled):not(.button--outline):hover {
     background-color: var(--theme-color-secondary);
 }
 
@@ -84,12 +84,12 @@ button:disabled {
     border: 2px solid var(--theme-color);
 }
 
-.button--outline:not(:disabled):hover{
+.button--outline:not(:disabled):hover {
     border-color: var(--theme-color-secondary);
     color: var(--theme-color-secondary);
 }
 
-    /* DIALOG MODAL */
+/* DIALOG MODAL */
 .dialog__wrapper {
     position: fixed;
     inset: 0;

@@ -6,7 +6,7 @@ export const getStore = (initialData) => createStore({
         return {
             blocks: initialData || [],
             currentBlock: null,
-            isSidebarOpen: false
+            isSidebarOpen: true
         }
     },
     getters: {
@@ -61,7 +61,7 @@ export const getStore = (initialData) => createStore({
             state.blocks = moveItemListAt([...state.blocks], blockIndex, blockIndex + 1);
         },
         SELECT_BLOCK(state, id) {
-            state.currentBlock = state.blocks.find(block => { console.log(block); return block.id === id}) || null;
+            state.currentBlock = state.blocks.find(block => block.id === id) || null;
         },
         SET_SIDEBAR_VISIBILITY(state, visibility){
             state.isSidebarOpen = visibility;
