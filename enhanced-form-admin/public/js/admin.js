@@ -34791,7 +34791,7 @@ img.ProseMirror-separator {
         this.onInput(
           this.content.images.map((image, imageIndex) => {
             if (index === imageIndex) {
-              image.url = `https://picsum.photos/id/${id}/1024/480`;
+              image.url = `https://picsum.photos/id/${id}/500/450`;
             }
             return image;
           }),
@@ -34815,7 +34815,7 @@ img.ProseMirror-separator {
       }), 256))
     ], 4);
   }
-  var MultiImagesBlock = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-36a211f4"]]);
+  var MultiImagesBlock = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-ef26a513"]]);
   var _sfc_main$8 = {
     name: "Block",
     components: {
@@ -35265,12 +35265,13 @@ img.ProseMirror-separator {
     ], 2);
   }
   var Editor = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1804a659"]]);
+  var SHOW_SIDEBAR_COOKIE = "showSidebar";
   var getStore = (initialData) => createStore({
     state() {
       return {
         blocks: initialData || [],
         currentBlock: null,
-        isSidebarOpen: true
+        isSidebarOpen: localStorage.getItem(SHOW_SIDEBAR_COOKIE) || false
       };
     },
     getters: {
@@ -35325,6 +35326,11 @@ img.ProseMirror-separator {
       },
       SET_SIDEBAR_VISIBILITY(state, visibility) {
         state.isSidebarOpen = visibility;
+        if (visibility) {
+          localStorage.setItem(SHOW_SIDEBAR_COOKIE, "true");
+        } else {
+          localStorage.removeItem(SHOW_SIDEBAR_COOKIE);
+        }
       }
     },
     actions: {
@@ -35403,10 +35409,10 @@ img.ProseMirror-separator {
   // assets/admin.js
   document.addEventListener("DOMContentLoaded", () => {
     const $target = document.querySelector("[data-enhanced-editor]");
-    console.log("INIT ADMIN");
     if ($target) {
       attachEnhancedForm($target);
     }
+    document.body.classList.add("ea-content-width-full");
   });
 })();
 /*!

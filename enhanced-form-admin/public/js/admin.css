@@ -8101,7 +8101,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  --sidebar-width: 25rem;
+  --sidebar-width: 22rem;
   --theme-color: #6D36D0;
   --theme-color-secondary: #656565;
   --theme-color-gray-300: #aeaeae;
@@ -8355,12 +8355,15 @@ button:disabled {
 .dialog__overlay[data-v-139b6601] {
   cursor: pointer;
 }
-.multi-image-container[data-v-36a211f4] {
+.multi-image-container[data-v-ef26a513] {
   display: flex;
   gap: 2rem;
 }
-.multi-image-container > *[data-v-36a211f4] {
+.multi-image-container > *[data-v-ef26a513] {
   flex: 1;
+}
+[data-v-ef26a513] .image-container img {
+  object-fit: cover;
 }
 .block[data-v-5a4bf041] {
   display: grid;
@@ -8556,6 +8559,8 @@ input[type=checkbox]:checked + .input-switch__render span[data-v-97ce65be] {
 .editor.sidebar-is-open .editor-sidebar__button[data-v-1804a659] {
   background-color: var(--theme-color-secondary);
 }
+
+/* assets/admin.css */
 /*!
  * Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

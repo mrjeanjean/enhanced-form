@@ -1,12 +1,14 @@
 import {createStore} from 'vuex';
 import {moveItemListAt, uniqueId} from "./utils";
 
+const SHOW_SIDEBAR_COOKIE = 'showSidebar';
+
 export const getStore = (initialData) => createStore({
     state() {
         return {
             blocks: initialData || [],
             currentBlock: null,
-            isSidebarOpen: true
+            isSidebarOpen: localStorage.getItem(SHOW_SIDEBAR_COOKIE) || false
         }
     },
     getters: {
@@ -65,6 +67,11 @@ export const getStore = (initialData) => createStore({
         },
         SET_SIDEBAR_VISIBILITY(state, visibility){
             state.isSidebarOpen = visibility;
+            if(visibility){
+                localStorage.setItem(SHOW_SIDEBAR_COOKIE, 'true')
+            }else{
+                localStorage.removeItem(SHOW_SIDEBAR_COOKIE)
+            }
         }
     },
     actions: {

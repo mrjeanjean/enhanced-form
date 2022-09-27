@@ -27,7 +27,7 @@ export default {
       this.onInput(
           this.content.images.map((image, imageIndex)=>{
             if(index === imageIndex){
-              image.url = `https://picsum.photos/id/${id}/1024/480`;
+              image.url = `https://picsum.photos/id/${id}/500/450`;
             }
 
             return image;
@@ -41,15 +41,15 @@ export default {
 
 <style scoped>
 .multi-image-container{
-  /*--nb-images: 3;
-  display: grid;
-  grid-template-columns: repeat(var(--nb-images), 1fr);
-  gap: 2rem;*/
   display: flex;
   gap: 2rem;
 }
 
 .multi-image-container > *{
   flex: 1;
+}
+
+::v-deep .image-container img{
+  object-fit: cover;
 }
 </style>
