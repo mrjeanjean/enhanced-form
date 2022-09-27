@@ -34498,15 +34498,16 @@ img.ProseMirror-separator {
       };
     },
     props: {
-      image: Object,
-      onBrowse: {
-        required: false,
-        type: Function,
-        default: () => {
-        }
-      }
+      image: Object
     },
-    emits: ["onChange"]
+    emits: ["onChange"],
+    inject: ["options"],
+    methods: {
+      onBrowseHandler: async function() {
+        const image = await this.options.onBrowse(this.image);
+        this.$emit("onChange", image);
+      }
+    }
   };
   var _hoisted_1$c = { class: "image-field" };
   var _hoisted_2$9 = { class: "image-container" };
@@ -34535,13 +34536,13 @@ img.ProseMirror-separator {
       ]),
       createBaseVNode("button", {
         type: "button",
-        onClick: _cache[2] || (_cache[2] = (...args) => $props.onBrowse && $props.onBrowse(...args)),
+        onClick: _cache[2] || (_cache[2] = (...args) => $options.onBrowseHandler && $options.onBrowseHandler(...args)),
         class: "button-browse"
       }),
       $props.image.url !== "" ? (openBlock(), createElementBlock("div", _hoisted_5$2, toDisplayString($props.image.url), 1)) : createCommentVNode("", true)
     ]);
   }
-  var ImageField = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__scopeId", "data-v-24502eee"]]);
+  var ImageField = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__scopeId", "data-v-4f74d04c"]]);
   var InputMixin = {
     props: {
       content: null,
@@ -34565,14 +34566,11 @@ img.ProseMirror-separator {
       TextEditorField,
       ImageField
     },
-    emits: ["onChange"],
     mixins: [InputMixin],
     methods: {
-      onBrowseHandler: function() {
-        let id = Math.round(Math.random() * 100 + 100);
+      onBrowseHandler: function(image) {
         this.onInput({
-          ...this.image,
-          url: `https://picsum.photos/id/${id}/500/500`
+          ...image
         }, "image");
       }
     }
@@ -34595,22 +34593,20 @@ img.ProseMirror-separator {
       }, null, 8, ["value"]),
       createVNode(_component_ImageField, {
         image: _ctx.content.image,
-        onOnChange: _cache[1] || (_cache[1] = (data) => _ctx.onInput(data, "image")),
-        "on-browse": $options.onBrowseHandler
-      }, null, 8, ["image", "on-browse"])
+        onOnChange: $options.onBrowseHandler
+      }, null, 8, ["image", "onOnChange"])
     ])) : (openBlock(), createElementBlock("div", _hoisted_2$8, [
       createVNode(_component_ImageField, {
         image: _ctx.content.image,
-        onOnChange: _cache[2] || (_cache[2] = (data) => _ctx.onInput(data, "image")),
-        "on-browse": $options.onBrowseHandler
-      }, null, 8, ["image", "on-browse"]),
+        onOnChange: $options.onBrowseHandler
+      }, null, 8, ["image", "onOnChange"]),
       createVNode(_component_TextEditorField, {
         value: _ctx.content.text,
-        onOnChange: _cache[3] || (_cache[3] = (data) => _ctx.onInput(data, "text"))
+        onOnChange: _cache[1] || (_cache[1] = (data) => _ctx.onInput(data, "text"))
       }, null, 8, ["value"])
     ]));
   }
-  var TextImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-35f805e8"]]);
+  var TextImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-e0125962"]]);
   var _sfc_main$c = {
     name: "TextBlock",
     components: {
@@ -34754,14 +34750,11 @@ img.ProseMirror-separator {
     components: {
       ImageField
     },
-    emits: ["onChange"],
     mixins: [InputMixin],
     methods: {
-      onBrowseHandler: function() {
-        let id = Math.round(Math.random() * 100 + 100);
+      onBrowseHandler: function(image) {
         this.onInput({
-          ...this.image,
-          url: `https://picsum.photos/id/${id}/1024/480`
+          ...image
         }, "image");
       }
     }
@@ -34772,9 +34765,8 @@ img.ProseMirror-separator {
     return openBlock(), createElementBlock("div", _hoisted_1$9, [
       createVNode(_component_ImageField, {
         image: _ctx.content.image,
-        onOnChange: _cache[0] || (_cache[0] = (data) => _ctx.onInput(data, "image")),
-        "on-browse": $options.onBrowseHandler
-      }, null, 8, ["image", "on-browse"])
+        onOnChange: $options.onBrowseHandler
+      }, null, 8, ["image", "onOnChange"])
     ]);
   }
   var ImageBlock = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
@@ -34786,12 +34778,13 @@ img.ProseMirror-separator {
     emits: ["onChange"],
     mixins: [InputMixin],
     methods: {
-      onBrowseHandler: function(index) {
-        let id = Math.round(Math.random() * 100 + 100);
+      onBrowseHandler: function(index, imageData) {
         this.onInput(
           this.content.images.map((image, imageIndex) => {
             if (index === imageIndex) {
-              image.url = `https://picsum.photos/id/${id}/500/450`;
+              image = {
+                ...imageData
+              };
             }
             return image;
           }),
@@ -34809,13 +34802,12 @@ img.ProseMirror-separator {
       (openBlock(true), createElementBlock(Fragment$1, null, renderList(_ctx.content.images, (image, index) => {
         return openBlock(), createBlock(_component_ImageField, {
           image,
-          onOnChange: _cache[0] || (_cache[0] = (data) => _ctx.onInput(data, "image")),
-          "on-browse": (_) => $options.onBrowseHandler(index)
-        }, null, 8, ["image", "on-browse"]);
+          onOnChange: (imageData) => $options.onBrowseHandler(index, imageData)
+        }, null, 8, ["image", "onOnChange"]);
       }), 256))
     ], 4);
   }
-  var MultiImagesBlock = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-ef26a513"]]);
+  var MultiImagesBlock = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-89b1a37e"]]);
   var _sfc_main$8 = {
     name: "Block",
     components: {
@@ -35390,7 +35382,7 @@ img.ProseMirror-separator {
       document.removeEventListener("click", el.clickOutsideEvent);
     }
   };
-  var attachEnhancedForm = ($input) => {
+  var attachEnhancedForm = ($input, options = {}) => {
     const $app = document.createElement("div");
     $input.parentNode.insertBefore($app, $input);
     const updateInput = (value) => {
@@ -35403,6 +35395,16 @@ img.ProseMirror-separator {
       }
     ).use(getStore(parseJson($input.value)));
     app.directive("click-outside", clickOutside);
+    if (!options.hasOwnProperty("onBrowse")) {
+      options.onBrowse = (currentImage) => {
+        let id = Math.round(Math.random() * 100 + 100);
+        return Promise.resolve({
+          ...currentImage,
+          url: `https://picsum.photos/id/${id}/500/500`
+        });
+      };
+    }
+    app.provide("options", options);
     app.mount($app);
   };
 

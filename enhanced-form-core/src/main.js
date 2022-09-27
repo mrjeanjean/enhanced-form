@@ -7,7 +7,7 @@ import {getStore} from "./store";
 import {parseJson} from "./utils";
 import {clickOutside} from "./directives";
 
-export const attachEnhancedForm = ($input) => {
+export const attachEnhancedForm = ($input, options = {}) => {
     const $app = document.createElement('div');
     $input.parentNode.insertBefore($app, $input);
 
@@ -24,5 +24,17 @@ export const attachEnhancedForm = ($input) => {
 
     app.directive('click-outside', clickOutside);
 
+    // Lorem Picsum fallback
+    if (!options.hasOwnProperty('onBrowse')) {
+        options.onBrowse = (currentImage) => {
+            let id = Math.round(Math.random() * 100 + 100);
+            return Promise.resolve({
+                ...currentImage,
+                url: `https://picsum.photos/id/${id}/500/500`
+            })
+        }
+    }
+
+    app.provide('options', options);
     app.mount($app);
 }

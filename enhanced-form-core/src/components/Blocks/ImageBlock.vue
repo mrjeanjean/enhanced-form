@@ -1,6 +1,6 @@
 <template>
   <div class="image-container">
-    <ImageField :image="content.image" @onChange="data => onInput(data, 'image')" :on-browse="onBrowseHandler"></ImageField>
+    <ImageField :image="content.image" @onChange="onBrowseHandler"></ImageField>
   </div>
 </template>
 
@@ -13,15 +13,11 @@ export default {
   components: {
     ImageField
   },
-  emits: ["onChange"],
   mixins: [InputMixin],
   methods: {
-    onBrowseHandler: function(){
-      let id = Math.round(Math.random() * 100 + 100);
-
+    onBrowseHandler: function(image){
       this.onInput({
-        ...this.image,
-        url: `https://picsum.photos/id/${id}/1024/480`
+        ...image
       }, 'image')
     }
   }

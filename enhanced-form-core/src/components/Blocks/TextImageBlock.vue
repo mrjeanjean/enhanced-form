@@ -1,10 +1,10 @@
 <template>
   <div class="text-image-container" v-if="!content.reverse">
     <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
-    <ImageField :image="content.image" @onChange="data => onInput(data, 'image')" :on-browse="onBrowseHandler"></ImageField>
+    <ImageField :image="content.image" @onChange="onBrowseHandler"></ImageField>
   </div>
   <div class="text-image-container" v-else>
-    <ImageField :image="content.image" @onChange="data => onInput(data, 'image')" :on-browse="onBrowseHandler"></ImageField>
+    <ImageField :image="content.image" @onChange="onBrowseHandler"></ImageField>
     <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script>
 import TextEditorField from "../Fields/TextEditorField.vue";
 import ImageField from "../Fields/ImageField.vue";
-import {InputMixin} from "../../mixins";
+import {BrowseImageMixin, InputMixin} from "../../mixins";
 
 export default {
   name: "TextImageBlock",
@@ -20,15 +20,11 @@ export default {
     TextEditorField,
     ImageField
   },
-  emits: ["onChange"],
   mixins: [InputMixin],
   methods: {
-    onBrowseHandler: function(){
-      let id = Math.round(Math.random() * 100 + 100);
-
+    onBrowseHandler: function(image){
       this.onInput({
-        ...this.image,
-        url: `https://picsum.photos/id/${id}/500/500`
+        ...image
       }, 'image')
     }
   }

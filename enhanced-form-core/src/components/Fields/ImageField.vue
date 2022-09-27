@@ -7,7 +7,7 @@
     <div class="image-placeholder" v-show="imageError">
       <icon icon="image"/>
     </div>
-    <button type="button" @click="onBrowse" class="button-browse"></button>
+    <button type="button" @click="onBrowseHandler" class="button-browse"></button>
     <div class="image-info" v-if="image.url !== ''">{{ image.url }}</div>
   </div>
 </template>
@@ -27,15 +27,16 @@ export default {
     }
   },
   props: {
-    image: Object,
-    onBrowse: {
-      required: false,
-      type: Function,
-      default: () => {
-      }
-    }
+    image: Object
   },
-  emits: ['onChange']
+  emits: ['onChange'],
+  inject: ['options'],
+  methods: {
+    onBrowseHandler: async function(){
+      const image = await this.options.onBrowse(this.image);
+      this.$emit('onChange', image)
+    }
+  }
 }
 </script>
 

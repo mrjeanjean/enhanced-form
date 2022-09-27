@@ -3,8 +3,7 @@
     <ImageField
         v-for="(image, index) in content.images"
         :image="image"
-        @onChange="data => onInput(data, 'image')"
-        :on-browse="_ => onBrowseHandler(index)"
+        @onChange="imageData => onBrowseHandler(index, imageData)"
     ></ImageField>
   </div>
 </template>
@@ -21,15 +20,14 @@ export default {
   emits: ["onChange"],
   mixins: [InputMixin],
   methods: {
-    onBrowseHandler: function(index){
-      let id = Math.round(Math.random() * 100 + 100);
-
+    onBrowseHandler: function(index, imageData){
       this.onInput(
           this.content.images.map((image, imageIndex)=>{
             if(index === imageIndex){
-              image.url = `https://picsum.photos/id/${id}/500/450`;
+              image = {
+                ...imageData
+              }
             }
-
             return image;
           }),
           'images'
