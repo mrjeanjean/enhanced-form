@@ -1,7 +1,11 @@
 <template>
-  <div class="text-image-container">
+  <div class="text-image-container" v-if="!content.reverse">
     <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
     <ImageField :image="content.image" @onChange="data => onInput(data, 'image')" :on-browse="onBrowseHandler"></ImageField>
+  </div>
+  <div class="text-image-container" v-else>
+    <ImageField :image="content.image" @onChange="data => onInput(data, 'image')" :on-browse="onBrowseHandler"></ImageField>
+    <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
   </div>
 </template>
 

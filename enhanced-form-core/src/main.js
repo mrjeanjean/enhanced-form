@@ -5,6 +5,7 @@ import './style.css'
 import Editor from './components/Editor.vue';
 import {getStore} from "./store";
 import {parseJson} from "./utils";
+import {clickOutside} from "./directives";
 
 export const attachEnhancedForm = ($input) => {
     const $app = document.createElement('div');
@@ -21,5 +22,7 @@ export const attachEnhancedForm = ($input) => {
         }
     ).use(getStore(parseJson($input.value)));
 
-    app.mount($app)
+    app.directive('click-outside', clickOutside);
+
+    app.mount($app);
 }

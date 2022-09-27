@@ -1,90 +1,98 @@
 import {createStore} from 'vuex';
-import {uniqueId} from "./utils";
+import {moveItemListAt, uniqueId} from "./utils";
 
 export const getStore = (initialData) => createStore({
     state() {
         return {
-            components: initialData || []
+            blocks: initialData || [],
+            currentBlock: null,
+            isSidebarOpen: false
         }
     },
     getters: {
-        components(state) {
-            return state.components
+        blocks(state) {
+            return state.blocks
+        },
+        currentBlock(state) {
+            return state.currentBlock;
+        },
+        isSidebarOpen(state){
+            return state.isSidebarOpen;
         }
     },
     mutations: {
-        ADD_COMPONENT(state, component) {
-            component = {
-                ...component,
-                id: uniqueId()
+        ADD_BLOCK(state, {block, id}) {
+            block = {
+                ...block,
+                id
             }
-            state.components = [
-                component,
-                ...state.components,
+
+            state.blocks = [
+                block,
+                ...state.blocks,
             ]
         },
-        EDIT_COMPONENT(state, {id, content}) {
-            state.components = [...state.components].map(component => {
-                if (component.id === id) {
-                    component.content = content;
+        EDIT_BLOCK(state, {id, content}) {
+            state.blocks = [...state.blocks].map(block => {
+                if (block.id === id) {
+                    block.content = content;
                 }
 
-                return component;
+                return block;
             });
         },
-        REMOVE_COMPONENT(state, id) {
-            state.components = [...state.components].filter(component => {
-                return component.id !== id;
+        REMOVE_BLOCK(state, id) {
+            state.blocks = [...state.blocks].filter(block => {
+                return block.id !== id;
             });
         },
-        MOVE_UP_COMPONENT(state, id) {
-            const components = [...state.components];
-            const componentIndex = components.findIndex(component => {
-                return component.id === id;
+        MOVE_UP_BLOCK(state, id) {
+            const blockIndex = state.blocks.findIndex(block => {
+                return block.id === id;
             });
 
-            if (componentIndex === 0) {
-                return;
-            }
-
-            const component = components.splice(componentIndex, 1);
-            const nextIndex = componentIndex - 1;
-            state.components = [...components.slice(0, nextIndex), ...component, ...components.slice(nextIndex)];
+            state.blocks = moveItemListAt([...state.blocks], blockIndex, blockIndex - 1);
         },
-        MOVE_DOWN_COMPONENT(state, id) {
-            const components = [...state.components];
-            const componentIndex = components.findIndex(component => {
-                return component.id === id;
+        MOVE_DOWN_BLOCK(state, id) {
+            const blockIndex = state.blocks.findIndex(block => {
+                return block.id === id;
             });
 
-            if (componentIndex === components.length - 1) {
-                return;
-            }
-
-            const component = components.splice(componentIndex, 1);
-            const nextIndex = componentIndex + 1;
-            state.components = [...components.slice(0, nextIndex), ...component, ...components.slice(nextIndex)];
+            state.blocks = moveItemListAt([...state.blocks], blockIndex, blockIndex + 1);
+        },
+        SELECT_BLOCK(state, id) {
+            state.currentBlock = state.blocks.find(block => { console.log(block); return block.id === id}) || null;
+        },
+        SET_SIDEBAR_VISIBILITY(state, visibility){
+            state.isSidebarOpen = visibility;
         }
     },
     actions: {
-        'add': ({commit}, component) => {
-            commit('ADD_COMPONENT', component)
+        'add': ({commit}, block) => {
+            const id = uniqueId();
+            commit('ADD_BLOCK', {block, id});
+            commit('SELECT_BLOCK', id);
         },
         'edit': ({commit}, payload) => {
-            commit('EDIT_COMPONENT', payload)
+            commit('EDIT_BLOCK', payload);
         },
         'remove': ({commit}, id) => {
-            commit('REMOVE_COMPONENT', id);
+            commit('REMOVE_BLOCK', id);
         },
         'move': ({commit}, {id, direction}) => {
             if (direction === 'up') {
-                commit('MOVE_UP_COMPONENT', id);
+                commit('MOVE_UP_BLOCK', id);
             }
 
             if (direction === 'down') {
-                commit('MOVE_DOWN_COMPONENT', id);
+                commit('MOVE_DOWN_BLOCK', id);
             }
-
+        },
+        'select': ({commit}, id) => {
+            commit('SELECT_BLOCK', id);
+        },
+        'setSidebarVisibility': ({commit}, visibility) =>{
+            commit('SET_SIDEBAR_VISIBILITY', visibility);
         }
     }
 })

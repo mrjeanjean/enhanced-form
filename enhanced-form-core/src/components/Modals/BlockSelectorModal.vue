@@ -3,13 +3,13 @@
     <div class="dialog dialog--prompt">
       <div class="dialog__header" v-if="hasHeaderSlot">
         <div class="dialog__title"><slot name="header"></slot></div>
-        <button @click="onCancel()" class="dialog__close-button">×</button>
+        <button @click="onCancel()" class="dialog__close-button" type="button">×</button>
       </div>
       <div class="dialog__body">
-        <div class="blocks-list">
-          <div @click="handleBlockClick('TextImageBlock')" class="blocks-list__item">Text/Image</div>
-          <div @click="handleBlockClick('TextBlock')" class="blocks-list__item">Text</div>
-          <div @click="handleBlockClick('ImageBlock')" class="blocks-list__item">Image</div>
+        <div class="dialog-blocks-list">
+          <div @click="handleBlockClick('TextImageBlock')" class="dialog-blocks-list__item">Text/Image</div>
+          <div @click="handleBlockClick('TextBlock')" class="dialog-blocks-list__item">Text</div>
+          <div @click="handleBlockClick('ImageBlock')" class="dialog-blocks-list__item">Image</div>
         </div>
       </div>
     </div>
@@ -54,13 +54,13 @@ export default {
   cursor: pointer;
 }
 
-.blocks-list{
+.dialog-blocks-list{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
 }
 
-.blocks-list__item{
+.dialog-blocks-list__item{
   border: 2px solid var(--theme-color);
   height: 10rem;
   width: 10rem;

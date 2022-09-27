@@ -5,7 +5,8 @@ const defaultBlockValue = {
             image: {
                 url: '',
                 title: ''
-            }
+            },
+            reverse: false
         }
     },
     ImageBlock: () => {

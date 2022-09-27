@@ -111,11 +111,6 @@ export default {
 </script>
 
 <style lang="css">
-:root {
-  --theme-color: #6D36D0;
-  --active-color: #656565;
-}
-
 .ProseMirror {
   border: 2px solid var(--theme-color);
   padding: 1rem 1rem;

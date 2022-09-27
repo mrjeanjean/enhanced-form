@@ -42,7 +42,7 @@ export default {
 <style scoped>
 .image-field {
   position: relative;
-  background-color: #f2f2f2;
+  background-color: var(--theme-color-gray-200);
   min-height: 480px;
 }
 
@@ -75,7 +75,7 @@ export default {
   font-size: 80px;
   position: absolute;
   inset: 0;
-  color: #acacac;
+  color: var(--theme-color-gray-300);
 }
 
 .image-info {
@@ -83,7 +83,7 @@ export default {
   bottom: 0;
   right: 0;
   padding: 0.5rem;
-  background-color: #acacac;
+  background-color: var(--theme-color-secondary);
   color: #ffffff;
   font-size: 80%;
   font-style: italic;

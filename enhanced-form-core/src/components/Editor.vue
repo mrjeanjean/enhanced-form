@@ -1,29 +1,40 @@
 <template>
-  <div class="editor">
+  <div class="editor" :class="{'sidebar-is-open': isSidebarOpen}">
+    <div class="editor-options-menu">
+      <button type="button" @click="showBlockSelector" class="button">Add block</button>
+      <button
+          class="button editor-sidebar__button"
+          @click="setSidebarVisibility(!isSidebarOpen)"
+          type="button"
+      ><Icon icon="cog"/></button>
+    </div>
+
+    <div class="editor-body">
+      <div class="blocks-list">
+        <Block
+            v-for="(block, index) in blocks"
+            :key="block.id"
+            class="block"
+            :id="block.id"
+            :isFirst="index === 0"
+            :isLast="index >= blocks.length - 1"
+        >
+          <component
+              :is="block.type"
+              :content="block.content"
+              :key="index"
+              @onChange="onInputChange"
+              :id="block.id"
+          />
+        </Block>
+      </div>
+      <SidebarSettings/>
+    </div>
     <BlockSelectorModal ref="blockSelectorModalRef">
       <template v-slot:header>
         Select block
       </template>
     </BlockSelectorModal>
-    <button type="button" @click="showBlockSelector" class="button">Add block</button>
-    <div class="components-list">
-      <Block
-          v-for="(component, index) in components"
-          :key="component.id"
-          class="component"
-          :id="component.id"
-          :isFirst="index === 0"
-          :isLast="index >= components.length - 1"
-      >
-        <component
-            :is="component.type"
-            :content="component.content"
-            :key="index"
-            @onChange="onInputChange"
-            :id="component.id"
-        />
-      </Block>
-    </div>
   </div>
 </template>
 
@@ -35,6 +46,8 @@ import {getDefaultBlockValue} from "../blocks";
 import BlockSelectorModal from "./Modals/BlockSelectorModal.vue";
 import ImageBlock from "./Blocks/ImageBlock.vue";
 import Block from "./Blocks/Block.vue";
+import SidebarSettings from "./SidebarSettings.vue";
+import Icon from "./Icon.vue";
 
 export default {
   name: 'Editor',
@@ -43,7 +56,9 @@ export default {
     TextImageBlock,
     TextBlock,
     ImageBlock,
-    BlockSelectorModal
+    BlockSelectorModal,
+    SidebarSettings,
+    Icon
   },
   data: function () {
     return {
@@ -54,21 +69,21 @@ export default {
     onChange: Function
   },
   computed: {
-    ...mapGetters(['components'])
+    ...mapGetters(['blocks', 'currentBlock', 'isSidebarOpen'])
   },
   mounted() {
     this.blockSelectorModal = this.$refs.blockSelectorModalRef;
   },
   methods: {
-    ...mapActions(['add', 'edit']),
-    addComponent: function (type) {
+    ...mapActions(['add', 'edit', 'setSidebarVisibility']),
+    addBlock: function (type) {
 
       this.add({
         content: getDefaultBlockValue(type),
         type: type
       })
 
-      this.onChange(JSON.stringify(this.components));
+      this.onChange(JSON.stringify(this.blocks));
     },
     onInputChange: function ({id, content}) {
       this.edit({id, content});
@@ -77,29 +92,62 @@ export default {
       const value = await this.blockSelectorModal.show();
 
       if (value) {
-        this.addComponent(value);
+        this.addBlock(value);
       }
     }
   },
   watch: {
-    components: function () {
-      this.onChange(JSON.stringify(this.components));
+    blocks: function () {
+      this.onChange(JSON.stringify(this.blocks));
     }
   }
 
 }
 </script>
 
-<style lang="css">
-.editor{
+<style lang="css" scoped>
+.editor {
   margin-bottom: 2rem;
 }
 
-.components-list {
+.editor-options-menu{
+  display: flex;
+  justify-content: flex-start;
+  gap: 2px;
+  width: max-content;
+}
+
+.editor-body{
+  display: grid;
+  grid-template-columns: 1fr  0;
+}
+
+.editor.sidebar-is-open {
+  padding-right: var(--sidebar-width);
+}
+
+.blocks-list {
   margin-top: 2rem;
 }
 
-.component + .component {
+.block + .block {
   margin-top: 2rem;
+}
+
+.editor-sidebar__button{
+  width: var(--button-square-width);
+  height: var(--button-square-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  padding: 0;
+  background-color: var(--theme-color-secondary);
+  color: #ffffff;
+  z-index: 1;
+}
+
+.editor.sidebar-is-open .editor-sidebar__button{
+  background-color: var(--theme-color);
 }
 </style>
