@@ -24,15 +24,8 @@ export const attachEnhancedForm = ($input, options = {}) => {
 
     app.directive('click-outside', clickOutside);
 
-    // Lorem Picsum fallback
-    if (!options.hasOwnProperty('onBrowse')) {
-        options.onBrowse = (currentImage) => {
-            let id = Math.round(Math.random() * 100 + 100);
-            return Promise.resolve({
-                ...currentImage,
-                url: `https://picsum.photos/id/${id}/500/500`
-            })
-        }
+    if (!options.hasOwnProperty('onSelectFile')) {
+        console.warn('enhanced form warning: onSelectFile property is required for image contained blocks')
     }
 
     app.provide('options', options);

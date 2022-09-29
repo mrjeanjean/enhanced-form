@@ -15,3 +15,21 @@ export const InputMixin = {
         }
     }
 }
+
+export const ImageBlockMixin = {
+    inject: ['options'],
+    computed:{
+        imageOptions: function(){
+            if(
+                this.options &&
+                this.options.hasOwnProperty('imagesOptions') &&
+                this.options.imagesOptions.hasOwnProperty(this.$options.name)
+            ){
+                return {
+                    ...this.options.imagesOptions[this.$options.name]
+                }
+            }
+            return null
+        }
+    }
+}

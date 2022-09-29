@@ -4,13 +4,14 @@
         v-for="(image, index) in content.images"
         :image="image"
         @onChange="imageData => onBrowseHandler(index, imageData)"
+        :imageOptions="imageOptions"
     ></ImageField>
   </div>
 </template>
 
 <script>
 import ImageField from "../Fields/ImageField.vue";
-import {InputMixin} from "../../mixins";
+import {ImageBlockMixin, InputMixin} from "../../mixins";
 
 export default {
   name: "MultiImagesBlock",
@@ -18,7 +19,7 @@ export default {
     ImageField
   },
   emits: ["onChange"],
-  mixins: [InputMixin],
+  mixins: [InputMixin, ImageBlockMixin],
   methods: {
     onBrowseHandler: function(index, imageData){
       this.onInput(

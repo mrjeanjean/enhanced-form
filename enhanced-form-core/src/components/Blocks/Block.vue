@@ -17,6 +17,11 @@
           <Icon icon="angle-down"/>
         </button>
       </li>
+      <li class="item-push-down">
+        <button type="button" class="button" @click="select(id); setSidebarVisibility(true)">
+          <Icon icon="cog"/>
+        </button>
+      </li>
       <li>
         <button type="button" class="button" @click="remove(id)">
           <Icon icon="trash"/>
@@ -44,7 +49,7 @@ export default {
     ...mapGetters(['currentBlock'])
   },
   methods: {
-    ...mapActions(['remove', 'move', 'select']),
+    ...mapActions(['remove', 'move', 'select', 'setSidebarVisibility']),
     clickOutside: function () {
       if (this.currentBlock !== null && this.currentBlock.id === this.id) {
         this.select(null);
@@ -78,7 +83,7 @@ export default {
   gap: 2px;
 }
 
-.block__actions > :last-child {
+.block__actions > .item-push-down {
   margin-top: auto;
 }
 

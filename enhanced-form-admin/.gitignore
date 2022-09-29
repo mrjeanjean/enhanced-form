@@ -17,3 +17,4 @@
 ###< phpunit/phpunit ###
 
 /node_modules/
+/public/uploads/

@@ -1,0 +1,5 @@
+<div class="wrapper" style="display: grid; gap: 2rem; grid-template-columns: repeat({{ data.nbImages }}, 1fr)">
+    {% for i in range(0, data.nbImages|number_format - 1) %}
+        <img src="{{ data.images[i].url }}" alt="" class="image-full">
+    {% endfor %}
+</div>

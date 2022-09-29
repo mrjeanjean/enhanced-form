@@ -1,0 +1,13 @@
+<div class="wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+    {% if data.reverse is defined and data.reverse %}
+        <img src="{{ data.image.url }}" alt="" class="image-full">
+        <div class="block-content">
+            {{ data.text|raw }}
+        </div>
+    {% else %}
+        <div class="block-content">
+            {{ data.text|raw }}
+        </div>
+        <img src="{{ data.image.url }}" alt="" class="image-full">
+    {% endif %}
+</div>

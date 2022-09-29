@@ -1,40 +1,63 @@
 <template>
   <div class="image-field">
     <div class="image-container" v-show="!imageError">
-      <img :src="image.url" @error="this.imageError = true" @load="this.imageError = false">
+      <img :src="image.url" @error="onErrorHandler" @load="onLoadHandler">
     </div>
 
     <div class="image-placeholder" v-show="imageError">
       <icon icon="image"/>
     </div>
-    <button type="button" @click="onBrowseHandler" class="button-browse"></button>
+    <button type="button" @click="onSelectFileHandler" class="button-browse"></button>
     <div class="image-info" v-if="image.url !== ''">{{ image.url }}</div>
+    <Loader :isActive="isLoading"/>
   </div>
 </template>
 
 <script>
 
 import Icon from "../Icon.vue";
+import Loader from "../Loader.vue";
 
 export default {
   name: "ImageField",
   components: {
-    Icon
+    Icon,
+    Loader
+  },
+  props: {
+    image: Object,
+    imageOptions:{
+      type: Object,
+      required: false
+    }
   },
   data: function () {
     return {
-      imageError: false
+      imageError: false,
+      isLoading: false
     }
-  },
-  props: {
-    image: Object
   },
   emits: ['onChange'],
   inject: ['options'],
   methods: {
-    onBrowseHandler: async function(){
-      const image = await this.options.onBrowse(this.image);
-      this.$emit('onChange', image)
+    onSelectFileHandler: async function () {
+      const {image, error} = await this.options.onSelectFile({
+        beforeFetch: ()=>{
+          this.isLoading = true;
+        },
+        imageOptions: this.imageOptions
+      });
+      if (!error) {
+        this.$emit('onChange', image);
+      }
+    },
+    onLoadHandler: function(){
+      this.imageError = false;
+      this.isLoading = false;
+    },
+    onErrorHandler: function(){
+      this.imageError = true;
+      this.isLoading = false;
     }
   }
 }
