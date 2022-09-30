@@ -1,6 +1,7 @@
 {
   "name": "@moveo/enhanced-form-core",
-  "version": "0.1.0",
+  "private": false,
+  "version": "0.1.2",
   "main": "dist/enhancedForm.js",
   "type": "module",
   "scripts": {

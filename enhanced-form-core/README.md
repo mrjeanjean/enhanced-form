@@ -1,7 +1,87 @@
-# Vue 3 + Vite
+# JS Enhanced form
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+##Why?
+Wordpress Gutenberg is fun but Wordpress not.  
+Friendly editor interface you can use on every html form.
 
-## Recommended IDE Setup
+##Installation
+```
+npm i @moveo/enhanced-form-core
+```
+or
+```
+yarn add @moveo/enhanced-form-core
+```
+##Configuration
+```html
+<textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+```
+```js
+import {attachEnhancedForm} from "@moveo/enhanced-form-core";
+import '@moveo/enhanced-form-core/dist/style.css';
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+// Attach form to a textarea
+const enhancedForm = attachEnhancedForm(
+    document.getElementById("input-target"),
+    {
+        // A callback to handle file selection is required
+        // Here simply return a promise with fake image
+        onSelectFile: (options) => {
+            let id = Math.round(Math.random() * 100 + 100);
+            let width = options.imageOptions ? options.imageOptions.width : 500;
+            let height = options.imageOptions ? options.imageOptions.height : 500;
+            
+            return Promise.resolve({
+                image:{
+                    url: `https://picsum.photos/id/${id}/${width}/${height}`
+                }
+            });
+        }
+    }
+);
+
+// Don't forget to call the render method
+enhancedForm.render();
+```
+
+##Easy Way (for curious or lazy people)
+Use the temporary CDN resources. Here is a full ready to use html example.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/style.css">
+</head>
+<body>
+<h2>Form with editor</h2>
+<form action="#" method="GET">
+    <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+    <button type="submit">Save form</button>
+</form>
+<script type="module" defer>
+    import {attachEnhancedForm} from 'https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/enhancedForm.js';
+    const enhancedForm = attachEnhancedForm(
+        document.getElementById('input-target'),
+        {
+            onSelectFile: (options) => {
+                let id = Math.round(Math.random() * 100 + 100);
+                let width = options.imageOptions ? options.imageOptions.width : 500;
+                let height = options.imageOptions ? options.imageOptions.height : 500;
+
+                return Promise.resolve({
+                    image: {
+                        url: `https://picsum.photos/id/${id}/${width}/${height}`
+                    }
+                })
+            }
+        }
+    );
+
+    enhancedForm.render();
+</script>
+</body>
+</html>
+```
+

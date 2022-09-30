@@ -3,7 +3,7 @@ import {attachEnhancedForm} from "@moveo/enhanced-form-core";
 import {selectFile} from "@moveo/file-upload-manager";
 import '@moveo/enhanced-form-core/dist/style.css';
 
-attachEnhancedForm(
+const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
     {
         onSelectFile: (options) => {
@@ -33,5 +33,7 @@ attachEnhancedForm(
         }
     }
 );
+
+enhancedForm.render();
 
 
