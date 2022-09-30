@@ -6,14 +6,17 @@
 
 <script>
 import ImageField from "../Fields/ImageField.vue";
-import {ImageBlockMixin, InputMixin} from "../../mixins";
+import {InputMixin} from "../../mixins";
 
 export default {
   name: "ImageBlock",
   components: {
     ImageField
   },
-  mixins: [InputMixin, ImageBlockMixin],
+  props: {
+    imageOptions: Object
+  },
+  mixins: [InputMixin],
   methods: {
     onBrowseHandler: function (image) {
       this.onInput(

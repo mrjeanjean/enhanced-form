@@ -1,64 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Enhanced form - Simple form demo</title>
-      <style>
-          textarea{
-              width: 100%;
-              min-height: 300px;
-              display: none;
-          }
-      </style>
-  </head>
-  <body>
-  <h2>Form with editor</h2>
-  <form action="#" method="GET">
-      <p>
-          <label for="input-01">My first input</label>
-          <input type="text" id="input-01" name="input-01">
-      </p>
-      <p>
-          <label for="input-02">My second input</label>
-          <input type="text" id="input-02" name="input-02">
-      </p>
-      <div>
-          <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
-      </div>
-      <button type="submit">Save form</button>
-  </form>
-  <script type="module" defer>
-      import {attachEnhancedForm} from "./src/main";
-      attachEnhancedForm(
-          {
-              onSelectFile: (options) => {
-                  let id = Math.round(Math.random() * 100 + 100);
-                  let width = options.imageOptions ? options.imageOptions.width : 500;
-                  let height = options.imageOptions ? options.imageOptions.height : 500;
+    <style>
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            /*display: none;*/
+        }
+    </style>
+</head>
+<body>
+<h2>Form with editor</h2>
+<form action="#" method="GET">
+    <p>
+        <label for="input-01">My first input</label>
+        <input type="text" id="input-01" name="input-01">
+    </p>
+    <p>
+        <label for="input-02">My second input</label>
+        <input type="text" id="input-02" name="input-02">
+    </p>
+    <div>
+        <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit">Save form</button>
+</form>
+<script type="module" defer>
+    import {attachEnhancedForm} from "./src/main";
 
-                  return Promise.resolve({
-                      image:{
-                          url: `https://picsum.photos/id/${id}/${width}/${height}`
-                      }
-                  })
-              },
-              imagesOptions:{
-                  ImageBlock: {
-                      width: 600,
-                      height: 600
-                  },
-                  TextImageBlock: {
-                      width: 900,
-                      height: 600
-                  },
-                  MultiImagesBlock: {
-                      width: 600,
-                      height: 500
-                  }
-              }
-          }
-      );
-  </script>
-  </body>
+    const enhancedForm = attachEnhancedForm(
+        document.getElementById('input-target'),
+        {
+            onSelectFile: (options) => {
+                let id = Math.round(Math.random() * 100 + 100);
+                let width = options.imageOptions ? options.imageOptions.width : 500;
+                let height = options.imageOptions ? options.imageOptions.height : 500;
+
+                return Promise.resolve({
+                    image: {
+                        url: `https://picsum.photos/id/${id}/${width}/${height}`
+                    }
+                })
+            }
+        }
+    );
+
+    enhancedForm.editBlockProps('ImageBlock', {
+        imageOptions: {
+            width: 1240,
+            height: 640
+        }
+    });
+
+    enhancedForm.render();
+</script>
+</body>
 </html>

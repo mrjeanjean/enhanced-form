@@ -6,7 +6,9 @@
           class="button editor-sidebar__button"
           @click="setSidebarVisibility(!isSidebarOpen)"
           type="button"
-      ><Icon icon="cog"/></button>
+      >
+        <Icon icon="cog"/>
+      </button>
     </div>
 
     <div class="editor-body">
@@ -15,18 +17,11 @@
             v-for="(block, index) in blocks"
             :key="block.id"
             class="block"
-            :id="block.id"
+            :block="block"
             :isFirst="index === 0"
             :isLast="index >= blocks.length - 1"
-        >
-          <component
-              :is="block.type"
-              :content="block.content"
-              :key="index"
-              @onChange="onInputChange"
-              :id="block.id"
-          />
-        </Block>
+            :onInputChange="onInputChange"
+        />
       </div>
       <SidebarSettings/>
     </div>
@@ -40,12 +35,7 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import TextImageBlock from "./Blocks/TextImageBlock.vue";
-import TextBlock from "./Blocks/TextBlock.vue";
-import {getDefaultBlockValue} from "./Blocks/blocks";
 import BlockSelectorModal from "./Modals/BlockSelectorModal.vue";
-import ImageBlock from "./Blocks/ImageBlock.vue";
-import MultiImagesBlock from "./Blocks/MultiImagesBlock.vue";
 import Block from "./Blocks/Block.vue";
 import SidebarSettings from "./SidebarSettings.vue";
 import Icon from "./Icon.vue";
@@ -54,10 +44,6 @@ export default {
   name: 'Editor',
   components: {
     Block,
-    TextImageBlock,
-    TextBlock,
-    ImageBlock,
-    MultiImagesBlock,
     BlockSelectorModal,
     SidebarSettings,
     Icon
@@ -70,6 +56,7 @@ export default {
   props: {
     onChange: Function
   },
+  inject: ['blocksManager'],
   computed: {
     ...mapGetters(['blocks', 'currentBlock', 'isSidebarOpen'])
   },
@@ -79,9 +66,14 @@ export default {
   methods: {
     ...mapActions(['add', 'edit', 'setSidebarVisibility']),
     addBlock: function (type) {
+      const block = this.blocksManager.getBlock(type);
+
+      if(!block){
+        return;
+      }
 
       this.add({
-        content: getDefaultBlockValue(type),
+        content: block.content,
         type: type
       })
 
@@ -91,10 +83,10 @@ export default {
       this.edit({id, content});
     },
     showBlockSelector: async function () {
-      const value = await this.blockSelectorModal.show();
+      const type = await this.blockSelectorModal.show();
 
-      if (value) {
-        this.addBlock(value);
+      if (type) {
+        this.addBlock(type);
       }
     }
   },
@@ -112,20 +104,20 @@ export default {
   margin-bottom: 2rem;
 }
 
-.editor-options-menu{
+.editor-options-menu {
   display: flex;
   justify-content: flex-start;
   gap: 2px;
   width: max-content;
 }
 
-.editor-body{
+.editor-body {
   display: grid;
   grid-template-columns: 1fr  0;
 }
 
 .editor.sidebar-is-open {
-  padding-right: var(--sidebar-width);
+  padding-right: calc(var(--sidebar-width) + 2rem);
 }
 
 .blocks-list {
@@ -136,7 +128,7 @@ export default {
   margin-top: 2rem;
 }
 
-.editor-sidebar__button{
+.editor-sidebar__button {
   width: var(--button-square-width);
   height: var(--button-square-width);
   display: flex;
@@ -149,7 +141,7 @@ export default {
   z-index: 1;
 }
 
-.editor.sidebar-is-open .editor-sidebar__button{
+.editor.sidebar-is-open .editor-sidebar__button {
   background-color: var(--theme-color-secondary);
 }
 </style>
