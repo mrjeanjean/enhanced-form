@@ -53,15 +53,24 @@ Use the temporary CDN resources. Here is a full ready to use html example.
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Lato, sans-serif !important;
+        }
+    </style>
 </head>
 <body>
 <h2>Form with editor</h2>
 <form action="#" method="GET">
-    <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+    <div>
+        <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+    </div>
     <button type="submit">Save form</button>
 </form>
 <script type="module" defer>
     import {attachEnhancedForm} from 'https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/enhancedForm.js';
+
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
         {
@@ -84,4 +93,7 @@ Use the temporary CDN resources. Here is a full ready to use html example.
 </body>
 </html>
 ```
+
+## Documentation
+...coming soon
 
