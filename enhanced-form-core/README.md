@@ -56,7 +56,7 @@ Use the temporary CDN resources. Here is a full ready to use html example.
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Lato, sans-serif !important;
+            font-family: Lato, sans-serif;
         }
     </style>
 </head>
