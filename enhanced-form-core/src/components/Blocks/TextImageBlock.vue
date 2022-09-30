@@ -12,7 +12,7 @@
 <script>
 import TextEditorField from "../Fields/TextEditorField.vue";
 import ImageField from "../Fields/ImageField.vue";
-import {BrowseImageMixin, ImageBlockMixin, InputMixin} from "../../mixins";
+import {ImageBlockMixin, InputMixin} from "../../mixins";
 
 export default {
   name: "TextImageBlock",
