@@ -20,7 +20,7 @@ yarn add @moveo/enhanced-form-core
 import {attachEnhancedForm} from "@moveo/enhanced-form-core";
 import '@moveo/enhanced-form-core/dist/style.css';
 
-// Attach form to a textarea
+// Attach editor to the textarea
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
     {
@@ -93,6 +93,14 @@ Use the temporary CDN resources. Here is a full ready to use html example.
 </body>
 </html>
 ```
+
+## Pros
+- Easy to install
+- Works on every html form
+- Customisable (it should be...)
+
+## Cons
+- Data will be store as a json format. I could be bothersome in a database, depending on your needs.
 
 ## Documentation
 ...coming soon
