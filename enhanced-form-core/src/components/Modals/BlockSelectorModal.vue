@@ -2,15 +2,20 @@
   <div class="dialog__wrapper" v-show="visible">
     <div class="dialog dialog--prompt">
       <div class="dialog__header" v-if="hasHeaderSlot">
-        <div class="dialog__title"><slot name="header"></slot></div>
+        <div class="dialog__title">
+          <slot name="header"></slot>
+        </div>
         <button @click="onCancel()" class="dialog__close-button" type="button">×</button>
       </div>
       <div class="dialog__body">
         <div class="dialog-blocks-list">
-          <div @click="handleBlockClick('TextImageBlock')" class="dialog-blocks-list__item">Text/Image</div>
-          <div @click="handleBlockClick('TextBlock')" class="dialog-blocks-list__item">Text</div>
-          <div @click="handleBlockClick('ImageBlock')" class="dialog-blocks-list__item">Image</div>
-          <div @click="handleBlockClick('MultiImagesBlock')" class="dialog-blocks-list__item">Multi images</div>
+          <div
+              @click="handleBlockClick(block.name)"
+              class="dialog-blocks-list__item"
+              v-for="block in blocks"
+          >
+            {{ block.menuLabel }}
+          </div>
         </div>
       </div>
     </div>
@@ -25,13 +30,21 @@ import {ModalMixin} from "./modalMixin";
 export default {
   name: "BlockSelectorModal",
   mixins: [
-      ModalMixin
+    ModalMixin
+  ],
+  inject: [
+    'blocksManager'
   ],
   props: {
     placeholder: String
   },
+  data: function () {
+    return {
+      blocks: this.blocksManager.getBlocks()
+    }
+  },
   methods: {
-    handleBlockClick: function(type){
+    handleBlockClick: function (type) {
       this.value = type;
       this.onSelect();
     }
@@ -41,7 +54,7 @@ export default {
 
 <style lang="css" scoped>
 
-.dialog__close-button{
+.dialog__close-button {
   background-color: transparent;
   border: none;
   border-left: 2px solid #fff;
@@ -55,13 +68,13 @@ export default {
   cursor: pointer;
 }
 
-.dialog-blocks-list{
+.dialog-blocks-list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
 }
 
-.dialog-blocks-list__item{
+.dialog-blocks-list__item {
   border: 2px solid var(--theme-color);
   height: 10rem;
   width: 10rem;
@@ -72,7 +85,7 @@ export default {
   cursor: pointer;
 }
 
-.dialog__overlay{
+.dialog__overlay {
   cursor: pointer;
 }
 </style>

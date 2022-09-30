@@ -2,10 +2,11 @@
   "name": "enhanced-form-monorepo",
   "private": true,
   "scripts": {
-    "dev-core": "yarn --cwd enhanced-form-core/ run build --watch",
-    "dev-file-manager": "yarn --cwd file-upload-manager/ run build --watch",
-    "dev-examples": "yarn --cwd enhanced-form-examples/ run dev",
-    "dev-admin": "yarn --cwd enhanced-form-admin/ run dev"
+    "core-dev": "yarn --cwd enhanced-form-core/ run dev",
+    "core-build-watch": "yarn --cwd enhanced-form-core/ run build --watch",
+    "file-manager-build-watch": "yarn --cwd file-upload-manager/ run build --watch",
+    "examples": "yarn --cwd enhanced-form-examples/ run dev",
+    "admin": "yarn --cwd enhanced-form-admin/ run dev"
   },
   "workspaces": ["enhanced-form-examples", "enhanced-form-core", "file-upload-manager"]
 }

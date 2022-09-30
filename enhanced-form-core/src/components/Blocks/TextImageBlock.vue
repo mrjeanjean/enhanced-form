@@ -12,7 +12,7 @@
 <script>
 import TextEditorField from "../Fields/TextEditorField.vue";
 import ImageField from "../Fields/ImageField.vue";
-import {BrowseImageMixin, ImageBlockMixin, InputMixin} from "../../mixins";
+import {InputMixin} from "../../mixins";
 
 export default {
   name: "TextImageBlock",
@@ -20,7 +20,13 @@ export default {
     TextEditorField,
     ImageField
   },
-  mixins: [InputMixin, ImageBlockMixin],
+  props:{
+    imageOptions: Object
+  },
+  mixins: [InputMixin],
+  mounted: function(){
+    console.log(this.$props);
+  },
   methods: {
     onBrowseHandler: function(image){
       this.onInput({

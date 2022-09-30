@@ -12,7 +12,7 @@ class EnhancedFormType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'compound'   => false
+                'compound' => false
             ]
         );
     }

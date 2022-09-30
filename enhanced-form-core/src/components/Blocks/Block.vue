@@ -5,7 +5,14 @@
       @click="select(id)"
       v-click-outside="clickOutside"
   >
-    <slot></slot>
+    <component
+        :is="block.type"
+        :content="block.content"
+        @onChange="onInputChange"
+        :id="block.id"
+        v-bind="blockComponent.props"
+    />
+
     <ul class="block__actions">
       <li>
         <button type="button" class="button" @click="move({id, direction: 'up'})" :disabled="isFirst">
@@ -40,10 +47,18 @@ export default {
   components: {
     Icon
   },
+  inject: ['blocksManager'],
   props: {
-    id: String,
+    block: Object,
     isFirst: Boolean,
     isLast: Boolean,
+    onInputChange: Function
+  },
+  data: function () {
+    return {
+      id: this.block.id,
+      blockComponent: this.blocksManager.getBlock(this.block.type)
+    }
   },
   computed: {
     ...mapGetters(['currentBlock'])
@@ -69,7 +84,7 @@ export default {
   padding-right: 0;
 }
 
-.block.is-active{
+.block.is-active {
   box-shadow: #00000022 0 0 2rem;
 }
 

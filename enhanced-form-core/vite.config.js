@@ -14,4 +14,8 @@ export default defineConfig({
       fileName: () => 'enhancedForm.js',
     },
   },
+  esbuild: {
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment'
+  }
 })
