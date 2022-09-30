@@ -4,6 +4,9 @@
 Wordpress Gutenberg is fun but Wordpress not.  
 Friendly editor interface you can use on every html form.
 
+## Demo
+[Example on CodePen](https://codepen.io/mrjeanjean/pen/VwxXqNg)
+
 ## Installation
 ```
 npm i @moveo/enhanced-form-core
