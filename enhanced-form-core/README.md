@@ -1,10 +1,10 @@
 # JS Enhanced form
 
-##Why?
+## Why?
 Wordpress Gutenberg is fun but Wordpress not.  
 Friendly editor interface you can use on every html form.
 
-##Installation
+## Installation
 ```
 npm i @moveo/enhanced-form-core
 ```
@@ -12,7 +12,7 @@ or
 ```
 yarn add @moveo/enhanced-form-core
 ```
-##Configuration
+## Configuration
 ```html
 <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
 ```
@@ -44,7 +44,7 @@ const enhancedForm = attachEnhancedForm(
 enhancedForm.render();
 ```
 
-##Easy Way (for curious or lazy people)
+## Easy Way (for curious or lazy people)
 Use the temporary CDN resources. Here is a full ready to use html example.
 ```html
 <!DOCTYPE html>
