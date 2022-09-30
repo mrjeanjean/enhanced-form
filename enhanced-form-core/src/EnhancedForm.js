@@ -81,8 +81,8 @@ export class EnhancedForm {
                 settingsComponent: ImageBlockSettings,
                 props: {
                     imageOptions: {
-                        width: 900,
-                        height: 120
+                        width: 1800,
+                        height: 800
                     }
                 },
                 content: {

@@ -44,7 +44,7 @@ const enhancedForm = attachEnhancedForm(
 enhancedForm.render();
 ```
 
-## Easy Way (for curious or lazy people)
+## Easy Way (for curious or/and lazy people)
 Use the temporary CDN resources. Here is a full ready to use html example.
 ```html
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ Use the temporary CDN resources. Here is a full ready to use html example.
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@moveo/enhanced-form-core@0.1.3/dist/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -69,7 +69,7 @@ Use the temporary CDN resources. Here is a full ready to use html example.
     <button type="submit">Save form</button>
 </form>
 <script type="module" defer>
-    import {attachEnhancedForm} from 'https://unpkg.com/@moveo/enhanced-form-core@0.1.2/dist/enhancedForm.js';
+    import {attachEnhancedForm} from 'https://unpkg.com/@moveo/enhanced-form-core@0.1.3/dist/enhancedForm.js';
 
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
