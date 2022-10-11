@@ -1,43 +1,41 @@
 <template>
-  <div>
-    <div v-if="editor" class="editor-menu editor-menu--full">
-      <button @click.prevent="setLink" :class="{ 'is-active': editor.isActive('link') }">
-        <icon icon="link"/>
-      </button>
-      <button @click.prevent="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
-        <icon icon="link-slash"/>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleBold().run()"
-              :class="{ 'is-active': editor.isActive('bold') }">
-        <icon icon="bold"/>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleItalic().run()"
-              :class="{ 'is-active': editor.isActive('italic') }">
-        <icon icon="italic"/>
-      </button>
-      <button @click.prevent="editor.chain().focus().setParagraph().run()"
-              :class="{ 'is-active': editor.isActive('paragraph') }">
-        <icon icon="paragraph"/>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-              :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        <span>h1</span>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-              :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        <span>h2</span>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-              :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-        <span>h3</span>
-      </button>
-      <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
-              :class="{ 'is-active': editor.isActive('bulletList') }">
-        <icon icon="list-ul"/>
-      </button>
-    </div>
-    <editor-content :editor="editor" class="editor--full"/>
+  <div v-if="editor" class="editor-menu editor-menu--full">
+    <button @click.prevent="setLink" :class="{ 'is-active': editor.isActive('link') }">
+      <icon icon="link"/>
+    </button>
+    <button @click.prevent="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
+      <icon icon="link-slash"/>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleBold().run()"
+            :class="{ 'is-active': editor.isActive('bold') }">
+      <icon icon="bold"/>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleItalic().run()"
+            :class="{ 'is-active': editor.isActive('italic') }">
+      <icon icon="italic"/>
+    </button>
+    <button @click.prevent="editor.chain().focus().setParagraph().run()"
+            :class="{ 'is-active': editor.isActive('paragraph') }">
+      <icon icon="paragraph"/>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+      <span>h1</span>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+      <span>h2</span>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+      <span>h3</span>
+    </button>
+    <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
+            :class="{ 'is-active': editor.isActive('bulletList') }">
+      <icon icon="list-ul"/>
+    </button>
   </div>
+  <editor-content :editor="editor" class="editor--full"/>
   <PromptModal ref="linkModalRef" placeholder="http://....">
     <template v-slot:header>
       Type link url

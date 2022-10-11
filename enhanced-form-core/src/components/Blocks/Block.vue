@@ -108,9 +108,4 @@ export default {
   height: var(--button-square-width);
 }
 
-.block__actions .button:disabled {
-  background-color: var(--theme-color-gray-300);
-  border-color: var(--theme-color-gray-300);
-}
-
 </style>

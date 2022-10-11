@@ -1,5 +1,4 @@
 <template>
-  <div>
     <input
         type="text"
         :value="value"
@@ -9,7 +8,6 @@
         class="form-input"
         :disabled="disabled"
     >
-  </div>
 </template>
 
 <script>
@@ -40,10 +38,11 @@ export default {
 .form-input {
   all: unset;
   display: block;
-  outline: 2px solid var(--theme-color);
+  border: 2px solid var(--theme-color);
   padding: 1rem;
   font-size: inherit;
   box-sizing: inherit;
   width: 100%;
+  background-color: #ffffff;
 }
 </style>

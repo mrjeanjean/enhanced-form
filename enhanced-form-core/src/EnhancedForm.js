@@ -3,23 +3,17 @@ import {getStore} from "./store";
 import {parseJson} from "./utils";
 
 import {BlocksManager} from "./BlocksManager";
-import {imageType} from "./types";
 import {clickOutside} from "./directives";
 
 import Editor from "./components/Editor.vue";
 
 // Default blocks imports
-import ImageBlock from "./components/Blocks/ImageBlock.vue";
-import ImageBlockSettings from "./components/Blocks/ImageBlockSettings.vue";
-import TextBlock from "./components/Blocks/TextBlock.vue";
 import TextBlockSettings from "./components/Blocks/TextBlockSettings.vue";
 import TextImageBlock from "./components/Blocks/TextImageBlock.vue";
 import TextImageBlockSettings from "./components/Blocks/TextImageBlockSettings.vue";
-import MultiImagesBlock from "./components/Blocks/MultiImagesBlock.vue";
-import MultiImagesBlockSettings from "./components/Blocks/MultiImagesBlockSettings.vue";
 
 import CustomBlock from "./components/Blocks/CustomBlock.vue";
-import {createImageField, createTextField} from "./main";
+import {createImageField, createInputField, createRepeater, createTextField} from "./main";
 
 export class EnhancedForm {
     constructor($input, options) {
@@ -88,7 +82,7 @@ export class EnhancedForm {
             });
         }
 
-        if(settings){
+        if (settings) {
             this.blocksManager.editBlockContent(name, {
                 ...settings.value
             })
@@ -136,6 +130,19 @@ export class EnhancedForm {
                 }
             }
         );
+
+        this.createComponent(
+            {
+                name: 'Accordion',
+                menuLabel: 'Accordion',
+                fields: [
+                    createRepeater('items', [
+                        createInputField('title'),
+                        createTextField('text')
+                    ])
+                ]
+            }
+        )
 
         /*this.blocksManager.registerBlock(
             'MultiImagesBlock',

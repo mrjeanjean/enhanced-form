@@ -74,8 +74,13 @@ button:disabled {
     font-weight: 600;
 }
 
-.button:not(disabled):not(.button--outline):hover {
+.button:not(:disabled):not(.button--outline):hover {
     background-color: var(--theme-color-secondary);
+}
+
+.button:disabled {
+    background-color: var(--theme-color-gray-300);
+    border-color: var(--theme-color-gray-300);
 }
 
 .button--outline {

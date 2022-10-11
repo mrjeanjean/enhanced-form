@@ -28,7 +28,7 @@ export const createTextField = (name, options, value) => {
     return {
         name: name,
         type: 'TextEditorField',
-        default: value || '<p>Mon bloc</p>',
+        default: value || '',
         options
     };
 }
@@ -43,6 +43,17 @@ export const createImageField = (name, options, value) => {
         },
         options
     };
+}
+
+export const createRepeater = (name, fields = []) => {
+    return {
+        name: name,
+        type: 'RepeatField',
+        default: [],
+        options: {
+            fields: fields
+        }
+    }
 }
 
 export{
