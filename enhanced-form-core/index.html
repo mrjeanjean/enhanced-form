@@ -24,7 +24,75 @@
         <input type="text" id="input-02" name="input-02">
     </p>
     <div>
-        <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+        <textarea name="editor-content" id="input-target" cols="30" rows="10">[
+  {
+    "content": {
+      "images": [
+        [
+          {
+            "name": "image",
+            "type": "ImageField",
+            "content": {
+              "url": "https://picsum.photos/id/185/500/500"
+            }
+          }
+        ],
+        [
+          {
+            "name": "image",
+            "type": "ImageField",
+            "content": {
+              "url": "https://picsum.photos/id/112/500/500"
+            }
+          }
+        ],
+        [
+          {
+            "name": "image",
+            "type": "ImageField",
+            "content": {
+              "url": "https://picsum.photos/id/185/500/500"
+            }
+          }
+        ]
+      ]
+    },
+    "type": "MultiImages",
+    "id": "1gf3rhcp2037b4576078847"
+  },
+  {
+    "content": {
+      "items": [
+        [
+          {
+            "name": "title",
+            "type": "InputField",
+            "content": "dsds"
+          },
+          {
+            "name": "text",
+            "type": "TextEditorField",
+            "content": "<p>dsdsds</p>"
+          }
+        ],
+        [
+          {
+            "name": "title",
+            "type": "InputField",
+            "content": "dsds"
+          },
+          {
+            "name": "text",
+            "type": "TextEditorField",
+            "content": "<p>dsdsdsdsds</p>"
+          }
+        ]
+      ]
+    },
+    "type": "Accordion",
+    "id": "1gf3rth3g03bbc57b24c899"
+  }
+]</textarea>
     </div>
     <button type="submit">Save form</button>
 </form>
@@ -48,7 +116,7 @@
         }
     );
 
-    enhancedForm.editBlockProps('Image', {
+    /*enhancedForm.editBlockProps('Image', {
         imageOptions: {
             width: 1240,
             height: 250
@@ -76,7 +144,7 @@
                 createTextField('myText'),
             ]
         }
-    )
+    )*/
 
     enhancedForm.render();
 </script>

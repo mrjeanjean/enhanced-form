@@ -3,7 +3,7 @@
   <div class="setting-form__row">
     <div>Nb of images</div>
     <SpinnerField
-        :value="block.content.nbImages"
+        :value="block.content.size"
         @onChange="handleCheckboxChange"
         :min="2"
         :max="4"
@@ -14,6 +14,7 @@
 <script>
 import {imageType} from "../../types";
 import SpinnerField from "../Fields/SpinnerField.vue";
+import {toRaw} from "vue";
 
 export default {
   name: "MultiImagesBlockSettings",
@@ -27,7 +28,7 @@ export default {
   methods: {
     handleCheckboxChange: function (value) {
       const images = [];
-      for (let i = 0; i < value; i++) {
+      /*for (let i = 0; i < value; i++) {
         const image = this.block.content.images[i];
 
         if (image !== undefined) {
@@ -39,17 +40,19 @@ export default {
             ...imageType
           })
         }
-      }
+      }*/
 
       this.$emit('onChange', {
         id: this.block.id,
         content: {
           ...this.block.content,
-          nbImages: value,
-          images: images
+          size: value
         }
       })
     }
+  },
+  mounted() {
+    console.log(toRaw(this.$props));
   }
 }
 </script>

@@ -14,6 +14,7 @@ import TextImageBlockSettings from "./components/Blocks/TextImageBlockSettings.v
 
 import CustomBlock from "./components/Blocks/CustomBlock.vue";
 import {createImageField, createInputField, createRepeater, createTextField} from "./main";
+import MultiImagesBlockSettings from "./components/Blocks/MultiImagesBlockSettings.vue";
 
 export class EnhancedForm {
     constructor($input, options) {
@@ -66,7 +67,16 @@ export class EnhancedForm {
         this.blocksManager.editBlockContent(name, ...args);
     }
 
-    createComponent({name, menuLabel, fields, settings = null, component = null}) {
+    createComponent(
+        {
+            name,
+            menuLabel,
+            fields,
+            settings = null,
+            component = null
+        }
+    ) {
+        console.log(fields);
         this.blocksManager.registerBlock(name, {
             component: component || CustomBlock,
             menuLabel,
@@ -87,10 +97,12 @@ export class EnhancedForm {
                 ...settings.value
             })
         }
+
+        console.log(this.blocksManager.getBlock(name));
     }
 
     registerDefaultBlocks() {
-        this.createComponent(
+        /*this.createComponent(
             {
                 name: 'Text',
                 menuLabel: 'Text',
@@ -129,7 +141,7 @@ export class EnhancedForm {
                     }
                 }
             }
-        );
+        );*/
 
         this.createComponent(
             {
@@ -137,10 +149,32 @@ export class EnhancedForm {
                 menuLabel: 'Accordion',
                 fields: [
                     createRepeater('items', [
-                        createInputField('title'),
-                        createTextField('text')
-                    ])
+                            createInputField('title'),
+                            createTextField('text')
+                        ]
+                    )
                 ]
+            }
+        )
+
+        this.createComponent(
+            {
+                name: 'MultiImages',
+                menuLabel: 'Multi Images',
+                fields: [
+                    createRepeater(
+                        'images',
+                        [
+                            createImageField('image')
+                        ],
+                        {
+                            fixed: true,
+                            size: 3
+                        })
+                ],
+                settings: {
+                    component: MultiImagesBlockSettings,
+                }
             }
         )
 

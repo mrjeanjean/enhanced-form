@@ -45,18 +45,19 @@ export const createImageField = (name, options, value) => {
     };
 }
 
-export const createRepeater = (name, fields = []) => {
+export const createRepeater = (name, fields = [], options) => {
     return {
         name: name,
         type: 'RepeatField',
         default: [],
         options: {
-            fields: fields
+            fields: fields,
+            ...options
         }
     }
 }
 
-export{
+export {
     InputField,
     ImageField
 }

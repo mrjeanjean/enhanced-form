@@ -1,8 +1,8 @@
 <template>
-  <div class="repeater">
+  <div class="repeater" :class="{'columns' : isFixed}" :style="{'--nbColumns': nbColumns}">
     <div v-for="(line, index) in content" class="repeater-list__item">
       <div class="repeater__content">
-        <div class="repeater-list__title">#{{ index + 1 }}</div>
+        <div class="repeater-list__title" v-if="!isFixed">#{{ index + 1 }}</div>
         <div class="repeater__field" v-for="field in line" :key="field.name">
           <component
               :is="field.type"
@@ -11,7 +11,7 @@
           />
         </div>
       </div>
-      <div class="repeater__actions">
+      <div class="repeater__actions" v-if="!isFixed">
         <button
             class="button"
             type="button"
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div class="repeater__footer">
+  <div class="repeater__footer" v-if="!isFixed">
     <button type="button" class="button" @click="addItem">Add item
     </button>
   </div>
@@ -46,7 +46,24 @@ export default {
   },
   props: {
     fields: Array,
-    content: Object
+    content: Object,
+    options: Object,
+    fixed: {
+      type: Boolean,
+      default: false
+    },
+    size: {
+      type: Number,
+      default: 1
+    }
+  },
+  computed: {
+    isFixed: function () {
+      return this.fixed;
+    },
+    nbColumns: function () {
+      return this.size;
+    }
   },
   methods: {
     addItem: function () {
@@ -65,6 +82,18 @@ export default {
 
       content.push(line);
       this.$emit('onChange', content)
+    },
+    addItemDry: function () {
+      const line = [];
+      this.fields.forEach(field => {
+        line.push({
+          name: field.name,
+          type: field.type,
+          content: field.default
+        })
+      });
+
+      return line;
     },
     removeItem(index) {
       this.$emit(
@@ -89,18 +118,24 @@ export default {
     }
   },
   mounted() {
-    if (this.content.length <= 0) {
-      this.addItem();
+    if (this.size > this.content.length) {
+      let items = [];
+      for (let i = 0; i < this.size - this.content.length; i++) {
+        items.push(this.addItemDry());
+      }
+
+      this.$emit('onChange', items)
     }
   }
 }
 </script>
 
 <style scoped>
-.repeater{
-  /*display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;*/
+.repeater.columns {
+  --nbColumns: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--nbColumns), 1fr);
+  gap: 1rem;
 }
 
 .repeater-list__title {
@@ -108,7 +143,7 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.repeater-list__item + .repeater-list__item {
+.repeater:not(.columns) .repeater-list__item + .repeater-list__item {
   margin-top: 1rem;
 }
 
@@ -121,18 +156,19 @@ export default {
 }
 
 .repeater-list__item {
-  display: grid;
-  grid-template-columns: 1fr 60px;
+  display: flex;
   gap: 1rem;
   border: 2px solid var(--theme-color-gray-200);
 }
 
 .repeater__content {
   padding: 2rem;
+  flex: 1 0;
 }
 
 .repeater__actions {
   background-color: var(--theme-color-gray-200);
+  width: 60px;
 }
 
 .repeater__actions button {
