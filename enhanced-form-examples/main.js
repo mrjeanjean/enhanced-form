@@ -1,7 +1,8 @@
 import './style.css'
-import {attachEnhancedForm} from "@moveo/enhanced-form-core";
+import {attachEnhancedForm, createComponent} from "@moveo/enhanced-form-core";
 import {selectFile} from "@moveo/file-upload-manager";
 import '@moveo/enhanced-form-core/dist/style.css';
+import {imageType} from "@moveo/enhanced-form-core/src/types";
 
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
@@ -16,23 +17,27 @@ const enhancedForm = attachEnhancedForm(
                     url: `https://picsum.photos/id/${id}/${width}/${height}`
                 }
             })
-        },
-        imagesOptions:{
-            ImageBlock: {
-                width: 600,
-                height: 600
-            },
-            TextImageBlock: {
-                width: 900,
-                height: 600
-            },
-            MultiImagesBlock: {
-                width: 600,
-                height: 500
-            }
         }
     }
 );
+
+enhancedForm.registerBlock('NewTruc', {
+    component: createComponent(),
+    props: {
+        imageOptions: {
+            width: 500,
+            height: 800
+        }
+    },
+    content: {
+        text: '',
+        image: {
+            ...imageType
+        },
+        reverse: true
+    },
+    menuLabel: 'NewTruc'
+})
 
 enhancedForm.render();
 

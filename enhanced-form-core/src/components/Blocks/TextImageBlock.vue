@@ -1,10 +1,10 @@
 <template>
   <div class="text-image-container" v-if="!content.reverse">
     <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
-    <ImageField :image="content.image" @onChange="onBrowseHandler" :imageOptions="imageOptions"></ImageField>
+    <ImageField v-bind="content.image" @onChange="value=>onInput(value, 'image')" :imageOptions="imageOptions"></ImageField>
   </div>
   <div class="text-image-container" v-else>
-    <ImageField :image="content.image" @onChange="onBrowseHandler" :imageOptions="imageOptions"></ImageField>
+    <ImageField v-bind="content.image" @onChange="value=>onInput(value, 'image')" :imageOptions="imageOptions"></ImageField>
     <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
   </div>
 </template>
@@ -23,17 +23,7 @@ export default {
   props:{
     imageOptions: Object
   },
-  mixins: [InputMixin],
-  mounted: function(){
-    console.log(this.$props);
-  },
-  methods: {
-    onBrowseHandler: function(image){
-      this.onInput({
-        ...image
-      }, 'image')
-    }
-  }
+  mixins: [InputMixin]
 }
 </script>
 

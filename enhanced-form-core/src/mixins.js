@@ -3,6 +3,7 @@ export const InputMixin = {
         content: null,
         id: String
     },
+    emits: ['onChange'],
     methods: {
         onInput: function (value, fieldName) {
             this.$emit('onChange', {

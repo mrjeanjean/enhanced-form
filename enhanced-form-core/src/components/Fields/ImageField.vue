@@ -1,14 +1,14 @@
 <template>
   <div class="image-field">
     <div class="image-container" v-show="!imageError">
-      <img :src="image.url" @error="onErrorHandler" @load="onLoadHandler">
+      <img :src="url" @error="onErrorHandler" @load="onLoadHandler">
     </div>
 
     <div class="image-placeholder" v-show="imageError">
       <icon icon="image"/>
     </div>
     <button type="button" @click="onSelectFileHandler" class="button-browse"></button>
-    <div class="image-info" v-if="image.url !== ''">{{ image.url }}</div>
+    <div class="image-info" v-if="url !== ''">{{ url }}</div>
     <Loader :isActive="isLoading"/>
   </div>
 </template>
@@ -25,7 +25,8 @@ export default {
     Loader
   },
   props: {
-    image: Object,
+    url: String,
+    title: String,
     imageOptions:{
       type: Object,
       required: false

@@ -1,5 +1,8 @@
 <template>
-    <TextEditorField :value="content.text" @onChange="data => onInput(data, 'text')"></TextEditorField>
+    <TextEditorField
+        :value="content.text.value"
+        @onChange="data => onInput(data, 'text')"
+    ></TextEditorField>
 </template>
 
 <script>
@@ -17,6 +20,3 @@ export default {
   mixins: [InputMixin]
 }
 </script>
-
-<style scoped>
-</style>

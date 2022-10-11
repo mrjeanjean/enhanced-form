@@ -29,7 +29,7 @@
     <button type="submit">Save form</button>
 </form>
 <script type="module" defer>
-    import {attachEnhancedForm} from "./src/main";
+    import {attachEnhancedForm, createTextField, createImageField, createInputField} from "./src/main";
 
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
@@ -48,12 +48,35 @@
         }
     );
 
-    enhancedForm.editBlockProps('ImageBlock', {
+    enhancedForm.editBlockProps('Image', {
         imageOptions: {
             width: 1240,
-            height: 640
+            height: 250
         }
-    });
+    }, 'image');
+
+    enhancedForm.createComponent(
+        {
+            name: 'NewStuff',
+            menuLabel: 'New Stuff',
+            fields: [
+                createImageField('myImage'),
+                createTextField('myText',{}, '<p>value</p>'),
+                createInputField('myInput')
+            ]
+        }
+    )
+
+    enhancedForm.createComponent(
+        {
+            name: 'OtherStuff',
+            menuLabel: 'Other element',
+            fields: [
+                createInputField('myInput'),
+                createTextField('myText'),
+            ]
+        }
+    )
 
     enhancedForm.render();
 </script>

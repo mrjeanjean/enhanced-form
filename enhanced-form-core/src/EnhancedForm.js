@@ -18,6 +18,9 @@ import TextImageBlockSettings from "./components/Blocks/TextImageBlockSettings.v
 import MultiImagesBlock from "./components/Blocks/MultiImagesBlock.vue";
 import MultiImagesBlockSettings from "./components/Blocks/MultiImagesBlockSettings.vue";
 
+import CustomBlock from "./components/Blocks/CustomBlock.vue";
+import {createImageField, createTextField} from "./main";
+
 export class EnhancedForm {
     constructor($input, options) {
         this.$input = $input;
@@ -50,88 +53,91 @@ export class EnhancedForm {
     }
 
     updateInput(value) {
-        this.$input.value = value;
+        this.$input.value = JSON.stringify(JSON.parse(value), null, 2);
     }
 
     render() {
         this.app.mount(this.$appContainer);
     }
 
-    registerBlock(...args){
-        this.blocksManager.registerBlock(...args);
+    deregisterBlock(name) {
+        this.blocksManager.deregisterBlock(name);
     }
 
-    deregisterBlock(...args){
-        this.blocksManager.deregisterBlock(...args);
+    editBlockProps(name, ...args) {
+        this.blocksManager.editBlockProps(name, ...args);
     }
 
-    editBlockProps(...args){
-        this.blocksManager.editBlockProps(...args);
+    editBlockContent(name, ...args) {
+        this.blocksManager.editBlockContent(name, ...args);
     }
 
-    editBlockContent(...args){
-        this.blocksManager.editBlockContent(...args);
+    createComponent({name, menuLabel, fields, settings = null, component = null}) {
+        this.blocksManager.registerBlock(name, {
+            component: component || CustomBlock,
+            menuLabel,
+            props: {
+                fields,
+            },
+            settingsComponent: settings ? settings.component : null
+        })
+
+        for (let field of fields) {
+            this.blocksManager.editBlockContent(name, {
+                [field.name]: field.default
+            });
+        }
+
+        if(settings){
+            this.blocksManager.editBlockContent(name, {
+                ...settings.value
+            })
+        }
     }
 
     registerDefaultBlocks() {
-        this.blocksManager.registerBlock(
-            'ImageBlock',
+        this.createComponent(
             {
-                component: ImageBlock,
-                settingsComponent: ImageBlockSettings,
-                props: {
-                    imageOptions: {
-                        width: 1800,
-                        height: 800
-                    }
-                },
-                content: {
-                    text: '',
-                    image: {
-                        ...imageType
-                    },
-                    reverse: true
-                },
-                menuLabel: 'Image'
+                name: 'Text',
+                menuLabel: 'Text',
+                fields: [
+                    createTextField('text')
+                ],
+                settings: {
+                    component: TextBlockSettings
+                }
             }
         );
 
-        this.blocksManager.registerBlock(
-            'TextBlock',
+        this.createComponent(
             {
-                component: TextBlock,
-                settingsComponent: TextBlockSettings,
-                props: {},
-                content: {
-                    text: ''
-                },
-                menuLabel: 'Text'
+                name: 'Image',
+                menuLabel: 'Image',
+                fields: [
+                    createImageField('image')
+                ]
             }
         );
 
-        this.blocksManager.registerBlock(
-            'TextImageBlock',
+        this.createComponent(
             {
+                name: 'TextImage',
+                menuLabel: 'Image/Text',
                 component: TextImageBlock,
-                settingsComponent: TextImageBlockSettings,
-                props: {
-                    imageOptions: {
-                        width: 600,
-                        height: 600
+                fields: [
+                    createImageField('image'),
+                    createTextField('text')
+                ],
+                settings: {
+                    component: TextImageBlockSettings,
+                    value: {
+                        reverse: false
                     }
-                },
-                content: {
-                    text: '',
-                    image: {
-                        ...imageType
-                    },
-                    reverse: true
-                },
-                menuLabel: 'Image/Text'
+                }
             }
         );
 
-        this.blocksManager.registerBlock(
+        /*this.blocksManager.registerBlock(
             'MultiImagesBlock',
             {
                 component: MultiImagesBlock,
@@ -154,6 +160,6 @@ export class EnhancedForm {
                 },
                 menuLabel: 'Multi images'
             }
-        );
+        );*/
     }
 }

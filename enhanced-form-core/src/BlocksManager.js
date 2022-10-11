@@ -8,6 +8,7 @@ export class BlocksManager{
         // Add component name as option property (make toArray easier)
         options.name = name;
 
+
         if(this.blocks.has(name)){
             throw new Error(`Block with name '${name}' already exists in block list`)
         }
@@ -21,17 +22,27 @@ export class BlocksManager{
         this.blocks.delete(name);
     }
 
-    editBlockProps(name, props){
+    editBlockProps(name, props, fieldName = null){
         const block = this.blocks.get(name);
 
         if(!block){
             throw new Error(`Block with name '${name}' not exist in block list`);
         }
 
-        block.props = {
-            ...block.props,
-            ...props
-        };
+        if(block.component.name === 'CustomBlock'){
+            const field = block.props.fields.find(f=>f.name === fieldName);
+            if(field){
+                field.options = {
+                    ...field.options,
+                    ...props
+                }
+            }
+        }else{
+            block.props = {
+                ...block.props,
+                ...props
+            };
+        }
     }
 
     editBlockContent(name, value){

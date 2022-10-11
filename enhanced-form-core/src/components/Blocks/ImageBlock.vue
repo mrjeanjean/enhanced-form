@@ -1,6 +1,11 @@
 <template>
   <div class="image-container">
-    <ImageField :image="content.image" @onChange="onBrowseHandler" :imageOptions="imageOptions"></ImageField>
+    <ImageField
+        @onChange="value=>onInput(value, 'image')"
+        :imageOptions="imageOptions"
+        v-bind="content.image"
+        :url="content.image.url"
+    ></ImageField>
   </div>
 </template>
 
@@ -17,13 +22,7 @@ export default {
     imageOptions: Object
   },
   mixins: [InputMixin],
-  methods: {
-    onBrowseHandler: function (image) {
-      this.onInput(
-          {...image},
-          'image'
-      )
-    }
+  mounted() {
   }
 }
 </script>
