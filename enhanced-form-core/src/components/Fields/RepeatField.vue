@@ -1,6 +1,6 @@
 <template>
   <div class="repeater" :class="{'columns' : isFixed}" :style="{'--nbColumns': nbColumns}">
-    <div v-for="(line, index) in content" class="repeater-list__item">
+    <div v-for="(line, index) in fields" class="repeater-list__item">
       <div class="repeater__content">
         <div class="repeater-list__title" v-if="!isFixed">#{{ index + 1 }}</div>
         <div class="repeater__field" v-for="field in line" :key="field.name">
@@ -16,7 +16,7 @@
             class="button"
             type="button"
             @click="removeItem(index)"
-            :disabled="content.length <= 1"
+            :disabled="fields.length <= 1"
         >
           <Icon icon="trash"/>
         </button>
@@ -46,7 +46,7 @@ export default {
   },
   props: {
     fields: Array,
-    content: Object,
+    model: Object,
     options: Object,
     fixed: {
       type: Boolean,
@@ -67,25 +67,22 @@ export default {
   },
   methods: {
     addItem: function () {
-      const content = [
-        ...this.content
+      const fields = [
+        ...this.fields
       ];
 
-      const line = [];
-      this.fields.forEach(field => {
-        line.push({
-          name: field.name,
-          type: field.type,
-          content: field.default
-        })
-      });
+      fields.push(this.addItemDry());
 
-      content.push(line);
-      this.$emit('onChange', content)
+      this.$emit('onChange', {
+        fields,
+        fixed: this.fixed,
+        size: this.size
+      })
     },
     addItemDry: function () {
       const line = [];
-      this.fields.forEach(field => {
+
+      this.model.forEach(field => {
         line.push({
           name: field.name,
           type: field.type,
@@ -97,12 +94,15 @@ export default {
     },
     removeItem(index) {
       this.$emit(
-          'onChange',
-          this.content.filter((_, itemIndex) => index !== itemIndex)
+          'onChange', {
+            fields: this.fields.filter((_, itemIndex) => index !== itemIndex),
+            fixed: this.fixed,
+            size: this.size
+          }
       )
     },
     onChange: function (index, field, value) {
-      const content = this.content.map((line, lineIndex) => {
+      const fields = this.fields.map((line, lineIndex) => {
         if (index === lineIndex) {
           line.map(f => {
             if (f.name === field.name) {
@@ -114,17 +114,42 @@ export default {
         return line;
       });
 
-      this.$emit('onChange', content);
+      this.$emit('onChange', {
+        fields,
+        fixed: this.fixed,
+        size: this.size
+      })
+    },
+    adjustFields: function () {
+      const items = [];
+
+      for (let i = 0; i < this.size; i++) {
+        if (this.fields[i]) {
+          items.push(this.fields[i]);
+        } else {
+          items.push(this.addItemDry());
+        }
+      }
+
+      this.$emit('onChange', {
+        fields: items,
+        fixed: this.fixed,
+        size: this.size
+      })
     }
   },
   mounted() {
-    if (this.size > this.content.length) {
-      let items = [];
-      for (let i = 0; i < this.size - this.content.length; i++) {
-        items.push(this.addItemDry());
-      }
+    if (this.fixed && this.size !== this.fields.length) {
+      this.adjustFields();
+    }
 
-      this.$emit('onChange', items)
+    if(!this.fixed && this.fields.length <= 0){
+      this.adjustFields();
+    }
+  },
+  watch: {
+    size: function () {
+      this.adjustFields();
     }
   }
 }

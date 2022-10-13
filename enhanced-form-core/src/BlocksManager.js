@@ -7,6 +7,7 @@ export class BlocksManager{
     registerBlock(name, options){
         // Add component name as option property (make toArray easier)
         options.name = name;
+        options.settings = {};
 
 
         if(this.blocks.has(name)){
@@ -15,7 +16,6 @@ export class BlocksManager{
 
         this.blocks.set(name, options);
         this.vueApp.component(name, options.component);
-        this.vueApp.component(name + 'Settings', options.settingsComponent);
     }
 
     deregisterBlock(name){
@@ -56,6 +56,31 @@ export class BlocksManager{
             ...block.content,
             ...value
         };
+    }
+
+    editBlockSettings(name, field){
+        const block = this.blocks.get(name);
+
+        if(!block){
+            throw new Error(`Block with name '${name}' not exist in block list`);
+        }
+
+        if(!block.settings.hasOwnProperty(field.name)){
+            block.settings[field.name] = [];
+        }
+
+        // Handle setting with no label
+        for(let setting of field.settings){
+            if(!setting.hasOwnProperty('component')){
+                setting = {
+                    label: '',
+                    component: setting
+                }
+            }
+            block.settings[field.name].push({
+                ...setting
+            });
+        }
     }
 
     getBlocks(){

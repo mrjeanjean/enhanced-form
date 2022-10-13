@@ -3,7 +3,7 @@
   <div class="setting-form__row">
     <div>Nb of images</div>
     <SpinnerField
-        :value="block.content.size"
+        :value="block.content.images.size"
         @onChange="handleCheckboxChange"
         :min="2"
         :max="4"
@@ -22,7 +22,8 @@ export default {
     SpinnerField
   },
   props: {
-    block: Object
+    block: Object,
+    fieldName: String
   },
   emits: ['onChange'],
   methods: {
@@ -46,7 +47,10 @@ export default {
         id: this.block.id,
         content: {
           ...this.block.content,
-          size: value
+          [this.fieldName]: {
+            ...this.block.content.images,
+            size: value
+          }
         }
       })
     }

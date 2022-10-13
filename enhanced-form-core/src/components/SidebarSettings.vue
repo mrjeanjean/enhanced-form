@@ -1,14 +1,28 @@
 <template>
   <div class="editor-sidebar" :class="{'is-active' : isSidebarOpen}">
     <div class="editor-sidebar__inner">
-      <button type="button" class="sidebar-close-button" @click="setSidebarVisibility(false)"><Icon icon="xmark"/></button>
-      <component
-          :block="currentBlock"
-          :is="currentBlock.type + 'Settings'"
-          v-if="currentBlock !== null"
-          @onChange="onInputChange"
-      />
-      <div v-else><div class="block-settings__title">Page settings</div></div>
+      <button type="button" class="sidebar-close-button" @click="setSidebarVisibility(false)">
+        <Icon icon="xmark"/>
+      </button>
+      <div v-if="currentBlock !== null">
+        <div class="block-settings__title">{{ blockData.menuLabel }} settings</div>
+        <div v-for="(data, fieldName) in getSettings">
+
+          <div class="setting-form__row" :class="setting.type" v-for="(setting) in data">
+            <div>{{setting.label}}</div>
+            <component
+                :is="setting.component.type"
+                v-bind="currentBlock.content[fieldName][setting.component.name]"
+                :value="currentBlock.content[fieldName][setting.component.name]"
+                :image="currentBlock.content[fieldName][setting.component.name]"
+                @onChange="value=>onChange(fieldName, setting.component.name, value)"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="block-settings__title" v-if="!currentBlock">Page settings</div>
     </div>
   </div>
 </template>
@@ -20,6 +34,7 @@ import ImageBlockSettings from "./Blocks/ImageBlockSettings.vue";
 import TextImageBlockSettings from "./Blocks/TextImageBlockSettings.vue";
 import MultiImagesBlockSettings from "./Blocks/MultiImagesBlockSettings.vue";
 import Icon from "./Icon.vue";
+import Settings from "./Settings.vue";
 
 export default {
   name: "SidebarBlockSettings",
@@ -28,22 +43,41 @@ export default {
     TextBlockSettings,
     TextImageBlockSettings,
     MultiImagesBlockSettings,
-    Icon
+    Icon,
+    Settings
   },
-  data: function(){
-    return{
+  inject: ['blocksManager'],
+  data: function () {
+    return {
       isOpen: false
     }
   },
   computed: {
-    ...mapGetters(['currentBlock', 'isSidebarOpen'])
+    ...mapGetters(['currentBlock', 'isSidebarOpen']),
+    getSettings: function () {
+      const block = this.blocksManager.getBlock(this.currentBlock.type);
+      return block.settings
+    },
+    blockData: function () {
+      console.log(this.blocksManager.getBlock(this.currentBlock.type))
+      return this.blocksManager.getBlock(this.currentBlock.type);
+    }
   },
   methods: {
     ...mapActions(['edit', 'setSidebarVisibility']),
-    onInputChange: function ({id, content}) {
-      this.edit({id, content});
-    },
-  }
+    onChange: function (field, key, value) {
+      this.edit({
+        id: this.currentBlock.id,
+        content: {
+          ...this.currentBlock.content,
+          [field]: {
+            ...this.currentBlock.content[field],
+            [key]: value
+          }
+        }
+      })
+    }
+  },
 }
 </script>
 
@@ -56,7 +90,7 @@ export default {
   z-index: 999;
 }
 
-.sidebar-close-button{
+.sidebar-close-button {
   position: absolute;
   padding: 0;
   top: 0;
@@ -73,7 +107,7 @@ export default {
   font-size: 1.5rem;
 }
 
-.editor-sidebar__inner{
+.editor-sidebar__inner {
   background-color: #fff;
   padding: 2rem;
   box-shadow: #00000011 -0.5rem 0 15px;
@@ -86,7 +120,7 @@ export default {
   display: block;
 }
 
-::v-deep .block-settings__title{
+::v-deep .block-settings__title {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1;
@@ -98,7 +132,7 @@ export default {
   margin-top: -2rem;
 }
 
-::v-deep .block-settings__title:after{
+.block-settings__title:after {
   content: "";
   position: absolute;
   top: 100%;
@@ -108,9 +142,26 @@ export default {
   background-color: var(--theme-color-gray-200);
 }
 
-::v-deep .setting-form__row{
+.setting-form__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.setting-form__row + .setting-form__row{
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: var(--theme-color-gray-200) 1px solid;
+}
+
+.setting-form__row.ImageField,
+.setting-form__row.InputField{
+  display: block;
+}
+
+.setting-form__row.ImageField::v-deep .image-field{
+  min-height: auto;
+  aspect-ratio: 1;
 }
 </style>

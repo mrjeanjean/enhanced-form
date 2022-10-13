@@ -5,14 +5,12 @@ import './style.css'
 import {EnhancedForm} from "./EnhancedForm";
 import InputField from './components/Fields/InputField.vue';
 import ImageField from './components/Fields/ImageField.vue';
+import SpinnerField from './components/Fields/SpinnerField.vue';
 import {imageType} from "./types";
 
 export const attachEnhancedForm = ($input, options = {}) => {
     return new EnhancedForm($input, options);
 }
-
-export {createComponent} from "./blocks";
-
 
 export const createInputField = (name, options, value) => {
     return {
@@ -45,16 +43,37 @@ export const createImageField = (name, options, value) => {
     };
 }
 
-export const createRepeater = (name, fields = [], options) => {
+export const createRepeater = (name, fields = [], options, settings) => {
     return {
         name: name,
         type: 'RepeatField',
-        default: [],
-        options: {
-            fields: fields,
+        default: {
+            fields: [],
             ...options
-        }
-    }
+        },
+        options: {
+            model: fields
+        },
+        settings
+    };
+}
+
+export const createSpinnerField = (name, options, value) =>{
+    return {
+        name: name,
+        type: 'SpinnerField',
+        default: value || 0,
+        options
+    };
+}
+
+export const createSwitchField = (name, options, value) =>{
+    return {
+        name: name,
+        type: 'SwitchField',
+        default: value || false,
+        options
+    };
 }
 
 export {

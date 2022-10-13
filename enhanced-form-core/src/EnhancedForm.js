@@ -13,15 +13,33 @@ import TextImageBlock from "./components/Blocks/TextImageBlock.vue";
 import TextImageBlockSettings from "./components/Blocks/TextImageBlockSettings.vue";
 
 import CustomBlock from "./components/Blocks/CustomBlock.vue";
-import {createImageField, createInputField, createRepeater, createTextField} from "./main";
+import {
+    createImageField,
+    createInputField,
+    createRepeater,
+    createSpinnerField,
+    createSwitchField,
+    createTextField
+} from "./main";
 import MultiImagesBlockSettings from "./components/Blocks/MultiImagesBlockSettings.vue";
+
+
+// Import for fields registration
+// Should be may be moved
+import ImageField from "./components/Fields/ImageField.vue";
+import InputField from "./components/Fields/InputField.vue";
+import TextEditorField from "./components/Fields/TextEditorField.vue";
+import RepeatField from "./components/Fields/RepeatField.vue";
+import SpinnerField from "./components/Fields/SpinnerField.vue";
+import SwitchField from "./components/Fields/SwitchField.vue";
+import Settings from "./components/Settings.vue";
 
 export class EnhancedForm {
     constructor($input, options) {
         this.$input = $input;
 
         this.$appContainer = document.createElement('div');
-        $input.parentNode.insertBefore(this.$appContainer, $input);
+        $input.parentNode.insertAdjacentElement('beforebegin', this.$appContainer);
 
         this.updateInput = this.updateInput.bind(this);
 
@@ -45,6 +63,7 @@ export class EnhancedForm {
         this.app.provide('blocksManager', this.blocksManager);
 
         this.registerDefaultBlocks();
+        this.registerFields();
     }
 
     updateInput(value) {
@@ -76,33 +95,49 @@ export class EnhancedForm {
             component = null
         }
     ) {
-        console.log(fields);
         this.blocksManager.registerBlock(name, {
             component: component || CustomBlock,
             menuLabel,
             props: {
                 fields,
             },
-            settingsComponent: settings ? settings.component : null
+            settings
         })
 
         for (let field of fields) {
             this.blocksManager.editBlockContent(name, {
                 [field.name]: field.default
             });
+
+            if (field.props) {
+                for (const [key, value] of Object.entries(field.props)) {
+                    this.blocksManager.editBlockContent(name, {
+                        [key]: value
+                    });
+                }
+            }
+
+            if (field.settings) {
+                this.blocksManager.editBlockSettings(name, field)
+            }
         }
 
-        if (settings) {
+        /*if (settings) {
             this.blocksManager.editBlockContent(name, {
                 ...settings.value
             })
-        }
+        }*/
+    }
 
-        console.log(this.blocksManager.getBlock(name));
+    createSettings(fields) {
+        return {
+            component: Settings,
+            value: fields
+        };
     }
 
     registerDefaultBlocks() {
-        /*this.createComponent(
+        this.createComponent(
             {
                 name: 'Text',
                 menuLabel: 'Text',
@@ -115,7 +150,7 @@ export class EnhancedForm {
             }
         );
 
-        this.createComponent(
+        /*this.createComponent(
             {
                 name: 'Image',
                 menuLabel: 'Image',
@@ -123,9 +158,9 @@ export class EnhancedForm {
                     createImageField('image')
                 ]
             }
-        );
+        );*/
 
-        this.createComponent(
+        /*this.createComponent(
             {
                 name: 'TextImage',
                 menuLabel: 'Image/Text',
@@ -170,37 +205,25 @@ export class EnhancedForm {
                         {
                             fixed: true,
                             size: 3
-                        })
-                ],
-                settings: {
-                    component: MultiImagesBlockSettings,
-                }
+                        },
+                        [
+                            {
+                                label: 'Nb columns',
+                                component: createSpinnerField('size')
+                            }
+                        ]
+                    )
+                ]
             }
         )
+    }
 
-        /*this.blocksManager.registerBlock(
-            'MultiImagesBlock',
-            {
-                component: MultiImagesBlock,
-                settingsComponent: MultiImagesBlockSettings,
-                props: {
-                    imageOptions: {
-                        width: 600,
-                        height: 600
-                    }
-                },
-                content: {
-                    nbImages: 3,
-                    max: 4,
-                    min: 1,
-                    images: [
-                        {...imageType},
-                        {...imageType},
-                        {...imageType}
-                    ]
-                },
-                menuLabel: 'Multi images'
-            }
-        );*/
+    registerFields() {
+        this.app.component('ImageField', ImageField);
+        this.app.component('InputField', InputField);
+        this.app.component('TextEditorField', TextEditorField);
+        this.app.component('RepeatField', RepeatField);
+        this.app.component('SpinnerField', SpinnerField);
+        this.app.component('SwitchField', SwitchField);
     }
 }
