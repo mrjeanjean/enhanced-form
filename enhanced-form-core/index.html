@@ -15,89 +15,13 @@
 <body>
 <h2>Form with editor</h2>
 <form action="#" method="GET">
-    <p>
-        <label for="input-01">My first input</label>
-        <input type="text" id="input-01" name="input-01">
-    </p>
-    <p>
-        <label for="input-02">My second input</label>
-        <input type="text" id="input-02" name="input-02">
-    </p>
     <div>
-        <textarea name="editor-content" id="input-target" cols="30" rows="10">[
-  {
-    "content": {
-      "images": [
-        [
-          {
-            "name": "image",
-            "type": "ImageField",
-            "content": {
-              "url": "https://picsum.photos/id/185/500/500"
-            }
-          }
-        ],
-        [
-          {
-            "name": "image",
-            "type": "ImageField",
-            "content": {
-              "url": "https://picsum.photos/id/112/500/500"
-            }
-          }
-        ],
-        [
-          {
-            "name": "image",
-            "type": "ImageField",
-            "content": {
-              "url": "https://picsum.photos/id/185/500/500"
-            }
-          }
-        ]
-      ]
-    },
-    "type": "MultiImages",
-    "id": "1gf3rhcp2037b4576078847"
-  },
-  {
-    "content": {
-      "items": [
-        [
-          {
-            "name": "title",
-            "type": "InputField",
-            "content": "dsds"
-          },
-          {
-            "name": "text",
-            "type": "TextEditorField",
-            "content": "<p>dsdsds</p>"
-          }
-        ],
-        [
-          {
-            "name": "title",
-            "type": "InputField",
-            "content": "dsds"
-          },
-          {
-            "name": "text",
-            "type": "TextEditorField",
-            "content": "<p>dsdsdsdsds</p>"
-          }
-        ]
-      ]
-    },
-    "type": "Accordion",
-    "id": "1gf3rth3g03bbc57b24c899"
-  }
-]</textarea>
+        <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
     </div>
     <button type="submit">Save form</button>
 </form>
 <script type="module" defer>
-    import {attachEnhancedForm, createTextField, createImageField, createInputField} from "./src/main";
+    import {attachEnhancedForm, createTextField, createImageField, createInputField, createSpinnerField} from "./src/main";
 
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
@@ -116,35 +40,25 @@
         }
     );
 
-    /*enhancedForm.editBlockProps('Image', {
+    enhancedForm.editBlockProps('Image', {
         imageOptions: {
-            width: 1240,
-            height: 250
+            width: 800,
+            height: 600
         }
     }, 'image');
 
     enhancedForm.createComponent(
         {
-            name: 'NewStuff',
-            menuLabel: 'New Stuff',
+            name: 'Special',
+            menuLabel: 'Special',
             fields: [
-                createImageField('myImage'),
-                createTextField('myText',{}, '<p>value</p>'),
-                createInputField('myInput')
+                createSpinnerField('value', {
+                    min: 4,
+                    max: 6
+                }, 5)
             ]
         }
     )
-
-    enhancedForm.createComponent(
-        {
-            name: 'OtherStuff',
-            menuLabel: 'Other element',
-            fields: [
-                createInputField('myInput'),
-                createTextField('myText'),
-            ]
-        }
-    )*/
 
     enhancedForm.render();
 </script>

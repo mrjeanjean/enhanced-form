@@ -8,13 +8,12 @@
         <div class="block-settings__title">{{ blockData.menuLabel }} settings</div>
         <div v-for="(data, fieldName) in getSettings">
 
-          <div class="setting-form__row" :class="setting.type" v-for="(setting) in data">
-            <div>{{setting.label}}</div>
+          <div class="setting-form__row" :class="setting.component.type" v-for="(setting, index) in data">
+            <div>{{ setting.label }}</div>
             <component
                 :is="setting.component.type"
-                v-bind="currentBlock.content[fieldName][setting.component.name]"
+                v-bind="getSettingData(fieldName, setting)"
                 :value="currentBlock.content[fieldName][setting.component.name]"
-                :image="currentBlock.content[fieldName][setting.component.name]"
                 @onChange="value=>onChange(fieldName, setting.component.name, value)"
             />
           </div>
@@ -59,7 +58,6 @@ export default {
       return block.settings
     },
     blockData: function () {
-      console.log(this.blocksManager.getBlock(this.currentBlock.type))
       return this.blocksManager.getBlock(this.currentBlock.type);
     }
   },
@@ -76,6 +74,12 @@ export default {
           }
         }
       })
+    },
+    getSettingData: function (fieldName, setting) {
+      return {
+        ...this.currentBlock.content[fieldName][setting.component.name],
+        ...setting.component.options
+      }
     }
   },
 }
@@ -149,18 +153,18 @@ export default {
   flex-wrap: wrap;
 }
 
-.setting-form__row + .setting-form__row{
+.setting-form__row + .setting-form__row {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: var(--theme-color-gray-200) 1px solid;
 }
 
 .setting-form__row.ImageField,
-.setting-form__row.InputField{
+.setting-form__row.InputField {
   display: block;
 }
 
-.setting-form__row.ImageField::v-deep .image-field{
+.setting-form__row.ImageField::v-deep .image-field {
   min-height: auto;
   aspect-ratio: 1;
 }

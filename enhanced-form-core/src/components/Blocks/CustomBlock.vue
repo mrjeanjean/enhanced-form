@@ -4,6 +4,8 @@
       <component
           :is="field.type"
           v-bind="getData(field)"
+          :content="content"
+          :name="field.name"
           @onChange="value=>onInput(value, field.name)"
       ></component>
     </div>

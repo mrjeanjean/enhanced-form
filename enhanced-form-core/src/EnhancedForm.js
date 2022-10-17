@@ -16,13 +16,11 @@ import CustomBlock from "./components/Blocks/CustomBlock.vue";
 import {
     createImageField,
     createInputField,
-    createRepeater,
+    createRepeater, createRow,
     createSpinnerField,
     createSwitchField,
     createTextField
 } from "./main";
-import MultiImagesBlockSettings from "./components/Blocks/MultiImagesBlockSettings.vue";
-
 
 // Import for fields registration
 // Should be may be moved
@@ -33,6 +31,7 @@ import RepeatField from "./components/Fields/RepeatField.vue";
 import SpinnerField from "./components/Fields/SpinnerField.vue";
 import SwitchField from "./components/Fields/SwitchField.vue";
 import Settings from "./components/Settings.vue";
+import RowField from "./components/Fields/RowField.vue";
 
 export class EnhancedForm {
     constructor($input, options) {
@@ -90,19 +89,16 @@ export class EnhancedForm {
         {
             name,
             menuLabel,
-            fields,
-            settings = null,
-            component = null
+            fields
         }
     ) {
         this.blocksManager.registerBlock(name, {
-            component: component || CustomBlock,
+            component: CustomBlock,
             menuLabel,
             props: {
                 fields,
             },
-            settings
-        })
+        });
 
         for (let field of fields) {
             this.blocksManager.editBlockContent(name, {
@@ -121,19 +117,6 @@ export class EnhancedForm {
                 this.blocksManager.editBlockSettings(name, field)
             }
         }
-
-        /*if (settings) {
-            this.blocksManager.editBlockContent(name, {
-                ...settings.value
-            })
-        }*/
-    }
-
-    createSettings(fields) {
-        return {
-            component: Settings,
-            value: fields
-        };
     }
 
     registerDefaultBlocks() {
@@ -143,14 +126,11 @@ export class EnhancedForm {
                 menuLabel: 'Text',
                 fields: [
                     createTextField('text')
-                ],
-                settings: {
-                    component: TextBlockSettings
-                }
+                ]
             }
         );
 
-        /*this.createComponent(
+        this.createComponent(
             {
                 name: 'Image',
                 menuLabel: 'Image',
@@ -158,25 +138,7 @@ export class EnhancedForm {
                     createImageField('image')
                 ]
             }
-        );*/
-
-        /*this.createComponent(
-            {
-                name: 'TextImage',
-                menuLabel: 'Image/Text',
-                component: TextImageBlock,
-                fields: [
-                    createImageField('image'),
-                    createTextField('text')
-                ],
-                settings: {
-                    component: TextImageBlockSettings,
-                    value: {
-                        reverse: false
-                    }
-                }
-            }
-        );*/
+        );
 
         this.createComponent(
             {
@@ -209,13 +171,42 @@ export class EnhancedForm {
                         [
                             {
                                 label: 'Nb columns',
-                                component: createSpinnerField('size')
+                                component: createSpinnerField('size', {
+                                    min: 2,
+                                    max: 4
+                                })
                             }
                         ]
                     )
                 ]
             }
         )
+
+        this.createComponent(
+            {
+                name: 'TextImage',
+                menuLabel: 'Text/Image',
+                fields: [
+                    createRow(
+                        'items',
+                        [
+                            createTextField('monTexte'),
+                            createImageField('monImage')
+                        ],
+                        {
+                          reverse: false
+                        },
+                        [
+                            {
+                                label: 'Switch columns',
+                                component: createSwitchField('reverse')
+                            }
+                        ]
+                    )
+                ],
+            }
+        )
+
     }
 
     registerFields() {
@@ -225,5 +216,6 @@ export class EnhancedForm {
         this.app.component('RepeatField', RepeatField);
         this.app.component('SpinnerField', SpinnerField);
         this.app.component('SwitchField', SwitchField);
+        this.app.component('RowField', RowField);
     }
 }

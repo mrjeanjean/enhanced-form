@@ -58,7 +58,29 @@ export const createRepeater = (name, fields = [], options, settings) => {
     };
 }
 
-export const createSpinnerField = (name, options, value) =>{
+export const createRow = (name, fields, options, settings ) => {
+    const data = {};
+
+    for(let field of fields){
+        data[field.name] = field.default;
+    }
+
+    return {
+        name: name,
+        type: 'RowField',
+        default: {
+            reverse: false,
+            ...data,
+            ...options
+        },
+        options: {
+            model: fields
+        },
+        settings
+    };
+}
+
+export const createSpinnerField = (name, options, value) => {
     return {
         name: name,
         type: 'SpinnerField',
@@ -67,7 +89,7 @@ export const createSpinnerField = (name, options, value) =>{
     };
 }
 
-export const createSwitchField = (name, options, value) =>{
+export const createSwitchField = (name, options, value) => {
     return {
         name: name,
         type: 'SwitchField',
