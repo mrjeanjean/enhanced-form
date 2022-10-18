@@ -89,12 +89,14 @@ export class EnhancedForm {
         {
             name,
             menuLabel,
-            fields
+            fields,
+            icon = 'circle-question'
         }
     ) {
         this.blocksManager.registerBlock(name, {
             component: CustomBlock,
             menuLabel,
+            icon,
             props: {
                 fields,
             },
@@ -124,6 +126,7 @@ export class EnhancedForm {
             {
                 name: 'Text',
                 menuLabel: 'Text',
+                icon: 'align-left',
                 fields: [
                     createTextField('text')
                 ]
@@ -134,6 +137,10 @@ export class EnhancedForm {
             {
                 name: 'Image',
                 menuLabel: 'Image',
+                icon: {
+                    id: 'image',
+                    type: 'regular'
+                },
                 fields: [
                     createImageField('image')
                 ]
@@ -144,6 +151,7 @@ export class EnhancedForm {
             {
                 name: 'Accordion',
                 menuLabel: 'Accordion',
+                icon: 'grip-lines',
                 fields: [
                     createRepeater('items', [
                             createInputField('title'),
@@ -158,6 +166,10 @@ export class EnhancedForm {
             {
                 name: 'MultiImages',
                 menuLabel: 'Multi Images',
+                icon: {
+                    id: 'images',
+                    type: 'regular'
+                },
                 fields: [
                     createRepeater(
                         'images',
@@ -186,6 +198,13 @@ export class EnhancedForm {
             {
                 name: 'TextImage',
                 menuLabel: 'Text/Image',
+                icon: [
+                    'align-right',
+                    {
+                        id: 'image',
+                        type: 'regular'
+                    }
+                ],
                 fields: [
                     createRow(
                         'items',

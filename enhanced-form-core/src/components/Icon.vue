@@ -1,12 +1,16 @@
 <template>
-  <i class="fa-solid" :class="`fa-${icon}` "></i>
+  <i :class="`fa-${icon} ` + `fa-${type}`"></i>
 </template>
 
 <script>
 export default {
   name: "Icon",
   props:{
-    icon: String
+    icon: String,
+    type: {
+      type: String,
+      default: 'solid'
+    }
   }
 }
 </script>
