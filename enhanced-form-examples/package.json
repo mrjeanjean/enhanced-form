@@ -10,7 +10,7 @@
     "server": "php -S localhost:8383 -t server/"
   },
   "dependencies": {
-    "@moveo/enhanced-form-core": "0.1.4",
+    "@moveo/enhanced-form-core": "0.1.5",
     "@moveo/file-upload-manager": "0.1.0"
   },
   "devDependencies": {
