@@ -6,7 +6,7 @@
     <title>Enhanced form - Simple form demo</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body{
+        body {
             font-family: 'Lato', sans-serif;
         }
 
@@ -26,7 +26,14 @@
     <button type="submit">Save form</button>
 </form>
 <script type="module" defer>
-    import {attachEnhancedForm, createTextField, createImageField, createInputField, createSpinnerField} from "./src/main";
+    import {
+        attachEnhancedForm,
+        createTextField,
+        createImageField,
+        createInputField,
+        createSpinnerField,
+        createRow
+    } from "./src/main";
 
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
@@ -45,7 +52,7 @@
         }
     );
 
-    enhancedForm.editBlockProps('Image', {
+    /*enhancedForm.editBlockProps('Image', {
         imageOptions: {
             width: 800,
             height: 600
@@ -58,13 +65,27 @@
             menuLabel: 'Special',
             icon: 'rocket',
             fields: [
-                createSpinnerField('value', {
-                    min: 4,
-                    max: 6
-                }, 5)
+                createSpinnerField(
+                    'size',
+                    {
+                        min: 4,
+                        max: 6,
+                        value: 5
+                    }
+                ),
+                createInputField(
+                    'input',
+                    {
+                        value: 'Mon input'
+                    }
+                ),
+                createRow('columns', [
+                    createImageField('image'),
+                    createTextField('text'),
+                ])
             ]
         }
-    )
+    )*/
 
     enhancedForm.render();
 </script>

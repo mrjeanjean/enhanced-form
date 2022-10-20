@@ -1,3 +1,6 @@
+/**
+ * Register blocks in Map
+ */
 export class BlocksManager{
     constructor(vueApp){
         this.vueApp = vueApp;
@@ -69,14 +72,7 @@ export class BlocksManager{
             block.settings[field.name] = [];
         }
 
-        // Handle setting with no label
         for(let setting of field.settings){
-            if(!setting.hasOwnProperty('component')){
-                setting = {
-                    label: '',
-                    component: setting
-                }
-            }
             block.settings[field.name].push({
                 ...setting
             });

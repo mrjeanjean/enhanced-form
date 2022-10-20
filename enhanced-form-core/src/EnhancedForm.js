@@ -7,32 +7,13 @@ import {clickOutside} from "./directives";
 
 import Editor from "./components/Editor.vue";
 
-// Default blocks imports
-import TextBlockSettings from "./components/Blocks/TextBlockSettings.vue";
-import TextImageBlock from "./components/Blocks/TextImageBlock.vue";
-import TextImageBlockSettings from "./components/Blocks/TextImageBlockSettings.vue";
-
 import CustomBlock from "./components/Blocks/CustomBlock.vue";
-import {
-    createImageField,
-    createInputField,
-    createRepeater, createRow,
-    createSpinnerField,
-    createSwitchField,
-    createTextField
-} from "./main";
+import {registerDefaultBlocks} from "./blocks";
+import {registerDefaultFields} from "./fields";
 
-// Import for fields registration
-// Should be may be moved
-import ImageField from "./components/Fields/ImageField.vue";
-import InputField from "./components/Fields/InputField.vue";
-import TextEditorField from "./components/Fields/TextEditorField.vue";
-import RepeatField from "./components/Fields/RepeatField.vue";
-import SpinnerField from "./components/Fields/SpinnerField.vue";
-import SwitchField from "./components/Fields/SwitchField.vue";
-import Settings from "./components/Settings.vue";
-import RowField from "./components/Fields/RowField.vue";
-
+/**
+ * Main class to handle enhanced form creation and bind data with textarea
+ */
 export class EnhancedForm {
     constructor($input, options) {
         this.$input = $input;
@@ -61,8 +42,8 @@ export class EnhancedForm {
         this.app.provide('options', options);
         this.app.provide('blocksManager', this.blocksManager);
 
-        this.registerDefaultBlocks();
-        this.registerFields();
+        registerDefaultBlocks(this);
+        registerDefaultFields(this.app);
     }
 
     updateInput(value) {
@@ -93,6 +74,7 @@ export class EnhancedForm {
             icon = 'circle-question'
         }
     ) {
+
         this.blocksManager.registerBlock(name, {
             component: CustomBlock,
             menuLabel,
@@ -104,137 +86,12 @@ export class EnhancedForm {
 
         for (let field of fields) {
             this.blocksManager.editBlockContent(name, {
-                [field.name]: field.default
+                [field.name]: field.value
             });
-
-            if (field.props) {
-                for (const [key, value] of Object.entries(field.props)) {
-                    this.blocksManager.editBlockContent(name, {
-                        [key]: value
-                    });
-                }
-            }
 
             if (field.settings) {
                 this.blocksManager.editBlockSettings(name, field)
             }
         }
-    }
-
-    registerDefaultBlocks() {
-        this.createComponent(
-            {
-                name: 'Text',
-                menuLabel: 'Text',
-                icon: 'align-left',
-                fields: [
-                    createTextField('text')
-                ]
-            }
-        );
-
-        this.createComponent(
-            {
-                name: 'Image',
-                menuLabel: 'Image',
-                icon: {
-                    id: 'image',
-                    type: 'regular'
-                },
-                fields: [
-                    createImageField('image')
-                ]
-            }
-        );
-
-        this.createComponent(
-            {
-                name: 'Accordion',
-                menuLabel: 'Accordion',
-                icon: 'grip-lines',
-                fields: [
-                    createRepeater('items', [
-                            createInputField('title'),
-                            createTextField('text')
-                        ]
-                    )
-                ]
-            }
-        )
-
-        this.createComponent(
-            {
-                name: 'MultiImages',
-                menuLabel: 'Multi Images',
-                icon: {
-                    id: 'images',
-                    type: 'regular'
-                },
-                fields: [
-                    createRepeater(
-                        'images',
-                        [
-                            createImageField('image')
-                        ],
-                        {
-                            fixed: true,
-                            size: 3
-                        },
-                        [
-                            {
-                                label: 'Nb columns',
-                                component: createSpinnerField('size', {
-                                    min: 2,
-                                    max: 4
-                                })
-                            }
-                        ]
-                    )
-                ]
-            }
-        )
-
-        this.createComponent(
-            {
-                name: 'TextImage',
-                menuLabel: 'Text/Image',
-                icon: [
-                    'align-right',
-                    {
-                        id: 'image',
-                        type: 'regular'
-                    }
-                ],
-                fields: [
-                    createRow(
-                        'items',
-                        [
-                            createTextField('monTexte'),
-                            createImageField('monImage')
-                        ],
-                        {
-                          reverse: false
-                        },
-                        [
-                            {
-                                label: 'Switch columns',
-                                component: createSwitchField('reverse')
-                            }
-                        ]
-                    )
-                ],
-            }
-        )
-
-    }
-
-    registerFields() {
-        this.app.component('ImageField', ImageField);
-        this.app.component('InputField', InputField);
-        this.app.component('TextEditorField', TextEditorField);
-        this.app.component('RepeatField', RepeatField);
-        this.app.component('SpinnerField', SpinnerField);
-        this.app.component('SwitchField', SwitchField);
-        this.app.component('RowField', RowField);
     }
 }
