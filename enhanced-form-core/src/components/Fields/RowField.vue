@@ -39,7 +39,7 @@ export default {
         return this.model;
       }
 
-      return this.model.slice().reverse();;
+      return this.model.slice().reverse();
     }
   },
   methods: {

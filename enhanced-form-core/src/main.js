@@ -12,93 +12,119 @@ export const attachEnhancedForm = ($input, options = {}) => {
     return new EnhancedForm($input, options);
 }
 
-export const createInputField = (name, options, value) => {
+/**
+ *  Field wrapper
+ */
+function createField (
+    {
+        options,
+        value,
+        ...rest
+    }
+){
+    const settings = [];
+
+    function addSetting(component, label = ''){
+        settings.push({
+            label,
+            component
+        });
+        return this;
+    }
+
+    value = (options && options.value) ? options.value : value;
+
     return {
+        addSetting,
+        ...rest,
+        settings,
+        value,
+        options
+    };
+}
+
+
+/**
+ * Fields factories
+ */
+export const createInputField = (name, options) => {
+    return createField({
         name: name,
         type: 'InputField',
-        default: value || '',
-        options
-    };
+        value: '',
+        options,
+    });
 }
 
-
-export const createTextField = (name, options, value) => {
-    return {
+export const createTextField = (name, options) => {
+    return createField({
         name: name,
         type: 'TextEditorField',
-        default: value || '',
+        value: '',
         options
-    };
+    });
 }
 
-export const createImageField = (name, options, value) => {
-    return {
+export const createImageField = (name, options) => {
+    return createField({
         name: name,
         type: 'ImageField',
-        default: {
-            ...imageType,
-            ...value
+        value: {
+            ...imageType
         },
         options
-    };
+    });
 }
 
-export const createRepeater = (name, fields = [], options, settings) => {
-    return {
+export const createSpinnerField = (name, options) => {
+    return createField({
+        name: name,
+        type: 'SpinnerField',
+        value: 0,
+        options
+    });
+}
+
+export const createSwitchField = (name, options) => {
+    return createField({
+        name: name,
+        type: 'SwitchField',
+        value: false,
+        options
+    });
+}
+
+export const createRepeater = (name, model = [], options) => {
+    return createField({
         name: name,
         type: 'RepeatField',
-        default: {
+        value: {
             fields: [],
             ...options
         },
         options: {
-            model: fields
-        },
-        settings
-    };
+            model
+        }
+    });
 }
 
-export const createRow = (name, fields, options, settings ) => {
+export const createRow = (name, model, options) => {
     const data = {};
 
-    for(let field of fields){
-        data[field.name] = field.default;
+    for (let field of model) {
+        data[field.name] = field.value;
     }
 
-    return {
+    return createField({
         name: name,
         type: 'RowField',
-        default: {
+        value: {
             reverse: false,
             ...data,
             ...options
         },
         options: {
-            model: fields
-        },
-        settings
-    };
-}
-
-export const createSpinnerField = (name, options, value) => {
-    return {
-        name: name,
-        type: 'SpinnerField',
-        default: value || 0,
-        options
-    };
-}
-
-export const createSwitchField = (name, options, value) => {
-    return {
-        name: name,
-        type: 'SwitchField',
-        default: value || false,
-        options
-    };
-}
-
-export {
-    InputField,
-    ImageField
+            model
+        }
+    });
 }

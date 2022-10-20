@@ -3,10 +3,10 @@
     <div v-for="(line, index) in fields" class="repeater-list__item">
       <div class="repeater__content">
         <div class="repeater-list__title" v-if="!isFixed">#{{ index + 1 }}</div>
-        <div class="repeater__field" v-for="field in line" :key="field.name">
+        <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
           <component
               :is="field.type"
-              v-bind="typeof field.content === 'object' ? {...field.content} : {value: field.content}"
+              v-bind="typeof field.content === 'object' ? {...model[fieldIndex].options, ...field.content} : {...model[fieldIndex].options, value: field.content}"
               @onChange="v => onChange(index, field, v)"
           />
         </div>
@@ -86,7 +86,7 @@ export default {
         line.push({
           name: field.name,
           type: field.type,
-          content: field.default
+          content: field.value
         })
       });
 
