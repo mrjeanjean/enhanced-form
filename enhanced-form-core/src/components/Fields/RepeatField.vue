@@ -6,8 +6,8 @@
         <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
           <component
               :is="field.type"
-              v-bind="typeof field.content === 'object' ? {...model[fieldIndex].options, ...field.content} : {...model[fieldIndex].options, value: field.content}"
-              @onChange="v => onChange(index, field, v)"
+              v-bind="typeof field.content !== 'string' ? { ...field.content} : {value: field.content}"
+              @onChange="v => onChange(index, fieldIndex, v)"
           />
         </div>
       </div>
@@ -35,6 +35,8 @@ import InputField from "../Fields/InputField.vue";
 import TextEditorField from "../Fields/TextEditorField.vue";
 import Icon from "../Icon.vue";
 
+console.log('HERE YO!')
+
 export default {
   name: "RepeatField",
   emits: ['onChange'],
@@ -55,7 +57,9 @@ export default {
     size: {
       type: Number,
       default: 1
-    }
+    },
+    content: Object,
+    name: String
   },
   computed: {
     isFixed: function () {
@@ -80,14 +84,14 @@ export default {
       })
     },
     addItemDry: function () {
-      const line = [];
+      const line = {};
 
       this.model.forEach(field => {
-        line.push({
+        line[field.name] = {
           name: field.name,
           type: field.type,
           content: field.value
-        })
+        }
       });
 
       return line;
@@ -101,16 +105,14 @@ export default {
           }
       )
     },
-    onChange: function (index, field, value) {
+    onChange: function (index, fieldIndex, value) {
       const fields = this.fields.map((line, lineIndex) => {
+        line = JSON.parse(JSON.stringify(line));
+
         if (index === lineIndex) {
-          line.map(f => {
-            if (f.name === field.name) {
-              f.content = value;
-            }
-            return f
-          })
+          line[fieldIndex].content = value;
         }
+
         return line;
       });
 
@@ -143,7 +145,7 @@ export default {
       this.adjustFields();
     }
 
-    if(!this.fixed && this.fields.length <= 0){
+    if (!this.fixed && this.fields.length <= 0) {
       this.adjustFields();
     }
   },

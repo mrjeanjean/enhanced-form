@@ -64,7 +64,7 @@ export function registerDefaultBlocks(enhancedForm) {
                 createRepeater(
                     'images',
                     [
-                        createImageField('image')
+                        createImageField('image'),
                     ],
                     {
                         fixed: true,
@@ -98,8 +98,8 @@ export function registerDefaultBlocks(enhancedForm) {
                 createRow(
                     'data',
                     [
-                        createTextField('monTexte'),
-                        createImageField('monImage')
+                        createTextField('text'),
+                        createImageField('image')
                     ]
                 )
                     .addSetting(

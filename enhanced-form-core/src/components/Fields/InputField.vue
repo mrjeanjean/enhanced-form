@@ -1,4 +1,5 @@
 <template>
+  <div>
     <input
         type="text"
         :value="value"
@@ -8,6 +9,7 @@
         class="form-input"
         :disabled="disabled"
     >
+  </div>
 </template>
 
 <script>
