@@ -1,4 +1,4 @@
-:root {
+.editor {
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 1.2;
@@ -30,6 +30,8 @@ button:focus,
 a:focus {
     outline: none;
 }
+
+.editor {
 
 a {
     font-weight: 500;
@@ -145,4 +147,6 @@ button:disabled {
     padding: 2rem;
     display: flex;
     justify-content: space-between;
+}
+
 }

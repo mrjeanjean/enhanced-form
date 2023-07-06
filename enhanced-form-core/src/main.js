@@ -1,6 +1,4 @@
-import '@fortawesome/fontawesome-free/css/all.css'
-import '@fortawesome/fontawesome-free/js/all.js'
-import './style.css'
+import './style.scss'
 
 import {EnhancedForm} from "./EnhancedForm";
 import InputField from './components/Fields/InputField.vue';

@@ -25,10 +25,12 @@ export default {
   methods: {
     getData: function (field) {
       let value = this.content[field.name];
-
       value = typeof value === 'object' ? {...value} : {value: value}
       return {...field.options, ...value};
     }
+  },
+  mounted() {
+    //console.log(JSON.parse(JSON.stringify(this.$props)))
   }
 }
 </script>

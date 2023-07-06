@@ -7,7 +7,7 @@
     "dev": "node esbuild"
   },
   "dependencies": {
-    "@moveo/enhanced-form-core": "0.1.0",
+    "@moveo/enhanced-form-core": "0.1.5",
     "@moveo/file-upload-manager": "0.1.0"
   },
   "devDependencies": {

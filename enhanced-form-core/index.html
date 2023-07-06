@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Enhanced form - Simple form demo</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
     <style>
         body {
             font-family: 'Lato', sans-serif;
@@ -40,24 +41,26 @@
         {
             onSelectFile: (options) => {
                 let id = Math.round(Math.random() * 100 + 100);
-                let width = options.imageOptions ? options.imageOptions.width : 500;
-                let height = options.imageOptions ? options.imageOptions.height : 500;
+                let width = options.imageOptions.width ? options.imageOptions.width : 500;
+                let height = options.imageOptions.height ? options.imageOptions.height : 500;
 
                 return Promise.resolve({
                     image: {
-                        url: `https://picsum.photos/id/${id}/${width}/${height}`
+                        url: `${id}/${width}/${height}`
                     }
                 })
-            }
+            },
+            imagesFolder: 'https://picsum.photos/id/'
         }
     );
 
     /*enhancedForm.editBlockProps('Image', {
-        imageOptions: {
+        size: {
             width: 800,
-            height: 600
+            height: 20
         }
-    }, 'image');
+    }, 'image');*/
+
 
     enhancedForm.createComponent(
         {
@@ -85,7 +88,7 @@
                 ])
             ]
         }
-    )*/
+    )
 
     enhancedForm.render();
 </script>

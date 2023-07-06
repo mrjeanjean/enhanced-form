@@ -21,9 +21,7 @@ export default {
   props: {
     imageOptions: Object
   },
-  mixins: [InputMixin],
-  mounted() {
-  }
+  mixins: [InputMixin]
 }
 </script>
 

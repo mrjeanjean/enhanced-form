@@ -1,7 +1,7 @@
 <template>
-  <div class="image-field">
+  <div class="image-field" :style="{aspectRatio: aspectRatio}">
     <div class="image-container" v-show="!imageError">
-      <img :src="url" @error="onErrorHandler" @load="onLoadHandler">
+      <img :src="imagePath" @error="onErrorHandler" @load="onLoadHandler">
     </div>
 
     <div class="image-placeholder" v-show="imageError">
@@ -27,9 +27,13 @@ export default {
   props: {
     url: String,
     title: String,
-    imageOptions:{
+    size: {
       type: Object,
-      required: false
+      required: false,
+      default: {
+        height: 800,
+        width: 600
+      }
     }
   },
   data: function () {
@@ -40,13 +44,30 @@ export default {
   },
   emits: ['onChange'],
   inject: ['options'],
+  computed: {
+    imagePath: function(){
+      return this.options.imagesFolder + this.url
+    },
+    aspectRatio: function(){
+
+
+
+      if(!this.size.height || !this.size.width){
+        return 800 / 300
+      }
+
+      return this.size.height / this.size.width;
+    }
+  },
   methods: {
     onSelectFileHandler: async function () {
       const {image, error} = await this.options.onSelectFile({
         beforeFetch: ()=>{
           this.isLoading = true;
         },
-        imageOptions: this.imageOptions
+        imageOptions: {
+          ...this.size
+        }
       });
       if (!error) {
         this.$emit('onChange', image);
@@ -68,7 +89,6 @@ export default {
 .image-field {
   position: relative;
   background-color: var(--theme-color-gray-200);
-  min-height: 480px;
 }
 
 .button-browse {

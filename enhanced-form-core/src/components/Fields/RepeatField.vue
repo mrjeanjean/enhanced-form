@@ -6,7 +6,7 @@
         <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
           <component
               :is="field.type"
-              v-bind="typeof field.content !== 'string' ? { ...field.content} : {value: field.content}"
+              v-bind="getFieldData(field)"
               @onChange="v => onChange(index, fieldIndex, v)"
           />
         </div>
@@ -34,8 +34,7 @@ import ImageField from "../Fields/ImageField.vue";
 import InputField from "../Fields/InputField.vue";
 import TextEditorField from "../Fields/TextEditorField.vue";
 import Icon from "../Icon.vue";
-
-console.log('HERE YO!')
+import {unWrap} from "../../utils.js";
 
 export default {
   name: "RepeatField",
@@ -87,10 +86,12 @@ export default {
       const line = {};
 
       this.model.forEach(field => {
+        const value = typeof field.value === 'object' ? {...field.value} : {value: field.value}
+
         line[field.name] = {
           name: field.name,
           type: field.type,
-          content: field.value
+          content: {...field.options, ...value}
         }
       });
 
@@ -138,6 +139,12 @@ export default {
         fixed: this.fixed,
         size: this.size
       })
+    },
+    getFieldData: function (field) {
+      const fieldModel = this.model.find(model => field.name === model.name);
+      let value = field.content;
+      value = typeof value === 'object' ? {...value} : {value: value}
+      return {...value, ...fieldModel.options};
     }
   },
   mounted() {
@@ -148,6 +155,9 @@ export default {
     if (!this.fixed && this.fields.length <= 0) {
       this.adjustFields();
     }
+  },
+  updated() {
+    //console.log(unWrap(this.$props));
   },
   watch: {
     size: function () {
@@ -189,7 +199,7 @@ export default {
 }
 
 .repeater__content {
-  padding: 2rem;
+  padding: 1rem;
   flex: 1 0;
 }
 

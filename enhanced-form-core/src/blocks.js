@@ -32,7 +32,12 @@ export function registerDefaultBlocks(enhancedForm) {
                 type: 'regular'
             },
             fields: [
-                createImageField('image')
+                createImageField('image', {
+                    size: {
+                        width: 600,
+                        height: null
+                    }
+                })
             ]
         }
     );
@@ -64,7 +69,12 @@ export function registerDefaultBlocks(enhancedForm) {
                 createRepeater(
                     'images',
                     [
-                        createImageField('image'),
+                        createImageField('image', {
+                            size: {
+                                width: 600,
+                                height: 600
+                            }
+                        }),
                     ],
                     {
                         fixed: true,
@@ -82,6 +92,7 @@ export function registerDefaultBlocks(enhancedForm) {
             ]
         }
     )
+
 
     enhancedForm.createComponent(
         {
