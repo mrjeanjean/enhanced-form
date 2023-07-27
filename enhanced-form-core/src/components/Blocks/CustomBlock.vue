@@ -6,6 +6,7 @@
           v-bind="getData(field)"
           :content="content"
           :name="field.name"
+          :class="field.type"
           @onChange="value=>onInput(value, field.name)"
       ></component>
     </div>

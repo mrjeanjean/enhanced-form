@@ -1,15 +1,15 @@
 import {createApp} from "vue";
-import {getStore} from "./store";
-import {parseJson} from "./utils";
+import {getStore} from "./store.js";
+import {parseJson} from "./utils.js";
 
-import {BlocksManager} from "./BlocksManager";
-import {clickOutside} from "./directives";
+import {BlocksManager} from "./BlocksManager.js";
+import {clickOutside} from "./directives.js";
 
 import Editor from "./components/Editor.vue";
 
 import CustomBlock from "./components/Blocks/CustomBlock.vue";
-import {registerDefaultBlocks} from "./blocks";
-import {registerDefaultFields} from "./fields";
+import {registerDefaultBlocks} from "./blocks.js";
+import {registerDefaultFields} from "./fields.js";
 
 /**
  * Main class to handle enhanced form creation and bind data with textarea
@@ -26,12 +26,18 @@ export class EnhancedForm {
         this.app = createApp(
             Editor,
             {
-                onChange: this.updateInput
+                onChange: this.updateInput,
             }
         );
 
         this.app.use(getStore(parseJson($input.value)));
         this.app.directive('click-outside', clickOutside);
+
+        options = {
+            ...options,
+            allowAddBlock: options.allowAddBlock ?? true,
+            blockActions: options.blockActions ? options.blockActions : ['move', 'delete']
+        }
 
         if (!options.hasOwnProperty('onSelectFile')) {
             console.warn('enhanced form warning: onSelectFile property is required for image contained blocks')
@@ -71,17 +77,22 @@ export class EnhancedForm {
             name,
             menuLabel,
             fields,
-            icon = 'circle-question'
+            icon = 'circle-question',
+            component = CustomBlock,
+            hideOnMenu = false,
+            category = 'default'
         }
     ) {
 
         this.blocksManager.registerBlock(name, {
-            component: CustomBlock,
+            component: component,
             menuLabel,
             icon,
             props: {
                 fields,
             },
+            hideOnMenu,
+            category
         });
 
         for (let field of fields) {

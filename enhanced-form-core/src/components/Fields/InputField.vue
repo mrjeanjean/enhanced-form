@@ -30,21 +30,30 @@ export default {
   },
   methods: {
     focus: function () {
-      this.$refs.input.focus()
+      this.$refs.input.focus();
+    },
+    selectAll: function(){
+      this.$refs.input.focus();
+      this.$refs.input.select();
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .form-input {
   all: unset;
   display: block;
-  border: 2px solid var(--theme-color);
-  padding: 1rem;
+  border: var(--editor-input-border-width) solid var(--editor-input-border-color);
+  border-radius: var(--editor-input-border-radius);
+  padding: 0.75rem 1rem;
   font-size: inherit;
   box-sizing: inherit;
   width: 100%;
   background-color: #ffffff;
+}
+
+.form-input:disabled {
+  color: rgba(#000, 0.5);
 }
 </style>

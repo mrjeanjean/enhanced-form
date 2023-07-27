@@ -1,0 +1,64 @@
+.editor {
+  .ProseMirror {
+    border: var(--theme-border-width) solid var(--theme-border-color);
+    padding: 1.5rem;
+    background-color: #fff;
+    line-height: 1.6;
+    border-radius: 0 0 var(--block-border-radius) var(--block-border-radius);
+  }
+
+  .editor--full .ProseMirror {
+    min-height: 300px;
+  }
+
+  .ProseMirror:focus {
+    outline: none;
+  }
+
+  .ProseMirror a {
+    text-decoration: underline;
+    color: var(--theme-color);
+  }
+
+  .ProseMirror p {
+    margin: 0;
+  }
+
+  .ProseMirror > * + * {
+    margin-top: 0.75em;
+  }
+
+  .ProseMirror > p + p {
+    margin-top: 0.75em;
+  }
+
+  .ProseMirror ul,
+  .ProseMirror ol {
+    padding: 0 1rem;
+  }
+
+  .ProseMirror ul p,
+  .ProseMirror ol p {
+    margin: 0;
+  }
+
+  .ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4 {
+    font-weight: 600;
+
+    strong {
+      font-weight: inherit;
+    }
+  }
+
+  .ProseMirror h1 {
+    font-size: 1.75rem;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.6rem;
+  }
+
+  .ProseMirror h3 {
+    font-size: 1.4rem;
+  }
+}

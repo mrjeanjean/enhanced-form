@@ -1,8 +1,10 @@
 <template>
+  <div>
     <TextEditorField
         :value="content.text.value"
         @onChange="data => onInput(data, 'text')"
     ></TextEditorField>
+  </div>
 </template>
 
 <script>

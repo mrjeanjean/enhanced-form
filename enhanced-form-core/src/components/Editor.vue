@@ -1,14 +1,11 @@
 <template>
-  <div class="editor" :class="{'sidebar-is-open': isSidebarOpen}">
-    <div class="editor-options-menu">
-      <button type="button" @click="showBlockSelector" class="button">Add block</button>
+  <div class="editor">
+    <div class="editor-options-menu" v-if="options.allowAddBlock">
       <button
-          class="button editor-sidebar__button"
-          @click="setSidebarVisibility(!isSidebarOpen)"
           type="button"
-      >
-        <Icon icon="cog"/>
-      </button>
+          @click="showBlockSelector"
+          class="button button--outline button--rounded button--with-icon"
+      ><Icon icon="circle-plus"/>Add Block</button>
     </div>
 
     <div class="editor-body">
@@ -23,7 +20,6 @@
             :onInputChange="onInputChange"
         />
       </div>
-      <SidebarSettings/>
     </div>
     <BlockSelectorModal ref="blockSelectorModalRef">
       <template v-slot:header>
@@ -37,7 +33,6 @@
 import {mapActions, mapGetters} from "vuex";
 import BlockSelectorModal from "./Modals/BlockSelectorModal.vue";
 import Block from "./Blocks/Block.vue";
-import SidebarSettings from "./SidebarSettings.vue";
 import Icon from "./Icon.vue";
 
 export default {
@@ -45,7 +40,6 @@ export default {
   components: {
     Block,
     BlockSelectorModal,
-    SidebarSettings,
     Icon
   },
   data: function () {
@@ -56,9 +50,9 @@ export default {
   props: {
     onChange: Function
   },
-  inject: ['blocksManager'],
+  inject: ['blocksManager', 'options'],
   computed: {
-    ...mapGetters(['blocks', 'currentBlock', 'isSidebarOpen'])
+    ...mapGetters(['blocks']),
   },
   mounted() {
     this.blockSelectorModal = this.$refs.blockSelectorModalRef;
@@ -79,8 +73,8 @@ export default {
 
       this.onChange(JSON.stringify(this.blocks));
     },
-    onInputChange: function ({id, content}) {
-      this.edit({id, content});
+    onInputChange: function ({id, content, settings = []}) {
+      this.edit({id, content, settings});
     },
     showBlockSelector: async function () {
       const type = await this.blockSelectorModal.show();
@@ -101,7 +95,7 @@ export default {
 
 <style lang="css" scoped>
 .editor {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .editor-options-menu {
@@ -111,37 +105,17 @@ export default {
   width: max-content;
 }
 
+.editor-options-menu + .editor-body {
+  margin-top: 1rem;
+}
+
 .editor-body {
   display: grid;
   grid-template-columns: 1fr  0;
 }
 
-.editor.sidebar-is-open {
-  padding-right: calc(var(--sidebar-width) + 2rem);
-}
-
-.blocks-list {
-  margin-top: 2rem;
-}
-
 .block + .block {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
-.editor-sidebar__button {
-  width: var(--button-square-width);
-  height: var(--button-square-width);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  padding: 0;
-  background-color: var(--theme-color);
-  color: #ffffff;
-  z-index: 1;
-}
-
-.editor.sidebar-is-open .editor-sidebar__button {
-  background-color: var(--theme-color-secondary);
-}
 </style>

@@ -1,22 +1,15 @@
 import {createStore} from 'vuex';
-import {moveItemListAt, uniqueId} from "./utils";
-
-const SHOW_SIDEBAR_COOKIE = 'showSidebar';
+import {moveItemListAt, uniqueId} from "./utils.js";
 
 export const getStore = (initialData) => createStore({
     state() {
         return {
             blocks: initialData || [],
-            currentBlock: null,
-            isSidebarOpen: localStorage.getItem(SHOW_SIDEBAR_COOKIE) || false
         }
     },
     getters: {
         blocks(state) {
             return state.blocks
-        },
-        currentBlock(state) {
-            return state.currentBlock;
         },
         isSidebarOpen(state){
             return state.isSidebarOpen;
@@ -26,7 +19,9 @@ export const getStore = (initialData) => createStore({
         ADD_BLOCK(state, {block, id}) {
             block = {
                 ...block,
-                id
+                id,
+                attrId: '',
+                expanded: true
             }
 
             state.blocks = [
@@ -34,10 +29,13 @@ export const getStore = (initialData) => createStore({
                 ...state.blocks,
             ]
         },
-        EDIT_BLOCK(state, {id, content}) {
+        EDIT_BLOCK(state, {id, content, settings = []}) {
             state.blocks = [...state.blocks].map(block => {
                 if (block.id === id) {
                     block.content = content;
+                    Object.entries(settings).forEach(([key, value])=>{
+                        block[key] = value;
+                    })
                 }
 
                 return block;
@@ -61,24 +59,12 @@ export const getStore = (initialData) => createStore({
             });
 
             state.blocks = moveItemListAt([...state.blocks], blockIndex, blockIndex + 1);
-        },
-        SELECT_BLOCK(state, id) {
-            state.currentBlock = state.blocks.find(block => block.id === id) || null;
-        },
-        SET_SIDEBAR_VISIBILITY(state, visibility){
-            state.isSidebarOpen = visibility;
-            if(visibility){
-                localStorage.setItem(SHOW_SIDEBAR_COOKIE, 'true')
-            }else{
-                localStorage.removeItem(SHOW_SIDEBAR_COOKIE)
-            }
         }
     },
     actions: {
         'add': ({commit}, block) => {
             const id = uniqueId();
             commit('ADD_BLOCK', {block, id});
-            commit('SELECT_BLOCK', id);
         },
         'edit': ({commit}, payload) => {
             commit('EDIT_BLOCK', payload);
@@ -94,12 +80,6 @@ export const getStore = (initialData) => createStore({
             if (direction === 'down') {
                 commit('MOVE_DOWN_BLOCK', id);
             }
-        },
-        'select': ({commit}, id) => {
-            commit('SELECT_BLOCK', id);
-        },
-        'setSidebarVisibility': ({commit}, visibility) =>{
-            commit('SET_SIDEBAR_VISIBILITY', visibility);
         }
     }
 })

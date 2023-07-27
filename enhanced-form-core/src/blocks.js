@@ -5,7 +5,9 @@ import {
     createRow,
     createSpinnerField, createSwitchField,
     createTextField
-} from "./main";
+} from "./main.js";
+import TextBlock from "./components/Blocks/TextBlock.vue";
+import ButtonBlock from "./components/Blocks/ButtonBlock.vue";
 
 /**
  * Register ready to use blocks
@@ -107,17 +109,45 @@ export function registerDefaultBlocks(enhancedForm) {
             ],
             fields: [
                 createRow(
-                    'data',
+                    'row',
                     [
                         createTextField('text'),
-                        createImageField('image')
+                        createImageField('image',{
+                            size:{
+                                width: 800,
+                                height: null
+                            }
+                        })
                     ]
+                ).addSetting(
+                    createSwitchField('reverse'),
+                    'Switch columns'
                 )
-                    .addSetting(
-                        createSwitchField('reverse'),
-                        'Switch columns'
-                    )
             ],
+        }
+    )
+
+    enhancedForm.createComponent(
+        {
+            name: 'Button',
+            menuLabel: 'Button',
+            icon: [
+                {
+                    id: 'square',
+                    type: 'regular'
+                }
+            ],
+            fields: [
+                createInputField('url', {
+                    placeholder: 'Lien du site ou du fichier...'
+                }),
+                createSwitchField('isFile'),
+                createSwitchField('targetBlank'),
+                createInputField('label', {
+                    placeholder: 'Label du bouton...'
+                }),
+            ],
+            component: ButtonBlock
         }
     )
 }

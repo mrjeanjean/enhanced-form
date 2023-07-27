@@ -1,0 +1,53 @@
+.editor{
+  /* BUTTONS */
+  button {
+    font-size: 1em;
+    padding: 0.6em 1.2em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: default;
+  }
+
+  .button {
+    padding: 1rem 2rem;
+    background-color: var(--theme-color);
+    box-shadow: var(--editor-button-shadow);
+    border: none;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 0;
+  }
+
+  .button.active{
+    color: var(--editor-button-active-color);
+  }
+
+  .button--with-icon{
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .button--rounded{
+    border-radius: var(--editor-button-border-radius);
+  }
+
+  .button:disabled {
+    background-color: var(--theme-color-gray-300);
+    border-color: var(--theme-color-gray-300);
+  }
+
+  .button--outline {
+    background-color: #fff;
+    color: var(--editor-button-text-color);
+    border: 1px solid var(--editor-button-border-color);
+  }
+
+  .button--outline:not(:disabled):hover {
+    border-color: var(--theme-color-secondary);
+    color: var(--theme-color-secondary);
+  }
+}

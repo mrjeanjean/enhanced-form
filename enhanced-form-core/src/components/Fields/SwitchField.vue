@@ -2,7 +2,7 @@
   <div class="input-switch-field">
     <input
         type="checkbox"
-        @change="$emit('onChange', !value)"
+        @change="_ => $emit('onChange', !value)"
         :checked="value"
         :id="`input-reverse__${id}`"
     >

@@ -1,19 +1,9 @@
 <template>
   <div class="repeater" :class="{'columns' : isFixed}" :style="{'--nbColumns': nbColumns}">
     <div v-for="(line, index) in fields" class="repeater-list__item">
-      <div class="repeater__content">
-        <div class="repeater-list__title" v-if="!isFixed">#{{ index + 1 }}</div>
-        <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
-          <component
-              :is="field.type"
-              v-bind="getFieldData(field)"
-              @onChange="v => onChange(index, fieldIndex, v)"
-          />
-        </div>
-      </div>
       <div class="repeater__actions" v-if="!isFixed">
         <button
-            class="button"
+            class=""
             type="button"
             @click="removeItem(index)"
             :disabled="fields.length <= 1"
@@ -21,11 +11,24 @@
           <Icon icon="trash"/>
         </button>
       </div>
+      <div class="repeater__content">
+        <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
+          <component
+              :is="field.type"
+              v-bind="getFieldData(field)"
+              :class="field.type"
+              @onChange="v => onChange(index, fieldIndex, v)"
+          />
+        </div>
+      </div>
     </div>
   </div>
   <div class="repeater__footer" v-if="!isFixed">
-    <button type="button" class="button" @click="addItem">Add item
-    </button>
+    <button
+        type="button"
+        class="button button--outline button--rounded button--with-icon"
+        @click="addItem"
+    ><Icon icon="circle-plus"/> Add item</button>
   </div>
 </template>
 
@@ -167,7 +170,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .repeater.columns {
   --nbColumns: 1;
   display: grid;
@@ -184,40 +187,41 @@ export default {
   margin-top: 1rem;
 }
 
-.repeater-list__item {
-  background-color: #fff;
+.repeater-list__item{
+  background-color: rgba(#fff, 0.6);
+  border-radius: var(--editor-block-border-radius);
+  padding: 2rem;
+  box-shadow: var(--editor-block-shadow);
 }
 
 .repeater__field + .repeater__field {
   margin-top: 1rem;
 }
 
-.repeater-list__item {
-  display: flex;
-  gap: 1rem;
-  border: 2px solid var(--theme-color-gray-200);
-}
-
 .repeater__content {
-  padding: 1rem;
   flex: 1 0;
 }
 
 .repeater__actions {
-  background-color: var(--theme-color-gray-200);
-  width: 60px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -1.75rem;
+  margin-right: -1.75rem;
+
 }
 
 .repeater__actions button {
-  width: 100%;
   padding: 0;
-  height: 60px;
+  height: 40px;
+  width: 40px;
+  border: none;
+  background-color: transparent;
+  color: var(--theme-color-button);
 }
 
 .repeater__footer {
-  text-align: right;
-  padding: 1rem;
   margin-top: 1rem;
-  background-color: var(--theme-color-gray-200);
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

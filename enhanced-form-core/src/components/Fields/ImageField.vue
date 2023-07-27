@@ -8,7 +8,9 @@
       <icon icon="image"/>
     </div>
     <button type="button" @click="onSelectFileHandler" class="button-browse"></button>
-    <div class="image-info" v-if="url !== ''">{{ url }}</div>
+    <div class="image-info">
+      {{ size.width }}x<span v-if="size.height">{{ size.height }}</span><span v-else>?</span>
+    </div>
     <Loader :isActive="isLoading"/>
   </div>
 </template>
@@ -49,9 +51,6 @@ export default {
       return this.options.imagesFolder + this.url
     },
     aspectRatio: function(){
-
-
-
       if(!this.size.height || !this.size.width){
         return 800 / 300
       }
@@ -88,7 +87,10 @@ export default {
 <style scoped>
 .image-field {
   position: relative;
-  background-color: var(--theme-color-gray-200);
+  border: dashed var(--theme-border-color) 2px;
+  background-color: transparent;
+  border-radius: 0.25rem;
+  width: 100%;
 }
 
 .button-browse {
@@ -120,7 +122,7 @@ export default {
   font-size: 80px;
   position: absolute;
   inset: 0;
-  color: var(--theme-color-gray-300);
+  color: var(--theme-color-button-light);
 }
 
 .image-info {
@@ -128,7 +130,7 @@ export default {
   bottom: 0;
   right: 0;
   padding: 0.5rem;
-  background-color: var(--theme-color-secondary);
+  background-color: var(--theme-color-button);
   color: #ffffff;
   font-size: 80%;
   font-style: italic;

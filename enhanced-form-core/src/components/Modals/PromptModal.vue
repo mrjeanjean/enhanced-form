@@ -13,8 +13,8 @@
           />
       </div>
       <div class="dialog__footer">
-        <button class="button button--outline" @click.prevent="onCancel">Cancel</button>
-        <button class="button" @click.prevent="onSelect">Valid</button>
+        <button class="button button--rounded button--outline" @click.prevent="onCancel">Cancel</button>
+        <button class="button button--rounded" @click.prevent="onSelect">Valid</button>
       </div>
     </div>
     <div class="dialog__overlay"></div>

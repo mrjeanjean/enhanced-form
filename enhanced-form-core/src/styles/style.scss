@@ -1,0 +1,91 @@
+@import 'buttons';
+@import 'modal';
+@import 'blocks';
+@import 'text-editor';
+
+.editor {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --sidebar-width: 22rem;
+  --theme-color: #5695e8;
+  --theme-color-button: #6c7b83;
+  --theme-color-button-light: #b9bdc0;
+  --theme-color-secondary: #656565;
+  --theme-color-gray-300: #eaeaf1;
+  --theme-color-gray-200: #f7fafc;
+  --theme-color-gray-100: #fafafa;
+  --theme-border-color: #d9dee7;
+  --theme-border-width: 1px;
+  --block-border-radius: 0.75rem;
+  --action-border-radius: 0.5rem;
+  --button-square-width: 40px;
+  --switch-height: 1.5rem;
+
+  // NEW VARIABLES (not used everywhere yet)
+  --editor-theme-color: #5695e8;
+  --editor-theme-bg-color-light: #f7fafc;
+  --editor-theme-color-border: #d9dee7;
+
+  --editor-block-bg-color: var(--editor-theme-bg-color-light);
+  --editor-block-padding: 1rem;
+  --editor-block-border-radius: 0.75rem;
+  --editor-block-shadow: #65656522 0 0 2px 1px;;
+
+  --editor-button-text-color: #6c7b83;
+  --editor-button-active-color: var(--editor-theme-color);
+  --editor-button-bg-color: #ffffff;
+  --editor-button-border-color: var(--editor-theme-color-border);
+  --editor-button-border-width: 1px;
+  --editor-button-border-radius: 0.5rem;
+  --editor-button-shadow: #65656511 0 0 2px 1px;
+
+  --editor-modal-border-color: var(--editor-theme-color-border);
+  --editor-modal-border-radius: 0.75rem;
+  --editor-modal-border-width: 1px;
+
+  --editor-input-border-color: var(--editor-theme-color-border);
+  --editor-input-border-width: 1px;
+  --editor-input-border-radius: 0.5rem;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* TODO: HUGE WARNING FOR THIS: SHOULD BE DELETED */
+*:focus,
+button:focus,
+a:focus {
+  outline: none;
+}
+
+.editor {
+  a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+  }
+
+  a:hover {
+    color: var(--theme-color-secondary);
+  }
+
+  a:hover {
+    color: #535bf2;
+  }
+
+  /* TYPOGRAPHY */
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+}

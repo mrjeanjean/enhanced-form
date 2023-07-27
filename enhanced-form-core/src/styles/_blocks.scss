@@ -1,0 +1,18 @@
+/**
+Few block styles for pre-loaded editor blocks
+ */
+.editor{
+  .block.TextImage .TextEditorField{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .block.TextImage .TextEditorField .editor--full{
+    flex: 1 0;
+
+    .ProseMirror{
+      height: 100%;
+    }
+  }
+}

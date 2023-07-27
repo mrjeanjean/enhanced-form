@@ -58,7 +58,8 @@ export default {
     PromptModal
   },
   props: {
-    value: String
+    value: String,
+    label: String,
   },
   emits: ["onChange"],
   data() {
@@ -108,11 +109,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .ProseMirror {
-  border: 2px solid var(--theme-color);
-  padding: 1rem 1rem;
+  border: var(--theme-border-width) solid var(--theme-border-color);
+  padding: 1.5rem;
   background-color: #fff;
+  line-height: 1.6;
+  border-radius: 0 0 var(--block-border-radius) var(--block-border-radius);
 }
 
 .editor--full .ProseMirror {
@@ -150,12 +153,45 @@ export default {
   margin: 0;
 }
 
-.editor-menu button {
-  border: 2px solid var(--theme-color);
-  border-radius: 0;
-  margin-bottom: -2px;
+.ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4 {
+  font-weight: 600;
+  strong{
+    font-weight: inherit;
+  }
+}
+
+.ProseMirror h1 {
+  font-size: 1.75rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.6rem;
+}
+
+.ProseMirror h3 {
+  font-size: 1.4rem;
+}
+
+.editor-menu {
+  border: var(--theme-border-width) solid var(--theme-border-color);
+  border-radius: var(--block-border-radius) var(--block-border-radius) 0 0;
   background-color: #fff;
-  color: var(--theme-color);
+  margin-bottom: calc(var(--theme-border-width) * -1);
+}
+
+.editor-menu button {
+  border: none;
+  border-right: var(--theme-border-width) solid var(--theme-border-color);
+  border-radius: 0;
+  margin-bottom: calc(var(--theme-border-width) * -1);
+  background-color: #fff;
+  color: var(--theme-color-button);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.editor-menu button:first-child {
+  border-top-left-radius: var(--block-border-radius);
 }
 
 .editor-menu button:disabled {
@@ -164,12 +200,7 @@ export default {
 }
 
 .editor-menu button.is-active {
-  background-color: var(--theme-color);
-  color: #ffffff;
-}
-
-.editor-menu button + button {
-  margin-left: -2px;
+  color: var(--theme-color);
 }
 
 .editor-menu button > span {
