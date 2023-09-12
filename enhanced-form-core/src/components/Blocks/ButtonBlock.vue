@@ -52,14 +52,14 @@ export default {
   },
   emits: ["onChange"],
   mixins: [InputMixin],
-  computed:{
-    isLinkEditable: function(){
+  computed: {
+    isLinkEditable: function () {
       return !this.content.isFile || this.forceLinkEdit
     }
   },
   methods: {
-    onClickOutside: function(){
-      if(this.content.isFile){
+    onClickOutside: function () {
+      if (this.content.isFile) {
         this.forceLinkEdit = false;
       }
     },
@@ -69,14 +69,14 @@ export default {
         isFile: true
       });
     },
-    allowLinkEdit: function(e){
+    allowLinkEdit: function (e) {
       e.stopPropagation();
       this.forceLinkEdit = true;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$refs.linkInputRef.selectAll();
       })
     },
-    onEditLink: function(url){
+    onEditLink: function (url) {
       this.onMultipleInput({
         url: url,
         isFile: false
@@ -96,17 +96,17 @@ export default {
   flex: 1 0;
   display: flex;
 
-  & > :first-child{
+  & > :first-child {
     flex: 1 0;
   }
 
-  &:deep(.form-input){
+  &:deep(.form-input) {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .button__lock{
+  .button__lock {
     border-bottom-right-radius: var(--editor-button-border-radius);
     border-top-right-radius: var(--editor-button-border-radius);
     padding-left: 0;
@@ -114,7 +114,7 @@ export default {
     width: 50px;
     text-align: center;
 
-    &.active{
+    &.active {
       cursor: pointer;
     }
   }

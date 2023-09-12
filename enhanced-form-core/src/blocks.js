@@ -8,6 +8,7 @@ import {
 } from "./main.js";
 import TextBlock from "./components/Blocks/TextBlock.vue";
 import ButtonBlock from "./components/Blocks/ButtonBlock.vue";
+import VideoBlock from "./components/Blocks/VideoBlock.vue";
 
 /**
  * Register ready to use blocks
@@ -148,6 +149,20 @@ export function registerDefaultBlocks(enhancedForm) {
                 }),
             ],
             component: ButtonBlock
+        }
+    )
+
+    enhancedForm.createComponent(
+        {
+            name: 'Video',
+            menuLabel: 'Video',
+            icon: 'video',
+            fields: [
+                createInputField('videoId', {
+                    placeholder: 'Identifiant de la vidéo...'
+                }),
+            ],
+            component: VideoBlock
         }
     )
 }

@@ -50,7 +50,15 @@
                     }
                 })
             },
-            imagesFolder: 'https://picsum.photos/id/'
+            imagesFolder: 'https://picsum.photos/id/',
+            video: {
+                thumbnailUrlCallback: videoId =>{
+                    return `http://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                },
+                videoIdValidate: videoId =>{
+                    return videoId.length === 11;
+                }
+            }
         }
     );
 
