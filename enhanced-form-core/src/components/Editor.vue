@@ -5,22 +5,35 @@
           type="button"
           @click="showBlockSelector"
           class="button button--outline button--rounded button--with-icon"
-      ><Icon icon="circle-plus"/>Add Block</button>
+      >
+        <Icon icon="circle-plus"/>
+        Add Block
+      </button>
     </div>
 
     <div class="editor-body">
       <div class="blocks-list">
-        <Block
+        <div
             v-for="(block, index) in blocks"
             :key="block.id"
-            class="block"
-            :block="block"
-            :isFirst="index === 0"
-            :isLast="index >= blocks.length - 1"
-            :onInputChange="onInputChange"
-        />
+        >
+          <Block
+              class="block"
+              :block="block"
+              :isFirst="index === 0"
+              :isLast="index >= blocks.length - 1"
+              :onInputChange="onInputChange"
+          />
+          <div class="blocks-list__add-button" v-if="options.allowAddBlock">
+            <button @click="showBlockSelector(index)" type="button">
+              <Icon icon="circle-plus"/>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+
+
     <BlockSelectorModal ref="blockSelectorModalRef">
       <template v-slot:header>
         Select block
@@ -59,16 +72,19 @@ export default {
   },
   methods: {
     ...mapActions(['add', 'edit', 'setSidebarVisibility']),
-    addBlock: function (type) {
+    addBlock: function (type, blockIndex) {
       const block = this.blocksManager.getBlock(type);
 
-      if(!block){
+      if (!block) {
         return;
       }
 
       this.add({
-        content: block.content,
-        type: type
+        block:{
+          content: block.content,
+          type: type,
+        },
+        index: blockIndex + 1
       })
 
       this.onChange(JSON.stringify(this.blocks));
@@ -76,11 +92,11 @@ export default {
     onInputChange: function ({id, content, settings = []}) {
       this.edit({id, content, settings});
     },
-    showBlockSelector: async function () {
+    showBlockSelector: async function (blockIndex = null) {
       const type = await this.blockSelectorModal.show();
 
       if (type) {
-        this.addBlock(type);
+        this.addBlock(type, blockIndex);
       }
     }
   },
@@ -114,8 +130,46 @@ export default {
   grid-template-columns: 1fr  0;
 }
 
-.block + .block {
+.blocks-list > * + * {
   margin-top: 1rem;
+}
+
+.blocks-list__add-button{
+  position: relative;
+  margin-bottom: -1rem;
+}
+
+.blocks-list__add-button:after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-bottom: 1px var(--editor-button-border-color) dashed;
+  z-index: -1;
+}
+
+.blocks-list__add-button{
+  text-align: center;
+}
+
+.blocks-list__add-button button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  color: var(--editor-button-text-color);
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  transition: transform 150ms, color 150ms;
+}
+
+.blocks-list__add-button button:hover{
+  transform: scale(1.35);
+  color: var(--editor-button-text-color);
 }
 
 </style>

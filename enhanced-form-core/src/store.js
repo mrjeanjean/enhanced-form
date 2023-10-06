@@ -16,7 +16,7 @@ export const getStore = (initialData) => createStore({
         }
     },
     mutations: {
-        ADD_BLOCK(state, {block, id}) {
+        ADD_BLOCK(state, {block, id, index = 0}) {
             block = {
                 ...block,
                 id,
@@ -25,8 +25,9 @@ export const getStore = (initialData) => createStore({
             }
 
             state.blocks = [
+                ...state.blocks.slice(0, index),
                 block,
-                ...state.blocks,
+                ...state.blocks.slice(index)
             ]
         },
         EDIT_BLOCK(state, {id, content, settings = []}) {
@@ -62,9 +63,9 @@ export const getStore = (initialData) => createStore({
         }
     },
     actions: {
-        'add': ({commit}, block) => {
+        'add': ({commit},  {block, index}) => {
             const id = uniqueId();
-            commit('ADD_BLOCK', {block, id});
+            commit('ADD_BLOCK', {block, id, index});
         },
         'edit': ({commit}, payload) => {
             commit('EDIT_BLOCK', payload);
