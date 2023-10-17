@@ -45,13 +45,18 @@
                 }
 
                 let id = Math.round(Math.random() * 100 + 100);
-                let width = options.imageOptions.width ? options.imageOptions.width : 500;
-                let height = options.imageOptions.height ? options.imageOptions.height : 500;
+                let width = options.imageOptions && options.imageOptions.width ? options.imageOptions.width : 500;
+                let height = options.imageOptions && options.imageOptions.height ? options.imageOptions.height : 500;
 
-                // Reject for testing purpose
                 return new Promise((resolve, reject) => {
                     setTimeout(() => {
-                        reject('File is too heavy (10Mo max. expected)');
+                        //reject('File is too heavy (10Mo max. expected)');
+                        resolve({
+                            image: {
+                                url: `${id}/${width}/${height}`
+                            }
+                        });
+
                     }, 4000)
                 })
 

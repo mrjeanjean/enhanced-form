@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(field, fieldName) in filteredSettings" class="field">
+  <div v-for="(field, fieldName) in filteredSettings" class="block-settings__custom">
     <div class="setting-form__row" :class="setting.component.type" v-for="(setting, index) in field">
       <div class="setting-form__row__label">{{ setting.label }}</div>
       <component
@@ -67,5 +67,11 @@ export default {
 .setting-form__row__label {
   font-weight: 600;
   font-size: 85%;
+}
+
+.block-settings__custom{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="button-block">
     <div class="button-block__link">
       <div>
         <InputField
@@ -20,7 +20,8 @@
           <Icon :icon="isLinkEditable ? 'lock-open' : 'lock'"/>
         </button>
       </div>
-      <FileField :value="content.url" @onChange="onFileChange"/>
+      <FileField :value="content.url" @onChange="onFileChange" @onLoadingChange="onLoadingChange"/>
+      <Loader :isActive="isLoading"/>
     </div>
     <div class="button-block__button button button--rounded">
       <InputField
@@ -37,20 +38,23 @@ import InputField from "../Fields/InputField.vue";
 import {InputMixin} from "../../mixins.js";
 import FileField from "../Fields/FileField.vue";
 import Icon from "../Icon.vue";
+import Loader from "../Loader.vue";
 
 export default {
   name: "ButtonBlock",
   data: function () {
     return {
-      forceLinkEdit: false
+      forceLinkEdit: false,
+      isLoading: false
     }
   },
   components: {
+    Loader,
     Icon,
     InputField,
     FileField
   },
-  emits: ["onChange"],
+  emits: ['onChange'],
   mixins: [InputMixin],
   computed: {
     isLinkEditable: function () {
@@ -81,15 +85,23 @@ export default {
         url: url,
         isFile: false
       });
+    },
+    onLoadingChange: function(isLoading){
+      this.isLoading = isLoading;
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.button-block{
+  position: relative;
+}
+
 .button-block__link {
   display: flex;
   gap: 0.5rem;
+  position: relative;
 }
 
 .button-block__link > :first-child {
@@ -139,5 +151,17 @@ export default {
 .button-block__button :deep(.form-input)::placeholder {
   color: #ffffff;
   opacity: 0.4;
+}
+
+.loader{
+  background-color: #f7fafcc2;
+  --loader-color: var(--editor-button-text-color);
+
+  &:deep(span){
+    width: 40px;
+    height: 40px;
+    border-width: 5px;
+    opacity: 0.4;
+  }
 }
 </style>

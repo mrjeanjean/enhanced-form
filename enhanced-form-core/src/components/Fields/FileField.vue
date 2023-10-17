@@ -28,7 +28,7 @@ export default {
       isLoading: false
     }
   },
-  emits: ['onChange'],
+  emits: ['onChange', 'onLoadingChange'],
   inject: ['options'],
   computed: {
     filePath: function(){
@@ -55,6 +55,11 @@ export default {
     onErrorHandler: function(){
       this.imageError = true;
       this.isLoading = false;
+    }
+  },
+  watch: {
+    isLoading: function(value){
+      this.$emit('onLoadingChange', value);
     }
   }
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="image-field" :style="{aspectRatio: aspectRatio}">
-    <div class="image-container" v-show="!imageError">
+    <div class="image-container" v-show="!imageError" v-if="url">
       <img :src="imagePath" @error="onErrorHandler" @load="onLoadHandler">
     </div>
 
-    <div class="image-placeholder" v-show="imageError && !imageErrorMessage">
+    <div class="image-placeholder" v-show="(!url || imageError) && !imageErrorMessage">
       <icon icon="image"/>
     </div>
 

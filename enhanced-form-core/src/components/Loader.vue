@@ -19,6 +19,7 @@ export default {
 
 <style scoped>
 .loader {
+  --loader-color: var(--theme-color-gray-300);
   position: absolute;
   inset: 0;
   display: flex;
@@ -31,7 +32,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 10px var(--theme-color-gray-300) solid;
+  border: 10px var(--loader-color) solid;
   border-top-color: transparent;
   animation: rotate 1.5s linear infinite;
 }
