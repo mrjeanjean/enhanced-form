@@ -40,9 +40,20 @@
         document.getElementById('input-target'),
         {
             onSelectFile: (options) => {
+                if (options.hasOwnProperty('beforeFetch')) {
+                    options.beforeFetch();
+                }
+
                 let id = Math.round(Math.random() * 100 + 100);
                 let width = options.imageOptions.width ? options.imageOptions.width : 500;
                 let height = options.imageOptions.height ? options.imageOptions.height : 500;
+
+                // Reject for testing purpose
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject('File is too heavy (10Mo max. expected)');
+                    }, 4000)
+                })
 
                 return Promise.resolve({
                     image: {
@@ -52,10 +63,10 @@
             },
             imagesFolder: 'https://picsum.photos/id/',
             video: {
-                thumbnailUrlCallback: videoId =>{
+                thumbnailUrlCallback: videoId => {
                     return `http://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
                 },
-                videoIdValidate: videoId =>{
+                videoIdValidate: videoId => {
                     return videoId.length === 11;
                 }
             }

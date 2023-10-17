@@ -4,9 +4,20 @@
       <img :src="imagePath" @error="onErrorHandler" @load="onLoadHandler">
     </div>
 
-    <div class="image-placeholder" v-show="imageError">
+    <div class="image-placeholder" v-show="imageError && !imageErrorMessage">
       <icon icon="image"/>
     </div>
+
+    <div class="image-error" v-show="imageErrorMessage">
+      <div class="image-error__icon">
+        <i class="fa-circle-exclamation fa-solid"></i>
+      </div>
+      <div class="image-error__content">
+        <div class="image-error__title">An error has occured</div>
+        <div class="image-error__message">{{ imageErrorMessage }}</div>
+      </div>
+    </div>
+
     <button type="button" @click="onSelectFileHandler" class="button-browse"></button>
     <div class="image-info">
       {{ size.width }}x<span v-if="size.height">{{ size.height }}</span><span v-else>?</span>
@@ -41,17 +52,18 @@ export default {
   data: function () {
     return {
       imageError: false,
-      isLoading: false
+      isLoading: false,
+      imageErrorMessage: null
     }
   },
   emits: ['onChange'],
   inject: ['options'],
   computed: {
-    imagePath: function(){
+    imagePath: function () {
       return this.options.imagesFolder + this.url
     },
-    aspectRatio: function(){
-      if(!this.size.height || !this.size.width){
+    aspectRatio: function () {
+      if (!this.size.height || !this.size.width) {
         return 800 / 300
       }
 
@@ -60,23 +72,27 @@ export default {
   },
   methods: {
     onSelectFileHandler: async function () {
-      const {image, error} = await this.options.onSelectFile({
-        beforeFetch: ()=>{
-          this.isLoading = true;
-        },
-        imageOptions: {
-          ...this.size
-        }
-      });
-      if (!error) {
+      try {
+        const {image} = await this.options.onSelectFile({
+          beforeFetch: () => {
+            this.isLoading = true;
+          },
+          imageOptions: {
+            ...this.size
+          }
+        })
         this.$emit('onChange', image);
+      } catch (error) {
+        this.imageError = true;
+        this.imageErrorMessage = error;
+        this.isLoading = false;
       }
     },
-    onLoadHandler: function(){
+    onLoadHandler: function () {
       this.imageError = false;
       this.isLoading = false;
     },
-    onErrorHandler: function(){
+    onErrorHandler: function () {
       this.imageError = true;
       this.isLoading = false;
     }
@@ -135,5 +151,59 @@ export default {
   font-size: 80%;
   font-style: italic;
   line-height: 1;
+}
+
+.image-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--editor-button-text-color);
+}
+
+.image-error__icon {
+  font-size: 40px;
+}
+
+.image-error__title {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.image-error__message {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@container (max-width: 500px) {
+  .image-error {
+    flex-direction: column;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 1rem;
+    gap: 0.25rem;
+  }
+
+  .image-error__title {
+    font-size: 16px;
+  }
+
+  .image-error__message {
+    font-size: 14px;
+  }
+
+  .image-error__icon {
+    font-size: 30px;
+  }
 }
 </style>
