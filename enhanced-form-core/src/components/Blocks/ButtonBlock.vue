@@ -30,6 +30,13 @@
           v-bind="this.getFieldOptions('label')"
       />
     </div>
+    <div class="button-block__checkbox">
+      <CheckboxField
+          :checked="content.targetBlank"
+          label="Open link in new tab"
+          @onChange="checked => onInput(checked, 'targetBlank')"
+      />
+    </div>
   </div>
 </template>
 
@@ -39,6 +46,7 @@ import {InputMixin} from "../../mixins.js";
 import FileField from "../Fields/FileField.vue";
 import Icon from "../Icon.vue";
 import Loader from "../Loader.vue";
+import CheckboxField from "../Fields/CheckboxField.vue";
 
 export default {
   name: "ButtonBlock",
@@ -52,7 +60,8 @@ export default {
     Loader,
     Icon,
     InputField,
-    FileField
+    FileField,
+    CheckboxField
   },
   emits: ['onChange'],
   mixins: [InputMixin],
@@ -86,7 +95,7 @@ export default {
         isFile: false
       });
     },
-    onLoadingChange: function(isLoading){
+    onLoadingChange: function (isLoading) {
       this.isLoading = isLoading;
     }
   }
@@ -94,7 +103,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.button-block{
+.button-block {
   position: relative;
 }
 
@@ -153,11 +162,17 @@ export default {
   opacity: 0.4;
 }
 
-.loader{
+.button-block__checkbox{
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loader {
   background-color: #f7fafcc2;
   --loader-color: var(--editor-button-text-color);
 
-  &:deep(span){
+  &:deep(span) {
     width: 40px;
     height: 40px;
     border-width: 5px;

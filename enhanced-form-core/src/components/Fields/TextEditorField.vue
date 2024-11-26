@@ -36,26 +36,22 @@
     </button>
   </div>
   <editor-content :editor="editor" class="editor--full"/>
-  <PromptModal ref="linkModalRef" placeholder="http://....">
-    <template v-slot:header>
-      Type link url
-    </template>
-  </PromptModal>
+  <LinkPromptModal ref="linkModalRef"/>
 </template>
 
 <script>
 import {Editor, EditorContent} from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Icon from "../Icon.vue";
-import PromptModal from "../Modals/PromptModal.vue";
 import {Link} from "@tiptap/extension-link";
+import LinkPromptModal from "./TextEditorConfig/LinkPromptModal.vue";
 
 export default {
   name: 'TextEditorField',
   components: {
     EditorContent,
     Icon,
-    PromptModal
+    LinkPromptModal
   },
   props: {
     value: String,
@@ -75,6 +71,10 @@ export default {
         StarterKit,
         Link.configure({
           openOnClick: false,
+          HTMLAttributes: {
+            target: null,
+            rel: null
+          }
         })
       ],
       onUpdate: ({editor}) => {
@@ -90,9 +90,11 @@ export default {
   },
   methods: {
     async setLink() {
-      const previousUrl = this.editor.getAttributes('link').href
-
-      const value = await this.linkModal.show(previousUrl);
+      const previousUrl = this.editor.getAttributes('link').href;
+      const value = await this.linkModal.show({
+        url: previousUrl,
+        target: this.editor.getAttributes('link').target
+      });
 
       if (!value) {
         return;
@@ -102,7 +104,15 @@ export default {
           .chain()
           .focus()
           .extendMarkRange('link')
-          .setLink({href: value})
+          .setLink({
+            href: value.url,
+            target: value.target,
+            // not working: no 'rel' attribute shown in html
+            // will work on @tiptap/extension-link package update
+            // related to this commit :
+            // https://github.com/ueberdosis/tiptap/commit/193b991acc0394305ab9799dbc656e6dbc6d1e11
+            rel: value.target === '_blank' ? 'nofollow' : null
+          })
           .run();
     },
   }

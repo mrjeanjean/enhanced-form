@@ -6,6 +6,8 @@ import ImageField from './components/Fields/ImageField.vue';
 import SpinnerField from './components/Fields/SpinnerField.vue';
 import {imageType} from "./types.js";
 import {InputMixin} from "./mixins.js";
+import Icon from "./components/Icon.vue";
+import Loader from "./components/Loader.vue";
 
 export const attachEnhancedForm = ($input, options = {}) => {
     return new EnhancedForm($input, options);
@@ -147,7 +149,9 @@ export const createRow = (name, model, options) => {
  * Fields components
  */
 export{
-    InputField
+    InputField,
+    Icon,
+    Loader
 }
 
 /**

@@ -1,8 +1,10 @@
 import './style.css'
-import {attachEnhancedForm, createComponent} from "@moveo/enhanced-form-core";
+import {attachEnhancedForm, createTextAreaField} from "@moveo/enhanced-form-core";
 import {selectFile} from "@moveo/file-upload-manager";
 import '@moveo/enhanced-form-core/dist/style.css';
 import {imageType} from "@moveo/enhanced-form-core/src/types";
+import MonInputWrapper from "./MonInputWrapper.vue";
+import MonInput from "./MonInput.vue";
 
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
@@ -21,24 +23,21 @@ const enhancedForm = attachEnhancedForm(
     }
 );
 
-enhancedForm.registerBlock('NewTruc', {
-    component: createComponent(),
-    props: {
-        imageOptions: {
-            width: 500,
-            height: 800
-        }
-    },
-    content: {
-        text: '',
-        image: {
-            ...imageType
-        },
-        reverse: true
-    },
-    menuLabel: 'NewTruc'
-})
+enhancedForm.getApp().component('MonInput', MonInput);
 
+enhancedForm.createComponent(
+    {
+        component: MonInputWrapper,
+        name: 'Table',
+        menuLabel: 'Tableau',
+        icon: 'table',
+        fields: [
+            createTextAreaField('table', {
+                disabled: true
+            })
+        ],
+    }
+)
 enhancedForm.render();
 
 
