@@ -12,11 +12,18 @@
               ref="input"
               placeholder="http://...."
           />
-          <CheckboxField
-              :checked="value.target === '_blank'"
-              label="Open link in new tab"
-              @onChange="value => {this.value = {...this.value, target: value === true ? '_blank' : null}}"
-          />
+          <div class="dialog-body__options">
+            <CheckboxField
+                :checked="value.target === '_blank'"
+                label="Open link in new tab"
+                @onChange="value => {this.value = {...this.value, target: value === true ? '_blank' : null}}"
+            />
+            <CheckboxField
+                :checked="value.rel === 'nofollow'"
+                label="Add no-follow attribute"
+                @onChange="value => {this.value = {...this.value, rel: value === true ? 'nofollow' : null}}"
+            />
+          </div>
         </div>
       </div>
       <div class="dialog__footer">
@@ -51,9 +58,24 @@ export default {
 </script>
 
 <style scoped>
-.dialog-body__form{
+.dialog-body__form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.dialog-body__options{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.dialog-body__options::v-deep(.form-input__label){
+  opacity: 0.65;
+  font-size: 96%;
+}
+
+.dialog-body__options::v-deep(.form-input--checkbox){
+  text-align: right;
 }
 </style>

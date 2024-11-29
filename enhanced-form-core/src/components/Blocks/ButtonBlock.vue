@@ -23,18 +23,18 @@
       <FileField :value="content.url" @onChange="onFileChange" @onLoadingChange="onLoadingChange"/>
       <Loader :isActive="isLoading"/>
     </div>
-    <div class="button-block__button button button--rounded">
-      <InputField
-          :value="content.label"
-          @onChange="data => onInput(data, 'label')"
-          v-bind="this.getFieldOptions('label')"
-      />
-    </div>
     <div class="button-block__checkbox">
       <CheckboxField
           :checked="content.targetBlank"
           label="Open link in new tab"
           @onChange="checked => onInput(checked, 'targetBlank')"
+      />
+    </div>
+    <div class="button-block__button button button--rounded">
+      <InputField
+          :value="content.label"
+          @onChange="data => onInput(data, 'label')"
+          v-bind="this.getFieldOptions('label')"
       />
     </div>
   </div>

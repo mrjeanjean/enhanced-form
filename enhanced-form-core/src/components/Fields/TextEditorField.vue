@@ -30,6 +30,10 @@
             :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
       <span>h3</span>
     </button>
+    <button @click.prevent="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+      <span>h4</span>
+    </button>
     <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
             :class="{ 'is-active': editor.isActive('bulletList') }">
       <icon icon="list-ul"/>
@@ -45,6 +49,28 @@ import StarterKit from '@tiptap/starter-kit'
 import Icon from "../Icon.vue";
 import {Link} from "@tiptap/extension-link";
 import LinkPromptModal from "./TextEditorConfig/LinkPromptModal.vue";
+
+const CustomLink = Link.extend({
+  addAttributes() {
+    return {
+      href: {
+        default: null,
+        parseHTML(element) {
+          return element.getAttribute('href')
+        },
+      },
+      target: {
+        default: this.options.HTMLAttributes.target,
+      },
+      rel: {
+        default: this.options.HTMLAttributes.rel,
+      },
+      class: {
+        default: this.options.HTMLAttributes.class,
+      },
+    }
+  },
+})
 
 export default {
   name: 'TextEditorField',
@@ -69,7 +95,7 @@ export default {
       content: this.value,
       extensions: [
         StarterKit,
-        Link.configure({
+        CustomLink.configure({
           openOnClick: false,
           HTMLAttributes: {
             target: null,
@@ -93,7 +119,8 @@ export default {
       const previousUrl = this.editor.getAttributes('link').href;
       const value = await this.linkModal.show({
         url: previousUrl,
-        target: this.editor.getAttributes('link').target
+        target: this.editor.getAttributes('link').target,
+        rel: this.editor.getAttributes('link').rel
       });
 
       if (!value) {
@@ -111,7 +138,7 @@ export default {
             // will work on @tiptap/extension-link package update
             // related to this commit :
             // https://github.com/ueberdosis/tiptap/commit/193b991acc0394305ab9799dbc656e6dbc6d1e11
-            rel: value.target === '_blank' ? 'nofollow' : null
+            rel: value.rel
           })
           .run();
     },
