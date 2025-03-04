@@ -7,6 +7,7 @@ import SwitchField from "./components/Fields/SwitchField.vue";
 import RowField from "./components/Fields/RowField.vue";
 import TextAreaField from "./components/Fields/TextAreaField.vue";
 import FileField from "./components/Fields/FileField.vue";
+import SelectField from "./components/Fields/SelectField.vue";
 
 /**
  * Register all fields globally in Vue app
@@ -22,4 +23,5 @@ export function registerDefaultFields(app){
     app.component('RowField', RowField);
     app.component('TextAreaField', TextAreaField);
     app.component('FileField', FileField);
+    app.component('SelectField', SelectField);
 }

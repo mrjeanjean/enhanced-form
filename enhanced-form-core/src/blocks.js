@@ -3,7 +3,8 @@ import {
     createInputField,
     createRepeater,
     createRow,
-    createSpinnerField, createSwitchField,
+    createSpinnerField,
+    createSwitchField,
     createTextField
 } from "./main.js";
 import TextBlock from "./components/Blocks/TextBlock.vue";

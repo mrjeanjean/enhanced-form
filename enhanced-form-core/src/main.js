@@ -104,6 +104,15 @@ export const createSwitchField = (name, options) => {
     });
 }
 
+export const createChoiceField = (name, options) => {
+    return createField({
+        name: name,
+        type: 'SelectField',
+        value: false,
+        options
+    });
+}
+
 export const createRepeater = (name, model = [], options) => {
     return createField({
         name: name,
