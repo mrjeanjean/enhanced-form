@@ -78,7 +78,7 @@ export default {
         return 800 / 300
       }
 
-      return this.size.height / this.size.width;
+      return this.size.width / this.size.height;
     }
   },
   mounted() {
