@@ -1,11 +1,13 @@
 <template>
   <div class="input-select-field">
-    <label :for="`input-select__${id}`">{{label}}</label>
+    <label :for="`input-select__${id}`" v-if="label">{{ label }}</label>
     <div class="input-select-field__select">
       <select
           :id="`input-select__${id}`"
           @change="handleOnSelect"
+          :class="{'empty-value': value === null, 'has-placeholder':  placeholder !== null}"
       >
+        <option v-if="placeholder" value>{{ placeholder }}</option>
         <option
             :value="choice.key"
             v-for="choice in choices"
@@ -25,12 +27,18 @@ export default {
   props: {
     value: {
       type: String,
-      required: true,
+      required: false,
+      default: null
+    },
+    label: {
+      type: String,
+      required: false,
+      default: null
     },
     choices: {
       type: Object
     },
-    label: {
+    placeholder: {
       type: String,
       default: 'Choose...'
     }
@@ -43,23 +51,18 @@ export default {
   },
   methods: {
     handleOnSelect: function (e) {
-      console.log(e.target.value);
-      this.$emit('onChange', e.target.value);
+      const value = e.target.value;
+      this.$emit('onChange', value === '' ? null : value);
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.input-select-field {
-  display: flex;
-  gap: 0.5rem;
-}
 
 .input-select-field label {
-  border: var(--editor-input-border-width) solid var(--editor-input-border-color);
-  border-radius: var(--editor-input-border-radius);
-  padding: 0.75rem 1rem;
+  padding: 0.5rem;
+  color: var(--theme-color-secondary);
 }
 
 .input-select-field__select {
@@ -92,6 +95,18 @@ export default {
   width: 100%;
   background-color: #ffffff;
   cursor: pointer;
+}
+
+.input-select-field select.empty-value {
+  color: rgba(#000, 0.5);
+
+  option {
+    color: var(--text-color);
+  }
+}
+
+.input-select-field select.has-placeholder option:first-child{
+  color: rgba(#000, 0.5);
 }
 </style>
 

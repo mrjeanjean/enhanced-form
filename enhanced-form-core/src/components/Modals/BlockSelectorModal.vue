@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dialog__wrapper{
+  --editor-block-selector-columns: 4;
+}
 
 .dialog__close-button {
   background-color: transparent;
@@ -138,8 +141,13 @@ export default {
 
 .dialog-blocks-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(var(--editor-block-selector-columns), 1fr);
   gap: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-inline: calc(-1 * var(--editor-modal-padding));
+  padding-inline: var(--editor-modal-padding);
 }
 
 .dialog__overlay {

@@ -29,9 +29,6 @@ export default {
       value = typeof value === 'object' ? {...value} : {value: value}
       return {...field.options, ...value};
     }
-  },
-  mounted() {
-    //console.log(JSON.parse(JSON.stringify(this.$props)))
   }
 }
 </script>

@@ -12,20 +12,25 @@
         }
 
         textarea {
-            width: 100%;
-            min-height: 300px;
+            width: 500px;
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
             /*display: none;*/
         }
     </style>
 </head>
 <body>
-<h2>Form with editor</h2>
-<form action="#" method="GET">
-    <div>
-        <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
-    </div>
-    <button type="submit">Save form</button>
-</form>
+<div style="max-width: 1200px; margin-left: 2rem">
+    <h2>Form with editor</h2>
+    <form action="#" method="GET">
+        <div>
+            <textarea name="editor-content" id="input-target" cols="30" rows="10"></textarea>
+        </div>
+        <button type="submit">Save form</button>
+    </form>
+</div>
 <script type="module" defer>
     import {
         attachEnhancedForm,
@@ -33,8 +38,11 @@
         createImageField,
         createInputField,
         createSpinnerField,
-        createRow
+        createRow,
+        createRepeater,
+        createChoiceField, createSwitchField
     } from "./src/main";
+    import {createTextAreaField} from "./dist/enhancedForm.js";
 
     const enhancedForm = attachEnhancedForm(
         document.getElementById('input-target'),
@@ -78,43 +86,114 @@
         }
     );
 
-    /*enhancedForm.editBlockProps('Image', {
-        size: {
-            width: 800,
-            height: 20
+    enhancedForm.createComponent(
+        {
+            name: 'FourItems',
+            menuLabel: '4 items',
+            icon: 'table-cells-large',
+            fields: [
+                createChoiceField('backgroundImage', {
+                    label: 'Sélectionner image de fond :',
+                    choices: [
+                        {
+                            key: 'default',
+                            value: 'Défaut'
+                        },
+                        {
+                            key: 'hippodrome',
+                            value: 'Hippodrome'
+                        },
+                        {
+                            key: 'event',
+                            value: 'Evènement'
+                        },
+                        {
+                            key: 'work',
+                            value: 'Travail'
+                        },
+                    ]
+                }),
+                createRepeater('reasons', [
+                    createChoiceField('icon', {
+                        label: 'Icone :',
+                        choices: [
+                            {
+                                key: 'default',
+                                value: 'Défaut'
+                            },
+                            {
+                                key: 'hippodrome',
+                                value: 'Hippodrome'
+                            },
+                            {
+                                key: 'event',
+                                value: 'Evènement'
+                            },
+                            {
+                                key: 'work',
+                                value: 'Travail'
+                            },
+                        ]
+                    }),
+                    createImageField('image'),
+                    createInputField('category', {placeholder: 'Catégorie'}),
+                    createInputField('title', {placeholder: 'Titre'}),
+                    createTextAreaField('text', {
+                        placeholder: 'Contenu...',
+                        type: 'simplified'
+                    })
+                ], {
+                    fixed: true,
+                    size: 4,
+                    grid:{
+                        nbColumns: 2
+                    }
+                })
+
+            ],
         }
-    }, 'image');*/
+    )
 
-
-    /*enhancedForm.createComponent(
+    /*
+    enhancedForm.createComponent(
         {
             name: 'Special',
             menuLabel: 'Special',
-            icon: 'rocket',
+            icon: 'flag',
             fields: [
-                createSpinnerField(
-                    'size',
-                    {
-                        min: 4,
-                        max: 6,
-                        value: 5
-                    }
-                ),
-                createInputField(
-                    'input',
-                    {
-                        value: 'Mon input'
-                    }
-                ),
-                createRow('columns', [
-                    createImageField('image'),
-                    createTextField('text'),
-                ])
+                createInputField('title', {placeholder: 'Title'}),
+                createInputField('category', {placeholder: 'Catégorie'})
+            ],
+            category: 'admin'
+        }
+    )
+
+
+    enhancedForm.createComponent(
+        {
+            name: 'Videos',
+            menuLabel: 'Slider vidéos',
+            icon: ['caret-left', 'film', 'caret-right'],
+            fields: [
+                createInputField('title', {placeholder: 'Titre'}),
+                createInputField('linkLabel', {placeholder: 'Intitulé du lien'}),
+                createChoiceField('link', {placeholder: 'Lien', choices: [{key: 't', value: 'dsds'}]}),
+                createRepeater('videos', [
+                    createInputField('youtubeId', {placeholder: 'Id YouTube'}),
+                    createTextAreaField('text')
+                ], {
+                    fixed: false,
+                    size: 1
+                })
             ]
         }
-    )*/
+    )
+     */
 
-        enhancedForm.render();
+
+
+
+    enhancedForm.render();
 </script>
 </body>
 </html>

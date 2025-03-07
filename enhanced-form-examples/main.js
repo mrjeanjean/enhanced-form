@@ -1,5 +1,11 @@
 import './style.css'
-import {attachEnhancedForm, createTextAreaField} from "@moveo/enhanced-form-core";
+import {
+    attachEnhancedForm,
+    createInputField,
+    createRepeater,
+    createTextAreaField,
+    createChoiceField
+} from "@moveo/enhanced-form-core";
 import {selectFile} from "@moveo/file-upload-manager";
 import '@moveo/enhanced-form-core/dist/style.css';
 import {imageType} from "@moveo/enhanced-form-core/src/types";
@@ -23,19 +29,24 @@ const enhancedForm = attachEnhancedForm(
     }
 );
 
-enhancedForm.getApp().component('MonInput', MonInput);
+//enhancedForm.getApp().component('MonInput', MonInput);
 
 enhancedForm.createComponent(
     {
-        component: MonInputWrapper,
-        name: 'Table',
-        menuLabel: 'Tableau',
-        icon: 'table',
+        name: 'Videos',
+        menuLabel: 'Slider vidéos',
+        icon: ['caret-left', 'film', 'caret-right'],
         fields: [
-            createTextAreaField('table', {
-                disabled: true
+            createInputField('title', {placeholder: 'Titre'}),
+            createInputField('linkLabel', {placeholder: 'Intitulé du lien'}),
+            createRepeater('videos', [
+                createInputField('youtubeId', {placeholder: 'Id YouTube'}),
+                createTextAreaField('text')
+            ], {
+                fixed: false,
+                size: 1
             })
-        ],
+        ]
     }
 )
 enhancedForm.render();

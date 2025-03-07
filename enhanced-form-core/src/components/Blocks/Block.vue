@@ -7,7 +7,7 @@
       <div
           class="block-header__title"
           @click="_ => {updateBlockSetting('expanded', !block.expanded); showSettings = false}"
-      ><i class="fa-angle-right fa-solid block-header__expanded-icon"></i> {{ block.type }}
+      ><i class="fa-angle-right fa-solid block-header__expanded-icon"></i> {{ getBlockLabel(block.type) }}
       </div>
       <ul class="block-actions">
         <li v-if="!isFirst && options.blockActions.includes('move')">
@@ -104,6 +104,10 @@ export default {
       }
 
       this.showSettings = !this.showSettings;
+    },
+    getBlockLabel: function(blockType){
+      const block = this.blocksManager.getBlock(blockType);
+      return block ? block.menuLabel : blockType;
     }
   }
 }

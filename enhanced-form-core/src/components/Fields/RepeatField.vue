@@ -1,5 +1,5 @@
 <template>
-  <div class="repeater" :class="{'columns' : isFixed}" :style="{'--nbColumns': nbColumns}">
+  <div class="repeater columns" :style="{'--nbColumns': nbColumns}">
     <div v-for="(line, index) in fields" class="repeater-list__item">
       <div class="repeater__actions" v-if="!isFixed">
         <button
@@ -12,12 +12,12 @@
         </button>
       </div>
       <div class="repeater__content">
-        <div class="repeater__field" v-for="(field, fieldIndex) in line" :key="field.name">
+        <div class="repeater__field" v-for="(field, fieldIndex) in model" :key="field.name">
           <component
               :is="field.type"
-              v-bind="getFieldData(field)"
+              v-bind="getFieldData(field, line)"
               :class="field.type"
-              @onChange="v => onChange(index, fieldIndex, v)"
+              @onChange="v => onChange(index, field, v)"
           />
         </div>
       </div>
@@ -28,7 +28,10 @@
         type="button"
         class="button button--outline button--rounded button--with-icon"
         @click="addItem"
-    ><Icon icon="circle-plus"/> Add item</button>
+    >
+      <Icon icon="circle-plus"/>
+      Add item
+    </button>
   </div>
 </template>
 
@@ -60,6 +63,7 @@ export default {
       type: Number,
       default: 1
     },
+    grid: Object,
     content: Object,
     name: String
   },
@@ -68,63 +72,54 @@ export default {
       return this.fixed;
     },
     nbColumns: function () {
-      return this.size;
+      if(this.grid && this.grid.hasOwnProperty('nbColumns')){
+        return this.grid.nbColumns;
+      }
+
+      return this.fixed ? this.size : 1;
     }
   },
   methods: {
+    emitOnChange: function(fields){
+      this.$emit('onChange', {
+        fields,
+        fixed: this.fixed,
+        size: this.size,
+        grid: this.grid
+      })
+    },
     addItem: function () {
       const fields = [
         ...this.fields
       ];
 
       fields.push(this.addItemDry());
-
-      this.$emit('onChange', {
-        fields,
-        fixed: this.fixed,
-        size: this.size
-      })
+      this.emitOnChange(fields);
     },
     addItemDry: function () {
       const line = {};
 
       this.model.forEach(field => {
-        const value = typeof field.value === 'object' ? {...field.value} : {value: field.value}
-
-        line[field.name] = {
-          name: field.name,
-          type: field.type,
-          content: {...field.options, ...value}
-        }
+        line[field.name] = field.value;
       });
 
       return line;
     },
     removeItem(index) {
-      this.$emit(
-          'onChange', {
-            fields: this.fields.filter((_, itemIndex) => index !== itemIndex),
-            fixed: this.fixed,
-            size: this.size
-          }
-      )
+      this.emitOnChange(this.fields.filter((_, itemIndex) => index !== itemIndex));
     },
-    onChange: function (index, fieldIndex, value) {
+    onChange: function (index, field, value) {
       const fields = this.fields.map((line, lineIndex) => {
         line = JSON.parse(JSON.stringify(line));
 
         if (index === lineIndex) {
-          line[fieldIndex].content = value;
+          line[field.name] = value;
         }
 
         return line;
       });
 
-      this.$emit('onChange', {
-        fields,
-        fixed: this.fixed,
-        size: this.size
-      })
+      this.emitOnChange(fields);
     },
     adjustFields: function () {
       const items = [];
@@ -137,15 +132,11 @@ export default {
         }
       }
 
-      this.$emit('onChange', {
-        fields: items,
-        fixed: this.fixed,
-        size: this.size
-      })
+      this.emitOnChange(items);
     },
-    getFieldData: function (field) {
+    getFieldData: function (field, data) {
       const fieldModel = this.model.find(model => field.name === model.name);
-      let value = field.content;
+      let value = data.hasOwnProperty(field.name) ? data[field.name] : null;
       value = typeof value === 'object' ? {...value} : {value: value}
       return {...value, ...fieldModel.options};
     }
@@ -187,7 +178,7 @@ export default {
   margin-top: 1rem;
 }
 
-.repeater-list__item{
+.repeater-list__item {
   background-color: rgba(#fff, 0.6);
   border-radius: var(--editor-block-border-radius);
   padding: 2rem;

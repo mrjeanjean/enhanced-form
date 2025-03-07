@@ -18,7 +18,7 @@
 
 .dialog {
   background-color: #fff;
-  min-width: 25rem;
+  min-width: var(--editor-modal-width);
   border: var(--editor-modal-border-color) solid var(--editor-modal-border-width);
   border-radius: var(--editor-modal-border-radius);
 }
@@ -40,7 +40,7 @@
 }
 
 .dialog__body {
-  padding: 2rem;
+  padding: var(--editor-modal-padding);
 }
 
 .dialog__body + .dialog__footer {

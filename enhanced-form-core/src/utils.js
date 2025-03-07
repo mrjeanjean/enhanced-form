@@ -9,6 +9,7 @@ export function parseJson(value, defaultValue = null){
     try{
         return JSON.parse(value);
     }catch(error){
+        console.warn(error.message)
         return defaultValue;
     }
 }

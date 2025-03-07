@@ -1,4 +1,4 @@
 export const imageType = {
     url: '',
-    title: ''
+    alt: '',
 }

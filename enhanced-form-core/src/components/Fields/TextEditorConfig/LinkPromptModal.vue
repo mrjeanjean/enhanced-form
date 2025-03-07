@@ -64,18 +64,18 @@ export default {
   gap: 0.5rem;
 }
 
-.dialog-body__options{
+.dialog-body__options {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.dialog-body__options::v-deep(.form-input__label){
+.dialog-body__options::v-deep(.form-input__label) {
   opacity: 0.65;
   font-size: 96%;
 }
 
-.dialog-body__options::v-deep(.form-input--checkbox){
+.dialog-body__options::v-deep(.form-input--checkbox) {
   text-align: right;
 }
 </style>
