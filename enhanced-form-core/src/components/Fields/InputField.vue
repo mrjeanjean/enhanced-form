@@ -8,6 +8,7 @@
         ref="input"
         class="form-input"
         :disabled="disabled"
+        :readonly="readOnly"
     >
   </div>
 </template>
@@ -23,6 +24,11 @@ export default {
       default: ''
     },
     disabled: {
+      required: false,
+      type: Boolean,
+      default: false
+    },
+    readOnly: {
       required: false,
       type: Boolean,
       default: false

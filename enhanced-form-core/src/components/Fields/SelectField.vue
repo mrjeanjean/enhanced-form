@@ -2,6 +2,8 @@
   <div class="input-select-field">
     <label :for="`input-select__${id}`" v-if="label">{{ label }}</label>
     <div class="input-select-field__select">
+      <div v-for="choice in computedChoices">
+      </div>
       <select
           :id="`input-select__${id}`"
           @change="handleOnSelect"
@@ -10,7 +12,7 @@
         <option v-if="placeholder" value>{{ placeholder }}</option>
         <option
             :value="choice.key"
-            v-for="choice in choices"
+            v-for="choice in computedChoices"
             :selected="value === choice.key"
         >{{ choice.value }}
         </option>
@@ -36,7 +38,7 @@ export default {
       default: null
     },
     choices: {
-      type: Object
+      type: [Object, Function]
     },
     placeholder: {
       type: String,
@@ -46,8 +48,17 @@ export default {
   emits: ['onChange'],
   data: function () {
     return {
-      id: uniqueId()
+      id: uniqueId(),
+      computedChoices: []
     }
+  },
+  async mounted() {
+    if (typeof this.choices === 'function') {
+      this.computedChoices = await this.choices();
+      return;
+    }
+
+    this.computedChoices = this.choices;
   },
   methods: {
     handleOnSelect: function (e) {
@@ -105,7 +116,7 @@ export default {
   }
 }
 
-.input-select-field select.has-placeholder option:first-child{
+.input-select-field select.has-placeholder option:first-child {
   color: rgba(#000, 0.5);
 }
 </style>

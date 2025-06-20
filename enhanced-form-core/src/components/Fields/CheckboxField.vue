@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "InputField",
+  name: "CheckboxField",
   props: {
     checked: {
       required: false,

@@ -83,6 +83,7 @@ export default {
         block:{
           content: block.content,
           type: type,
+          blockSettings: block.getBlockSettings()
         },
         index: blockIndex + 1
       })

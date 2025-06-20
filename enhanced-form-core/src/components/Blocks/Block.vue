@@ -6,7 +6,7 @@
     <div class="block-header">
       <div
           class="block-header__title"
-          @click="_ => {updateBlockSetting('expanded', !block.expanded); showSettings = false}"
+          @click="_ => {updateSetting('expanded', !block.expanded); showSettings = false}"
       ><i class="fa-angle-right fa-solid block-header__expanded-icon"></i> {{ getBlockLabel(block.type) }}
       </div>
       <ul class="block-actions">
@@ -37,10 +37,18 @@
         </li>
       </ul>
     </div>
+
     <div class="block-body" v-show="block.expanded">
       <div class="block-settings" v-show="showSettings">
         <div class="block-settings__global">
-          <input-field :value="block.attrId" placeholder="Id" @onChange="value => updateBlockSetting('attrId', value)"/>
+          <input-field :value="block.attrId" placeholder="Id" @onChange="value => updateSetting('attrId', value)"/>
+        </div>
+        <div v-for="(field, key) in blockComponent.blockSettings" class="block-settings__global">
+          <component
+              :is="field.type"
+              v-bind="getBlockSettingValue(block, field)"
+              @onChange="value=>updateBlockSetting(key, value)"
+          />
         </div>
         <settings :block="block" :blockData="blockComponent"/>
       </div>
@@ -93,7 +101,23 @@ export default {
             id: this.block.id,
             content: this.block.content,
             settings: {
-              [key]: value
+              blockSettings: {
+                ...this.block.blockSettings,
+                [key]: value
+              }
+            }
+          }
+      )
+    },
+    updateSetting: function (key, value) {
+      this.edit({
+            id: this.block.id,
+            content: this.block.content,
+            settings: {
+              [key]: value,
+              blockSettings: {
+                ...this.block.blockSettings,
+              }
             }
           }
       )
@@ -105,9 +129,14 @@ export default {
 
       this.showSettings = !this.showSettings;
     },
-    getBlockLabel: function(blockType){
+    getBlockLabel: function (blockType) {
       const block = this.blocksManager.getBlock(blockType);
       return block ? block.menuLabel : blockType;
+    },
+    getBlockSettingValue: function (blockData, field) {
+      let value = blockData.hasOwnProperty('blockSettings') ? blockData.blockSettings[field.name] : null;
+      value = typeof value === 'object' ? {...value} : {value: value}
+      return value ? {...field.options, ...value} : {...field.options};
     }
   }
 }

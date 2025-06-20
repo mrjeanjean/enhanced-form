@@ -40,7 +40,9 @@
         createSpinnerField,
         createRow,
         createRepeater,
-        createChoiceField, createSwitchField
+        createChoiceField,
+        createSwitchField,
+        createFileField
     } from "./src/main";
     import {createTextAreaField} from "./dist/enhancedForm.js";
 
@@ -85,6 +87,17 @@
             }
         }
     );
+
+    enhancedForm.createComponent(
+        {
+            name: 'PaywallButton',
+            menuLabel: 'Paywall button',
+            icon: ['lock', 'file'],
+            fields: [
+                createFileField('file', {placeholder: 'Lien du fichier...', expanded: true}),
+            ]
+        }
+    )
 
     enhancedForm.createComponent(
         {
@@ -145,7 +158,7 @@
                 ], {
                     fixed: true,
                     size: 4,
-                    grid:{
+                    grid: {
                         nbColumns: 2
                     }
                 })
@@ -154,6 +167,12 @@
         }
     )
 
+    enhancedForm.addBlockSetting('TextImage', createChoiceField('theme', {
+        value: null, choices: [
+            {key: 'default', value: 'Normal'},
+            {key: 'dark', value: 'Dark'}
+        ]
+    }))
     /*
     enhancedForm.createComponent(
         {
@@ -189,8 +208,6 @@
         }
     )
      */
-
-
 
 
     enhancedForm.render();

@@ -11,7 +11,7 @@ export const getStore = (initialData) => createStore({
         blocks(state) {
             return state.blocks
         },
-        isSidebarOpen(state){
+        isSidebarOpen(state) {
             return state.isSidebarOpen;
         }
     },
@@ -34,7 +34,7 @@ export const getStore = (initialData) => createStore({
             state.blocks = [...state.blocks].map(block => {
                 if (block.id === id) {
                     block.content = content;
-                    Object.entries(settings).forEach(([key, value])=>{
+                    Object.entries(settings).forEach(([key, value]) => {
                         block[key] = value;
                     })
                 }
@@ -63,7 +63,7 @@ export const getStore = (initialData) => createStore({
         }
     },
     actions: {
-        'add': ({commit},  {block, index}) => {
+        'add': ({commit}, {block, index}) => {
             const id = uniqueId();
             commit('ADD_BLOCK', {block, id, index});
         },

@@ -113,6 +113,16 @@ export const createChoiceField = (name, options) => {
     });
 }
 
+
+export const createFileField = (name, options) => {
+    return createField({
+        name: name,
+        type: 'FileField',
+        value: '',
+        options
+    });
+}
+
 export const createRepeater = (name, model = [], options) => {
     return createField({
         name: name,

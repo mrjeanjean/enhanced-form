@@ -26,11 +26,7 @@
       {{ size.width }}x<span v-if="size.height">{{ size.height }}</span><span v-else>?</span>
     </div>
     <Loader :isActive="isLoading"/>
-    <PromptModal ref="altImageModalRef" placeholder="Type image description">
-      <template v-slot:header>
-        Type image description (alt)
-      </template>
-    </PromptModal>
+    <ImagePromptModal ref="altImageModalRef" placeholder="Type image description" />
   </div>
 </template>
 
@@ -38,18 +34,19 @@
 
 import Icon from "../Icon.vue";
 import Loader from "../Loader.vue";
-import PromptModal from "../Modals/PromptModal.vue";
+import ImagePromptModal from "../Modals/ImagePromptModal.vue";
 
 export default {
   name: "ImageField",
   components: {
     Icon,
     Loader,
-    PromptModal
+    ImagePromptModal
   },
   props: {
     url: String,
     alt: String,
+    legend: String,
     size: {
       type: Object,
       required: false,
@@ -97,7 +94,8 @@ export default {
         })
         this.$emit('onChange', {
           ...image,
-          alt: this.alt
+          alt: this.alt,
+          useAltAsLegend: this.useAltAsLegend,
         });
       } catch (error) {
         this.imageError = true;
@@ -114,10 +112,15 @@ export default {
       this.isLoading = false;
     },
     onEditHandler: async function(e){
-      const value = await this.altImageModal.show(this.alt);
+      const value = await this.altImageModal.show({
+        alt: this.alt,
+        legend: this.legend
+      });
+
       this.$emit('onChange', {
         url: this.url,
-        alt: value
+        alt: value.alt,
+        legend: value.legend,
       });
     }
   }

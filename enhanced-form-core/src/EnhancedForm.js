@@ -72,6 +72,14 @@ export class EnhancedForm {
         this.blocksManager.editBlockContent(name, ...args);
     }
 
+    getBlock(name){
+        return this.blocksManager.getBlock(name);
+    }
+
+    addBlockSetting(name, field){
+        this.blocksManager.addBlockSetting(name, field);
+    }
+
     createComponent(
         {
             name,
