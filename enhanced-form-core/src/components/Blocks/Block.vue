@@ -39,27 +39,32 @@
     </div>
 
     <div class="block-body" v-show="block.expanded">
-      <div class="block-settings" v-show="showSettings">
-        <div class="block-settings__global">
-          <input-field :value="block.attrId" placeholder="Id" @onChange="value => updateSetting('attrId', value)"/>
-        </div>
-        <div v-for="(field, key) in blockComponent.blockSettings" class="block-settings__global">
-          <component
-              :is="field.type"
-              v-bind="getBlockSettingValue(block, field)"
-              @onChange="value=>updateBlockSetting(key, value)"
-          />
-        </div>
-        <settings :block="block" :blockData="blockComponent"/>
+      <div v-if="!blockComponent" class="block-unknown">
+        Block type "{{ block.type }}" is not registered.
       </div>
-      <component
-          :is="block.type"
-          :label="block.label"
-          :content="block.content"
-          @onChange="onInputChange"
-          :id="block.id"
-          v-bind="blockComponent.props"
-      />
+      <template v-else>
+        <div class="block-settings" v-show="showSettings">
+          <div class="block-settings__global">
+            <input-field :value="block.attrId" placeholder="Id" @onChange="value => updateSetting('attrId', value)"/>
+          </div>
+          <div v-for="(field, key) in blockComponent.blockSettings" class="block-settings__global">
+            <component
+                :is="field.type"
+                v-bind="getBlockSettingValue(block, field)"
+                @onChange="value=>updateBlockSetting(key, value)"
+            />
+          </div>
+          <settings :block="block" :blockData="blockComponent"/>
+        </div>
+        <component
+            :is="block.type"
+            :label="block.label"
+            :content="block.content"
+            @onChange="onInputChange"
+            :id="block.id"
+            v-bind="blockComponent.props"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -235,6 +240,15 @@ export default {
 
 .block-settings__global {
   flex: 1 0;
+}
+
+.block-unknown {
+  padding: 0.75rem 1rem;
+  border-radius: var(--editor-input-border-radius);
+  border: 1px dashed var(--theme-border-color);
+  color: var(--theme-color-button);
+  font-size: 0.875rem;
+  font-style: italic;
 }
 
 </style>

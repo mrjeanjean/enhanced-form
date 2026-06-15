@@ -1,5 +1,6 @@
 <template>
   <div>
+    <label for="" v-if="label" class="form-input__label">{{ label }}</label>
     <input
         type="text"
         :value="value"
@@ -23,6 +24,11 @@ export default {
       type: String,
       default: ''
     },
+    label: {
+      required: false,
+      type: String,
+      default: null
+    },
     disabled: {
       required: false,
       type: Boolean,
@@ -34,15 +40,18 @@ export default {
       default: false
     }
   },
+  mounted: function () {
+    console.log(this.$props)
+  },
   methods: {
     focus: function () {
       this.$refs.input.focus();
     },
-    selectAll: function(){
+    selectAll: function () {
       this.$refs.input.focus();
       this.$refs.input.select();
     }
-  }
+  },
 }
 </script>
 
@@ -57,6 +66,15 @@ export default {
   box-sizing: inherit;
   width: 100%;
   background-color: #ffffff;
+}
+
+.form-input__label {
+  font-size: 90%;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: var(--theme-color-secondary);
+  padding-left: 0.5rem;
 }
 
 .form-input:disabled {

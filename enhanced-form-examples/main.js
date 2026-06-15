@@ -6,11 +6,8 @@ import {
     createChoiceField
 } from "@moveo/enhanced-form-core";
 import '@moveo/enhanced-form-core/dist/style.css';
-import {imageType} from "@moveo/enhanced-form-core/src/types";
-import MonInputWrapper from "./MonInputWrapper.vue";
-import MonInput from "./MonInput.vue";
-import {createSwitchField} from "@moveo/enhanced-form-core/src/main.js";
-import ButtonBlock from "@moveo/enhanced-form-core/src/components/Blocks/ButtonBlock.vue";
+import CustomInputBlock from "./CustomInputBlock.vue";
+import {createImageField} from "@moveo/enhanced-form-core/src/main.js";
 
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
@@ -31,8 +28,8 @@ const enhancedForm = attachEnhancedForm(
 
 enhancedForm.createComponent(
     {
-        name: 'MonInput',
-        menuLabel: 'MonInput',
+        name: 'CustomInput',
+        menuLabel: 'Custom Input',
         icon: [
             {
                 id: 'user',
@@ -40,11 +37,13 @@ enhancedForm.createComponent(
             }
         ],
         fields: [
-            createInputField('table', {
+            createInputField('url', {
+                label: 'Lien',
                 placeholder: 'Lien du site ou du fichier...'
             }),
+            createImageField('banner')
         ],
-        component: MonInputWrapper
+        component: CustomInputBlock
     }
 )
 

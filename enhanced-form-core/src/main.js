@@ -4,6 +4,15 @@ import {EnhancedForm} from "./EnhancedForm.js";
 import InputField from './components/Fields/InputField.vue';
 import ImageField from './components/Fields/ImageField.vue';
 import SpinnerField from './components/Fields/SpinnerField.vue';
+import TextEditorField from './components/Fields/TextEditorField.vue';
+import TextAreaField from './components/Fields/TextAreaField.vue';
+import TextInlineField from './components/Fields/TextInlineField.vue';
+import FileField from './components/Fields/FileField.vue';
+import CheckboxField from './components/Fields/CheckboxField.vue';
+import SelectField from './components/Fields/SelectField.vue';
+import SwitchField from './components/Fields/SwitchField.vue';
+import RepeatField from './components/Fields/RepeatField.vue';
+import RowField from './components/Fields/RowField.vue';
 import {imageType} from "./types.js";
 import {InputMixin} from "./mixins.js";
 import Icon from "./components/Icon.vue";
@@ -167,8 +176,19 @@ export const createRow = (name, model, options) => {
 /**
  * Fields components
  */
-export{
+export {
     InputField,
+    ImageField,
+    TextEditorField,
+    TextAreaField,
+    TextInlineField,
+    FileField,
+    CheckboxField,
+    SelectField,
+    SwitchField,
+    SpinnerField,
+    RepeatField,
+    RowField,
     Icon,
     Loader
 }
@@ -177,5 +197,5 @@ export{
  * Mixins
  */
 export {
-    InputMixin
+    InputMixin,
 }
