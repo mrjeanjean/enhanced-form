@@ -19,7 +19,7 @@ export class EnhancedForm {
         this.$input = $input;
 
         this.$appContainer = document.createElement('div');
-        $input.parentNode.insertAdjacentElement('beforebegin', this.$appContainer);
+        $input.insertAdjacentElement('beforebegin', this.$appContainer);
 
         this.updateInput = this.updateInput.bind(this);
 

@@ -1,4 +1,3 @@
-import './style.css'
 import {
     attachEnhancedForm,
     createInputField,
@@ -19,14 +18,14 @@ const enhancedForm = attachEnhancedForm(
         onSelectFile: (options) => {
             let id = Math.round(Math.random() * 100 + 100);
             let width = options.imageOptions ? options.imageOptions.width : 500;
-            let height = options.imageOptions ? options.imageOptions.height : 500;
+            let height = options.imageOptions && options.imageOptions.height ? options.imageOptions.height : 500;
 
             return Promise.resolve({
-                image:{
+                image: {
                     url: `https://picsum.photos/id/${id}/${width}/${height}`
                 }
             })
-        }
+        },
     }
 );
 

@@ -3,6 +3,7 @@
     <div class="image-field__actions">
       <button type="button" @click.stop="onEditHandler"><i class="fa-solid fa-cog"></i></button>
     </div>
+
     <div class="image-container" v-show="!imageError" v-if="url">
       <img :src="imagePath" @error="onErrorHandler" @load="onLoadHandler">
     </div>
@@ -68,7 +69,8 @@ export default {
   inject: ['options'],
   computed: {
     imagePath: function () {
-      return this.options.imagesFolder + this.url
+      const imagesFolder = this.options.imagesFolder ?? '';
+      return imagesFolder + this.url
     },
     aspectRatio: function () {
       if (!this.size.height || !this.size.width) {
@@ -92,6 +94,7 @@ export default {
             ...this.size
           }
         })
+
         this.$emit('onChange', {
           ...image,
           alt: this.alt,

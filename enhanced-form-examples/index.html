@@ -8,11 +8,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-    <title>Enhanced form JS</title>
+    <title>Enhanced form JS example</title>
+
+    <style>
+        body{
+            padding: 2rem;
+            font-family: 'Lato', sans-serif;
+        }
+
+        textarea{
+            width: 600px;
+            min-height: 260px;
+            margin-top: 2rem;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 960px;
+            margin-inline: auto;
+        }
+
+    </style>
 </head>
 <body>
-<div id="target"></div>
-<textarea id="input-target" name="data" style="display: none"></textarea>
+<div class="container">
+    <textarea id="input-target" name="data" style="display: none"></textarea>
+</div>
 <script type="module" src="/main.js"></script>
 </body>
 </html>
