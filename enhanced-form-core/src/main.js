@@ -18,12 +18,28 @@ import {InputMixin} from "./mixins.js";
 import Icon from "./components/Icon.vue";
 import Loader from "./components/Loader.vue";
 
+/**
+ * @typedef {{placeholder?: string, disabled?: boolean, readOnly?: boolean}} InputOptions
+ * @typedef {{placeholder?: string}} TextAreaOptions
+ * @typedef {{width?: number, height?: number}} ImageOptions
+ * @typedef {{min?: number, max?: number, step?: number}} SpinnerOptions
+ * @typedef {{choices: Object|Function, placeholder?: string}} ChoiceOptions
+ * @typedef {{fixed?: boolean, size?: number}} RepeaterOptions
+ * @typedef {Object} Field
+ */
+
+/**
+ * @param {HTMLTextAreaElement} $input
+ * @param {{onSelectFile?: Function, allowAddBlock?: boolean, blockActions?: Array<'move'|'delete'>, imagesFolder?: string}} [options]
+ * @returns {EnhancedForm}
+ */
 export const attachEnhancedForm = ($input, options = {}) => {
     return new EnhancedForm($input, options);
 }
 
 /**
- *  Field wrapper
+ * @param {{options: Object, value: *, name: string, type: string}} fieldDef
+ * @returns {Field}
  */
 function createField (
     {
@@ -53,9 +69,10 @@ function createField (
     };
 }
 
-
 /**
- * Fields factories
+ * @param {string} name - Key in the block content object
+ * @param {InputOptions} [options]
+ * @returns {Field}
  */
 export const createInputField = (name, options) => {
     return createField({
@@ -66,6 +83,11 @@ export const createInputField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {Object} [options]
+ * @returns {Field}
+ */
 export const createTextField = (name, options) => {
     return createField({
         name: name,
@@ -75,6 +97,11 @@ export const createTextField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {TextAreaOptions} [options]
+ * @returns {Field}
+ */
 export const createTextAreaField = (name, options) => {
     return createField({
         name: name,
@@ -84,6 +111,11 @@ export const createTextAreaField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {ImageOptions} [options]
+ * @returns {Field}
+ */
 export const createImageField = (name, options) => {
     return createField({
         name: name,
@@ -95,6 +127,11 @@ export const createImageField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {SpinnerOptions} [options]
+ * @returns {Field}
+ */
 export const createSpinnerField = (name, options) => {
     return createField({
         name: name,
@@ -104,6 +141,11 @@ export const createSpinnerField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {Object} [options]
+ * @returns {Field}
+ */
 export const createSwitchField = (name, options) => {
     return createField({
         name: name,
@@ -113,6 +155,11 @@ export const createSwitchField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {ChoiceOptions} [options]
+ * @returns {Field}
+ */
 export const createChoiceField = (name, options) => {
     return createField({
         name: name,
@@ -122,7 +169,11 @@ export const createChoiceField = (name, options) => {
     });
 }
 
-
+/**
+ * @param {string} name
+ * @param {Object} [options]
+ * @returns {Field}
+ */
 export const createFileField = (name, options) => {
     return createField({
         name: name,
@@ -132,6 +183,12 @@ export const createFileField = (name, options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {Field[]} [model] - Fields for each repeated item
+ * @param {RepeaterOptions} [options]
+ * @returns {Field}
+ */
 export const createRepeater = (name, model = [], options) => {
     return createField({
         name: name,
@@ -146,6 +203,12 @@ export const createRepeater = (name, model = [], options) => {
     });
 }
 
+/**
+ * @param {string} name
+ * @param {Field[]} model - Fields for each column
+ * @param {{reverse?: boolean}} [options]
+ * @returns {Field}
+ */
 export const createRow = (name, model, options) => {
     const data = {};
 

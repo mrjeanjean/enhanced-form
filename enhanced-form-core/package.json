@@ -1,8 +1,9 @@
 {
   "name": "@moveo/enhanced-form-core",
   "private": false,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "dist/enhancedForm.js",
+  "types": "src/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -25,6 +26,7 @@
     "vite": "^3.0.7"
   },
   "files": [
-    "dist/*.css"
+    "dist",
+    "src/index.d.ts"
   ]
 }

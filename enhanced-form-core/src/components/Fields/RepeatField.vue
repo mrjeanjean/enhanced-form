@@ -36,9 +36,6 @@
 </template>
 
 <script>
-import ImageField from "../Fields/ImageField.vue";
-import InputField from "../Fields/InputField.vue";
-import TextEditorField from "../Fields/TextEditorField.vue";
 import Icon from "../Icon.vue";
 import {unWrap} from "../../utils.js";
 
@@ -46,9 +43,6 @@ export default {
   name: "RepeatField",
   emits: ['onChange'],
   components: {
-    ImageField,
-    InputField,
-    TextEditorField,
     Icon
   },
   props: {

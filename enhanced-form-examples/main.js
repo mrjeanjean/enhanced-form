@@ -1,13 +1,13 @@
 import {
     attachEnhancedForm,
     createInputField,
+    createImageField,
     createRepeater,
     createTextAreaField,
-    createChoiceField
 } from "@moveo/enhanced-form-core";
 import '@moveo/enhanced-form-core/dist/style.css';
+
 import CustomInputBlock from "./CustomInputBlock.vue";
-import {createImageField} from "@moveo/enhanced-form-core/src/main.js";
 
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
@@ -47,7 +47,6 @@ enhancedForm.createComponent(
     }
 )
 
-/*
 enhancedForm.createComponent(
     {
         name: 'Videos',
@@ -66,7 +65,6 @@ enhancedForm.createComponent(
         ]
     }
 )
-*/
 enhancedForm.render();
 
 
