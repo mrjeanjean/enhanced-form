@@ -13,6 +13,14 @@ export default defineConfig({
       formats: ['es'],
       fileName: () => 'enhancedForm.js',
     },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    }
   },
   esbuild: {
     jsxFactory: 'h',

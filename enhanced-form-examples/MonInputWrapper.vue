@@ -1,8 +1,7 @@
 <template>
   <div>
     MonTest grandeur nature
-    {{this.getFieldOptions('table')}}
-    <Icon/>
+    <MonInput/>
   </div>
 </template>
 
@@ -17,6 +16,7 @@ import {
 
 export default {
   name: "MonInputWrapper",
+  components: {MonInput},
   props:{
     fields: Array
   },

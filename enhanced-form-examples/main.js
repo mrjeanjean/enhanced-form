@@ -6,11 +6,12 @@ import {
     createTextAreaField,
     createChoiceField
 } from "@moveo/enhanced-form-core";
-import {selectFile} from "@moveo/file-upload-manager";
 import '@moveo/enhanced-form-core/dist/style.css';
 import {imageType} from "@moveo/enhanced-form-core/src/types";
 import MonInputWrapper from "./MonInputWrapper.vue";
 import MonInput from "./MonInput.vue";
+import {createSwitchField} from "@moveo/enhanced-form-core/src/main.js";
+import ButtonBlock from "@moveo/enhanced-form-core/src/components/Blocks/ButtonBlock.vue";
 
 const enhancedForm = attachEnhancedForm(
     document.getElementById("input-target"),
@@ -29,8 +30,26 @@ const enhancedForm = attachEnhancedForm(
     }
 );
 
-//enhancedForm.getApp().component('MonInput', MonInput);
+enhancedForm.createComponent(
+    {
+        name: 'MonInput',
+        menuLabel: 'MonInput',
+        icon: [
+            {
+                id: 'user',
+                type: 'regular'
+            }
+        ],
+        fields: [
+            createInputField('table', {
+                placeholder: 'Lien du site ou du fichier...'
+            }),
+        ],
+        component: MonInputWrapper
+    }
+)
 
+/*
 enhancedForm.createComponent(
     {
         name: 'Videos',
@@ -49,6 +68,7 @@ enhancedForm.createComponent(
         ]
     }
 )
+*/
 enhancedForm.render();
 
 

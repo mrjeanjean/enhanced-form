@@ -38,6 +38,10 @@
             :class="{ 'is-active': editor.isActive('bulletList') }">
       <icon icon="list-ul"/>
     </button>
+    <button @click.prevent="editor.chain().focus().toggleOrderedList().run()"
+            :class="{ 'is-active': editor.isActive('orderedList') }">
+      <icon icon="list-ol"/>
+    </button>
   </div>
   <editor-content :editor="editor" class="editor--full"/>
   <LinkPromptModal ref="linkModalRef"/>

@@ -4,9 +4,10 @@
   "scripts": {
     "core-dev": "yarn --cwd enhanced-form-core/ run dev",
     "core-build-watch": "yarn --cwd enhanced-form-core/ run build --watch",
-    "file-manager-build-watch": "yarn --cwd file-upload-manager/ run build --watch",
-    "examples": "yarn --cwd enhanced-form-examples/ run dev",
-    "admin": "yarn --cwd enhanced-form-admin/ run dev"
+    "examples": "yarn --cwd enhanced-form-examples/ run dev"
   },
-  "workspaces": ["enhanced-form-examples", "enhanced-form-core", "file-upload-manager"]
+  "workspaces": [
+    "enhanced-form-examples",
+    "enhanced-form-core"
+  ]
 }
